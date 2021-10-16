@@ -1,0 +1,1 @@
+enum ViewTypes { portrait, landscape }
