@@ -1,24 +1,24 @@
 import 'package:flutter/foundation.dart';
 
 @immutable
-class AuthData {
-  final String name;
+class LoginData {
+  final String email;
   final String password;
 
-  const AuthData({
-    required this.name,
+  const LoginData({
+    required this.email,
     required this.password,
   });
 
   @override
-  String toString() => 'LoginData($name, $password)';
+  String toString() => 'LoginData($email, $password)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other.runtimeType != runtimeType) return false;
-    return other is AuthData &&
-        other.name == name &&
+    return other is LoginData &&
+        other.email == email &&
         other.password == password;
   }
 
@@ -26,7 +26,7 @@ class AuthData {
   /// Quiver package link: https://pub.dev/packages/quiver
   @override
   int get hashCode =>
-      _finish(_combine(_combine(0, name.hashCode), password.hashCode));
+      _finish(_combine(_combine(0, email.hashCode), password.hashCode));
 
   int _combine(int hash, int value) {
     int newHash = 0x1fffffff & (hash + value);

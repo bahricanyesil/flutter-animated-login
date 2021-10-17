@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../decorations/input_decorations.dart';
+import '../../decorations/text_styles.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../../utils/device_type_helper.dart';
 import '../buttons/base_icon_button.dart';
@@ -31,13 +32,12 @@ class ObscuredTextFormField extends StatefulWidget {
 
 class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
   bool _isVisible = false;
-  late final bool isLandscape = DeviceTypeHelper(context).isLandscape;
 
   @override
   Widget build(BuildContext context) => BaseTextFormFieldWrapper(
         formField: TextFormField(
           controller: widget.controller,
-          style: _textStyle(context),
+          style: TextStyles(context).textFormStyle(),
           obscureText: !_isVisible,
           decoration: _formDeco,
         ),
@@ -50,6 +50,8 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
   InputDecoration get _formDeco => InputDeco(context)
       .loginDeco(
         hintText: widget.hintText,
+        // TODO(bahrican):
+        labelText: widget.hintText,
         prefixIcon: widget.prefixIcon,
         backgroundColor: widget.backgroundColor,
         paddingFactor: 2.5,
@@ -64,16 +66,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
         size: DynamicSize(context).width * _suffixWidthFactor,
       );
 
-  double get _suffixWidthFactor => widget.widthFactor / (isLandscape ? 4 : 6);
-
-  TextStyle _textStyle(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    // TODO(bahrican): Write default textStyle instead of "!"
-    return (isLandscape
-            ? theme.textTheme.headline5
-            : theme.textTheme.bodyText2)!
-        .copyWith(color: Colors.black87);
-  }
+  double get _suffixWidthFactor => widget.widthFactor / 4;
 
   void _changeVisibility() => setState(() => _isVisible = !_isVisible);
 }

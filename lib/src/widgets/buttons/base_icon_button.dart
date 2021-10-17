@@ -20,9 +20,7 @@ class BaseIconButton extends StatelessWidget {
     final DynamicSize dynamicSize = DynamicSize(context);
     return FittedBox(
       child: Padding(
-        padding: DeviceTypeHelper(context).isLandscape
-            ? dynamicSize.extremeLowHorizontalPadding
-            : dynamicSize.lowHorizontalPadding,
+        padding: dynamicSize.extremeLowHorizontalPadding,
         child: _iconButton,
       ),
     );

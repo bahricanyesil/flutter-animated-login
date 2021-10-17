@@ -9,15 +9,13 @@ class DeviceTypeHelper {
 
   ViewTypes viewType({BoxConstraints? constraints}) {
     final DynamicSize dynamicSize = DynamicSize(context);
-    final Orientation orientation = dynamicSize.orientation;
     double maxWidth = dynamicSize.maxPossibleWidth;
     double maxHeight = dynamicSize.maxPossibleHeight;
     if (constraints != null) {
       maxWidth = constraints.maxWidth;
       maxHeight = constraints.maxHeight;
     }
-    if ((orientation == Orientation.portrait && maxWidth < 900) ||
-        (orientation == Orientation.landscape && maxHeight < 600)) {
+    if (maxWidth / maxHeight < 1.2) {
       return ViewTypes.portrait;
     } else {
       return ViewTypes.landscape;

@@ -2,31 +2,30 @@ import 'package:flutter/material.dart';
 
 import '../constants/border/border_radii.dart';
 import '../responsiveness/dynamic_size.dart';
-import '../utils/device_type_helper.dart';
 import '../widgets/icons/base_icon.dart';
+import 'text_styles.dart';
 
 class InputDeco {
   InputDeco(this.context) {
-    isLandscape = DeviceTypeHelper(context).isLandscape;
     dynamicSize = DynamicSize(context);
     theme = Theme.of(context);
   }
   final BuildContext context;
-  late final bool isLandscape;
   late final DynamicSize dynamicSize;
   late final ThemeData theme;
 
   InputDecoration loginDeco({
     String? hintText,
+    String? labelText,
     IconData? prefixIcon,
     Color? backgroundColor,
-    double paddingFactor = .7,
+    double paddingFactor = .6,
   }) =>
       InputDecoration(
         contentPadding:
             EdgeInsets.symmetric(horizontal: dynamicSize.width * paddingFactor),
         hintText: hintText,
-        hintStyle: _hintTextStyle,
+        hintStyle: TextStyles(context).hintTextStyle(),
         enabledBorder: _getOutlineBorder(.5, 1),
         focusedBorder: _getOutlineBorder(1.1, 1),
         prefixIcon: getPrefixIcon(prefixIcon),
@@ -34,7 +33,10 @@ class InputDeco {
 
   Widget? getPrefixIcon(IconData? prefixIcon) => prefixIcon == null
       ? null
-      : BaseIcon(prefixIcon, widthFactor: isLandscape ? 2.1 : 3);
+      : Padding(
+          padding: EdgeInsets.only(left: dynamicSize.width * .6),
+          child: BaseIcon(prefixIcon, widthFactor: 2.1),
+        );
 
   InputDecoration dialogText(
           {required String hintText, double? verticalPadding}) =>
@@ -58,8 +60,4 @@ class InputDeco {
           color: theme.primaryColorLight.withOpacity(opacity),
         ),
       );
-
-  TextStyle get _hintTextStyle =>
-      (isLandscape ? theme.textTheme.headline5 : theme.textTheme.bodyText2)!
-          .copyWith(color: theme.primaryColorDark);
 }

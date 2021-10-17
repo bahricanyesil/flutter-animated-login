@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../decorations/input_decorations.dart';
-import '../../utils/device_type_helper.dart';
+import '../../decorations/text_styles.dart';
 import 'text_form_field_wrapper.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -27,7 +27,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) => BaseTextFormFieldWrapper(
         formField: TextFormField(
           controller: controller,
-          style: _textStyle(context),
+          style: TextStyles(context).textFormStyle(),
           decoration: _getFormDeco(context),
           expands: true,
           maxLines: null,
@@ -41,15 +41,9 @@ class CustomTextFormField extends StatelessWidget {
   InputDecoration _getFormDeco(BuildContext context) =>
       InputDeco(context).loginDeco(
         hintText: hintText,
+        // TODO(bahrican):
+        labelText: hintText,
         prefixIcon: prefixIcon,
         backgroundColor: backgroundColor,
       );
-
-  TextStyle _textStyle(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return (DeviceTypeHelper(context).isLandscape
-            ? theme.textTheme.headline5
-            : theme.textTheme.bodyText2)!
-        .copyWith(color: Colors.black87);
-  }
 }

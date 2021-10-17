@@ -23,7 +23,7 @@ class BaseTextFormFieldWrapper extends StatelessWidget {
     final DynamicSize dynamicSize = DynamicSize(context);
     final ThemeData theme = Theme.of(context);
     return Material(
-      elevation: 3,
+      elevation: 5,
       color: backgroundColor ?? theme.canvasColor,
       shadowColor: theme.primaryColorDark,
       borderRadius: BorderRadii.mediumCircular,

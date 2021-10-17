@@ -1,5 +1,6 @@
-import 'package:animated_login/src/decorations/text_styles.dart';
 import 'package:flutter/material.dart';
+
+import '../../decorations/text_styles.dart';
 
 class BaseText extends StatelessWidget {
   final String text;
@@ -26,5 +27,5 @@ class BaseText extends StatelessWidget {
       );
 
   TextStyle _defaultStyle(BuildContext context) =>
-      TextStyles(context).normalStyle();
+      style ?? TextStyles(context).normalStyle();
 }

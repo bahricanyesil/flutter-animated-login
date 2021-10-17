@@ -1,23 +1,34 @@
 import 'package:flutter/material.dart';
 
 import '../constants/enums/auth_mode.dart';
+import '../models/login_data.dart';
+import '../models/signup_data.dart';
 import '../models/social_login.dart';
 
 class Auth with ChangeNotifier {
   Auth({
     this.socialLogins = const <SocialLogin>[],
-    this.onLogin,
-    this.onSignup,
-    String email = '',
-    String password = '',
-    String confirmPassword = '',
-  })  : _email = email,
-        _password = password,
-        _confirmPassword = confirmPassword;
+    LoginCallback? onLogin,
+    SignupCallback? onSignup,
+    ForgotPasswordCallback? onForgotPassword,
+  }) {
+    _onLogin = onLogin ?? defaultLoginFunc;
+    _onSignup = onSignup ?? defaultSignupFunc;
+    _onForgotPassword = onForgotPassword ?? defaultForgotPassFunc;
+  }
 
-  final AuthCallback? onLogin;
-  final AuthCallback? onSignup;
-  final List<SocialLogin> socialLogins;
+  Future<String?> defaultLoginFunc(LoginData a) async => null;
+  Future<String?> defaultSignupFunc(SignUpData a) async => null;
+  Future<String?> defaultForgotPassFunc(String e) async => null;
+
+  late final LoginCallback _onLogin;
+  late final SignupCallback _onSignup;
+  late final ForgotPasswordCallback _onForgotPassword;
+  LoginCallback get onLogin => _onLogin;
+  SignupCallback get onSignup => _onSignup;
+  ForgotPasswordCallback get onForgotPassword => _onForgotPassword;
+
+  final List<SocialLogin>? socialLogins;
 
   AuthMode _mode = AuthMode.login;
 
@@ -37,26 +48,5 @@ class Auth with ChangeNotifier {
       mode = AuthMode.login;
     }
     return mode;
-  }
-
-  String _email = '';
-  String get email => _email;
-  set email(String email) {
-    _email = email;
-    notifyListeners();
-  }
-
-  String _password = '';
-  String get password => _password;
-  set password(String password) {
-    _password = password;
-    notifyListeners();
-  }
-
-  String _confirmPassword = '';
-  String get confirmPassword => _confirmPassword;
-  set confirmPassword(String confirmPassword) {
-    _confirmPassword = confirmPassword;
-    notifyListeners();
   }
 }

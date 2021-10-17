@@ -36,10 +36,7 @@ class BaseIcon extends StatelessWidget {
   }
 
   EdgeInsets _getPadding(BuildContext context, DynamicSize dynamicSize) =>
-      padding ??
-      (DeviceTypeHelper(context).isLandscape
-          ? EdgeInsets.symmetric(horizontal: dynamicSize.width * .8)
-          : EdgeInsets.zero);
+      padding ?? EdgeInsets.symmetric(horizontal: dynamicSize.width * .8);
 
   Color? _iconColor(BuildContext context) =>
       color ?? (highlight ? Theme.of(context).primaryColor : null);

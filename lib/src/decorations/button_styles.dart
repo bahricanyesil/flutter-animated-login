@@ -18,8 +18,8 @@ class ButtonStyles {
       ButtonStyle(
         padding: _all<EdgeInsets?>(padding),
         backgroundColor: _all<Color>(backgroundColor ?? Colors.white),
-        fixedSize:
-            _all<Size>(Size(width ?? double.maxFinite, _maxHeight(height))),
+        fixedSize: _all<Size>(
+            Size(width ?? double.maxFinite, height ?? double.maxFinite)),
         minimumSize: _all<Size>(Size.zero),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: _all<RoundedRectangleBorder>(
@@ -33,10 +33,10 @@ class ButtonStyles {
         ),
       );
 
-  double _maxHeight(double? height) {
-    if (height == null) return double.maxFinite;
-    return height > 36 ? height : 36;
-  }
+  ButtonStyle textButtonStyle({
+    EdgeInsets? padding,
+  }) =>
+      ButtonStyle(padding: _all<EdgeInsets?>(padding));
 
   MaterialStateProperty<T> _all<T>(T value) => MaterialStateProperty.all(value);
 }
