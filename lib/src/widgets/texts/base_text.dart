@@ -20,7 +20,7 @@ class BaseText extends StatelessWidget {
         fit: BoxFit.scaleDown,
         child: Text(
           text,
-          style: style ?? TextStyles(context).normalStyle(),
+          style: TextStyles(context).normalStyle().merge(style),
           textAlign: textAlign,
           overflow: TextOverflow.clip,
         ),

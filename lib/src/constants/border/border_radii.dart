@@ -5,7 +5,7 @@ class BorderRadii {
   static const BorderRadius lowMedCircular =
       BorderRadius.all(Radius.circular(18));
   static const BorderRadius mediumCircular =
-      BorderRadius.all(Radius.circular(25));
+      BorderRadius.all(Radius.circular(30));
   static const BorderRadius medHighCircular =
       BorderRadius.all(Radius.circular(50));
   static const BorderRadius highCircular =

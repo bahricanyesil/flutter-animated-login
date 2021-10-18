@@ -18,7 +18,7 @@ class NotFittedText extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(
         text,
-        style: style ?? TextStyles(context).normalStyle(),
+        style: TextStyles(context).normalStyle().merge(style),
         textAlign: textAlign,
         overflow: TextOverflow.clip,
         maxLines: maxLines,

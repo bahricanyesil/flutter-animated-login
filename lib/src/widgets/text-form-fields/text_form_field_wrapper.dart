@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../constants/border/border_radii.dart';
 import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 
@@ -26,8 +25,8 @@ class BaseTextFormFieldWrapper extends StatelessWidget {
             dynamicSize.width * (widthFactor ?? 35),
       ).enforce(
         BoxConstraints(
-          maxHeight: loginTheme.formFieldSize?.height ??
-              dynamicSize.height * (widthFactor ?? 13),
+          maxHeight:
+              loginTheme.formFieldSize?.height ?? dynamicSize.height * 12,
         ),
       ),
       child: formField,

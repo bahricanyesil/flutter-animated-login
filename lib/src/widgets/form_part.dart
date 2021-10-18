@@ -21,7 +21,6 @@ class FormPart extends StatefulWidget {
     required this.showForgotPassword,
     required this.showPasswordVisibility,
     required this.signUpMode,
-    this.socialLogins = const <SocialLogin>[],
     this.formKey,
     this.formElementsSpacing,
     this.socialLoginsSpacing,
@@ -37,7 +36,6 @@ class FormPart extends StatefulWidget {
   final AnimationController animationController;
   final LoginTheme loginTheme;
   final LoginTexts loginTexts;
-  final List<SocialLogin> socialLogins;
   final Curve animationCurve;
   final double formWidthRatio;
   final GlobalKey<FormState>? formKey;
@@ -134,10 +132,12 @@ class _FormPartState extends State<FormPart> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _formTitle,
-              if (widget.socialLogins.isNotEmpty) ..._socialLoginPart,
-              SizedBox(height: dynamicSize.height * 7),
+              if (auth.socialLogins != null && auth.socialLogins!.isNotEmpty)
+                ..._socialLoginPart
+              else
+                SizedBox(height: dynamicSize.height * 6),
               _form,
-              SizedBox(height: dynamicSize.height * 7),
+              SizedBox(height: dynamicSize.height * 4),
               _actionButton,
             ],
           ),
@@ -153,23 +153,24 @@ class _FormPartState extends State<FormPart> {
           tween: Tween<double>(begin: begin, end: end), weight: weight);
 
   List<Widget> get _socialLoginPart => <Widget>[
-        SizedBox(height: dynamicSize.height * 2),
+        SizedBox(height: dynamicSize.height * 4),
         _socialLoginOptions,
-        SizedBox(height: dynamicSize.height * 8),
+        SizedBox(height: dynamicSize.height * 4),
         _useEmailText,
-        SizedBox(height: dynamicSize.height * 2),
+        SizedBox(height: dynamicSize.height * 3.5),
       ];
 
   Widget get _formTitle => BaseText(
         isForward
             ? widget.loginTexts.loginFormTitle
             : widget.loginTexts.signUpFormTitle,
-        style: widget.loginTheme.formTitleStyle ??
-            TextStyles(context).titleStyle(),
+        style: TextStyles(context)
+            .titleStyle()
+            .merge(widget.loginTheme.formTitleStyle),
       );
 
   Widget get _socialLoginOptions => Wrap(
-        spacing: widget.socialLoginsSpacing ?? dynamicSize.width * 2,
+        spacing: widget.socialLoginsSpacing ?? dynamicSize.responsiveSize * 10,
         alignment: WrapAlignment.center,
         children: _socialLoginButtons,
       );
@@ -178,15 +179,16 @@ class _FormPartState extends State<FormPart> {
         isForward
             ? widget.loginTexts.loginUseEmail
             : widget.loginTexts.signUpUseEmail,
-        style: widget.loginTheme.useEmailStyle ??
-            theme.textTheme.headline6!.copyWith(color: Colors.black),
+        style: TextStyles(context)
+            .subtitleTextStyle(color: Colors.black87)
+            .merge(widget.loginTheme.useEmailStyle),
       );
 
   List<Widget> get _socialLoginButtons => List<Widget>.generate(
-        widget.socialLogins.length,
+        auth.socialLogins!.length,
         (int index) => CircleWidget(
-          onTap: widget.socialLogins[index].callback,
-          child: Image.asset(widget.socialLogins[index].iconPath),
+          onTap: auth.socialLogins![index].callback,
+          child: Image.asset(auth.socialLogins![index].iconPath),
         ),
       );
 
@@ -231,7 +233,7 @@ class _FormPartState extends State<FormPart> {
           direction: Axis.vertical,
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: widget.formElementsSpacing ?? dynamicSize.height * 2.1,
+          spacing: widget.formElementsSpacing ?? dynamicSize.height * 2.2,
           children: _formElements,
         ),
       );
@@ -272,10 +274,10 @@ class _FormPartState extends State<FormPart> {
         padding: dynamicSize.lowTopPadding,
         child: BaseTextButton(
           text: widget.loginTexts.forgotPassword,
-          style: widget.loginTheme.forgotPasswordStyle ??
-              TextStyles(context)
-                  .subBodyStyle(color: theme.primaryColor)
-                  .underline,
+          style: TextStyles(context)
+              .subBodyStyle(color: theme.primaryColor)
+              .underline
+              .merge(widget.loginTheme.forgotPasswordStyle),
           onPressed: () async {
             final String? errorMessage =
                 await auth.onForgotPassword(emailController.text);

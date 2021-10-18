@@ -77,30 +77,30 @@ class _WelcomePartState extends State<WelcomePart> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: dynamicSize.height * 10),
             _title,
             SizedBox(height: dynamicSize.height * 6),
             _description,
             SizedBox(height: dynamicSize.height * 7),
             if (widget.showChangeActionTitle) _changeActionTitle,
             _changeActionButton,
-            SizedBox(height: dynamicSize.height * 10),
           ],
         ),
       );
 
   Widget get _title => BaseText(
         isForward ? widget.loginTexts.welcomeBack : widget.loginTexts.welcome,
-        style: widget.loginTheme.welcomeTitleStyle ??
-            TextStyles(context).titleStyle(color: Colors.white),
+        style: TextStyles(context)
+            .titleStyle(color: Colors.white)
+            .merge(widget.loginTheme.welcomeTitleStyle),
       );
 
   Widget get _description => NotFittedText(
         isForward
             ? widget.loginTexts.welcomeBackDescription
             : widget.loginTexts.welcomeDescription,
-        style: widget.loginTheme.welcomeDescriptionStyle ??
-            TextStyles(context).bodyStyle(),
+        style: TextStyles(context)
+            .bodyStyle()
+            .merge(widget.loginTheme.welcomeDescriptionStyle),
       );
 
   Widget get _changeActionTitle => Padding(
@@ -109,8 +109,9 @@ class _WelcomePartState extends State<WelcomePart> {
           isForward
               ? widget.loginTexts.notHaveAnAccount
               : widget.loginTexts.alreadyHaveAnAccount,
-          style: widget.loginTheme.changeActionStyle ??
-              TextStyles(context).subtitleTextStyle(),
+          style: TextStyles(context)
+              .subtitleTextStyle()
+              .merge(widget.loginTheme.changeActionStyle),
         ),
       );
 

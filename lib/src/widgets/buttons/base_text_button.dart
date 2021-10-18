@@ -27,7 +27,7 @@ class BaseTextButton extends StatelessWidget {
         ),
         child: BaseText(
           text,
-          style: style ?? TextStyles(context).normalStyle(),
+          style: TextStyles(context).normalStyle().merge(style),
         ),
       ),
     );

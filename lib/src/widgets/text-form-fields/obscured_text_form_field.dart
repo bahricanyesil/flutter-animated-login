@@ -42,7 +42,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
         key: Key(widget.controller.toString()),
         controller: widget.controller,
         validator: theme.showFormFieldErrors ? Validators.password : null,
-        style: theme.textFormStyle ?? TextStyles(context).textFormStyle(),
+        style: TextStyles(context).textFormStyle().merge(theme.textFormStyle),
         obscureText: !_isVisible,
         decoration: theme.textFormFieldDeco ?? _formDeco,
       ),

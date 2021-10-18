@@ -35,11 +35,13 @@ class InputDeco {
       hoverColor: theme.formFieldHoverColor ??
           Theme.of(context).primaryColorLight.withOpacity(.1),
       hintText: hintText,
-      hintStyle: theme.hintTextStyle ?? TextStyles(context).hintTextStyle(),
+      hintStyle: TextStyles(context).hintTextStyle().merge(theme.hintTextStyle),
       labelText: theme.showLabelTexts ? hintText : null,
-      labelStyle: theme.hintTextStyle ?? TextStyles(context).hintTextStyle(),
+      labelStyle:
+          TextStyles(context).hintTextStyle().merge(theme.hintTextStyle),
       errorMaxLines: 1,
-      errorStyle: theme.errorTextStyle ?? TextStyles(context).errorTextStyle(),
+      errorStyle:
+          TextStyles(context).errorTextStyle().merge(theme.errorTextStyle),
       enabledBorder: theme.enabledBorder ??
           _getOutlineBorder(theme.enabledBorderColor, widthFactor: .4),
       focusedBorder:
@@ -67,7 +69,7 @@ class InputDeco {
         borderRadius: context.read<LoginTheme>().formFieldBorderRadius ??
             BorderRadii.mediumCircular,
         borderSide: BorderSide(
-          width: DynamicSize(context).fontSize * widthFactor,
+          width: DynamicSize(context).responsiveSize * widthFactor,
           color: color ?? theme.primaryColorLight,
         ),
       );

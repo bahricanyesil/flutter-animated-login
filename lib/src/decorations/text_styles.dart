@@ -10,7 +10,7 @@ class TextStyles {
   late final DynamicSize dynamicSize;
 
   TextStyle titleStyle({Color? color}) => TextStyle(
-        fontSize: dynamicSize.fontSize * 13,
+        fontSize: dynamicSize.responsiveSize * 12.3,
         color: color ?? Theme.of(context).primaryColor,
         fontWeight: FontWeight.bold,
         wordSpacing: 4,
@@ -18,7 +18,7 @@ class TextStyles {
       );
 
   TextStyle bodyStyle({Color? color}) => TextStyle(
-        fontSize: dynamicSize.fontSize * 6.8,
+        fontSize: dynamicSize.responsiveSize * 6.8,
         color: color ?? Colors.white.withOpacity(.8),
         fontWeight: FontWeight.w500,
         wordSpacing: 3,
@@ -27,7 +27,7 @@ class TextStyles {
 
   TextStyle subBodyStyle({Color? color, TextDecoration? decoration}) =>
       TextStyle(
-        fontSize: dynamicSize.fontSize * 5.5,
+        fontSize: dynamicSize.responsiveSize * 5.5,
         color: color ?? Colors.white.withOpacity(.8),
         fontWeight: FontWeight.w400,
         wordSpacing: 2.4,
@@ -36,7 +36,7 @@ class TextStyles {
       );
 
   TextStyle normalStyle({Color? color}) => TextStyle(
-        fontSize: dynamicSize.fontSize * 10,
+        fontSize: dynamicSize.responsiveSize * 10,
         color: color ?? Colors.white.withOpacity(.8),
         fontWeight: FontWeight.w500,
         wordSpacing: 3,
@@ -44,7 +44,7 @@ class TextStyles {
       );
 
   TextStyle textFormStyle({Color? color}) => TextStyle(
-        fontSize: dynamicSize.fontSize * 5.2,
+        fontSize: dynamicSize.responsiveSize * 5.2,
         color: color ?? Theme.of(context).primaryColor,
         fontWeight: FontWeight.w400,
         wordSpacing: 2.3,
@@ -52,7 +52,7 @@ class TextStyles {
       );
 
   TextStyle hintTextStyle({Color? color}) => TextStyle(
-        fontSize: dynamicSize.fontSize * 5.2,
+        fontSize: dynamicSize.responsiveSize * 5.2,
         color: color,
         fontWeight: FontWeight.w400,
         wordSpacing: 2.2,
@@ -60,7 +60,7 @@ class TextStyles {
       );
 
   TextStyle errorTextStyle({Color? color}) => TextStyle(
-        fontSize: dynamicSize.fontSize * 3,
+        fontSize: dynamicSize.responsiveSize * 3.5,
         color: color ?? Colors.red[400],
         wordSpacing: 1.5,
         height: .9,
@@ -68,7 +68,7 @@ class TextStyles {
 
   TextStyle subtitleTextStyle({Color? color, TextDecoration? decoration}) =>
       TextStyle(
-        fontSize: dynamicSize.fontSize * 5,
+        fontSize: dynamicSize.responsiveSize * 5,
         color: color ?? Colors.white.withOpacity(.8),
         fontWeight: FontWeight.w400,
         decoration: decoration,

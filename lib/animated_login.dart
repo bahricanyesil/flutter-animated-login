@@ -10,6 +10,8 @@ import 'src/providers/providers_shelf.dart';
 import 'src/widgets/form_part.dart';
 import 'src/widgets/welcome_part.dart';
 
+export './src/constants/enums/sign_up_modes.dart';
+export './src/models/models_shelf.dart';
 export './src/providers/providers_shelf.dart';
 
 class AnimatedLogin extends StatefulWidget {

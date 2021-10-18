@@ -23,7 +23,7 @@ class BaseIcon extends StatelessWidget {
       child: Padding(
         padding: _getPadding(context, dynamicSize),
         child: Icon(iconData,
-            size: dynamicSize.fontSize * widthFactor, color: color),
+            size: dynamicSize.responsiveSize * widthFactor, color: color),
       ),
     );
   }

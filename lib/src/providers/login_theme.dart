@@ -34,6 +34,8 @@ class LoginTheme with ChangeNotifier {
     this.focusedErrorBorder,
     this.showFormFieldErrors = true,
     this.showLabelTexts = true,
+    this.socialLoginHoverColor,
+    this.socialLoginBorder,
   });
 
   /// Text style for the title of form part.
@@ -133,4 +135,10 @@ class LoginTheme with ChangeNotifier {
   /// Indicates whether the labels should be displayed
   /// above the text form fields.
   final bool showLabelTexts;
+
+  /// Hover color for social login widgets.
+  final Color? socialLoginHoverColor;
+
+  /// Border for social login widgets.
+  final BorderSide? socialLoginBorder;
 }

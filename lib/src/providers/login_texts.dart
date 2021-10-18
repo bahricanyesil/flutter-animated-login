@@ -133,7 +133,7 @@ class LoginTexts with ChangeNotifier {
   static const String _defaultSignUpFormTitle = 'Create an Account';
   static const String _defaultSignUpUseEmail =
       'or use your email for registration:';
-  static const String _defaultnotHaveAnAccount = "Don't have an account?";
+  static const String _defaultnotHaveAnAccount = "Not have an account?";
   static const String _defaultWelcomeBack = 'Welcome Back!';
   static const String _defaultWelcomeBackDescription =
       "Welcome back to the best. We're always here, waiting for you!";

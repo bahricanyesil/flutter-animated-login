@@ -13,7 +13,7 @@ class DynamicSize {
   double get height => _mediaQuery.size.height * 0.01;
   double get width => _mediaQuery.size.width * 0.01;
 
-  double get fontSize => min(height * 16, width * 9) / 30;
+  double get responsiveSize => min(height * 16, width * 9) / 30;
 
   double get lowHeight => height * 1.5;
   double get lowWidth => width * 1.5;

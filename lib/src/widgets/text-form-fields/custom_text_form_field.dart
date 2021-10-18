@@ -35,7 +35,7 @@ class CustomTextFormField extends StatelessWidget {
         key: Key(controller.toString()),
         controller: controller,
         validator: theme.showFormFieldErrors ? validator : null,
-        style: theme.textFormStyle ?? TextStyles(context).textFormStyle(),
+        style: TextStyles(context).textFormStyle().merge(theme.textFormStyle),
         decoration: theme.textFormFieldDeco ?? _getFormDeco(context),
       ),
       widthFactor: widthFactor,
