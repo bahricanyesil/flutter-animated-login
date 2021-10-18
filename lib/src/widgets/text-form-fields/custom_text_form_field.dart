@@ -6,6 +6,9 @@ import '../../decorations/text_styles.dart';
 import '../../providers/login_theme.dart';
 import 'text_form_field_wrapper.dart';
 
+/// Base [TextFormField] wrapped with [BaseTextFormFieldWrapper].
+/// Implements login decoration as default, can be customized with parameteres.
+/// Used for implementation of name and email text form fields.
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     required this.controller,
@@ -15,7 +18,6 @@ class CustomTextFormField extends StatelessWidget {
     this.prefixWidget,
     this.backgroundColor,
     this.widthFactor,
-    this.heightFactor,
     Key? key,
   }) : super(key: key);
   final TextEditingController controller;
@@ -25,7 +27,6 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? prefixWidget;
   final Color? backgroundColor;
   final double? widthFactor;
-  final double? heightFactor;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,6 @@ class CustomTextFormField extends StatelessWidget {
         decoration: theme.textFormFieldDeco ?? _getFormDeco(context),
       ),
       widthFactor: widthFactor,
-      heightFactor: heightFactor,
     );
   }
 

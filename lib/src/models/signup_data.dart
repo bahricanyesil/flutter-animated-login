@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 
+/// [String] model is to store/transfer signup mode data.
+/// Contains [name], [email], [password] and [confirmPassword] fields.
+/// Overrides [toString], [hashCode] methods and [==] operator.
 @immutable
 class SignUpData {
   final String name;

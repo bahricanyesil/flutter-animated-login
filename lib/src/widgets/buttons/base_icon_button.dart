@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../icons/base_icon.dart';
 
+/// Base icon button with custom parameters
+/// Wraps [IconButton] with [FittedBox], and gives some paddings.
 class BaseIconButton extends StatelessWidget {
   final IconData icon;
   final Function() onPressed;

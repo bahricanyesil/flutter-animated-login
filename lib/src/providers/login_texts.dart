@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// [LoginTexts] is the provider for all texts in the login screen.
+/// Provides default texts for those aren't provided in the constructor.
 class LoginTexts with ChangeNotifier {
   LoginTexts({
     String? welcome,

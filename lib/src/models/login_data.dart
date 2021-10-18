@@ -1,5 +1,8 @@
 import 'package:flutter/foundation.dart';
 
+/// [LoginData] model is to store/transfer login mode data.
+/// Contains [email] and [password] fields.
+/// Overrides [toString], [hashCode] methods and [==] operator.
 @immutable
 class LoginData {
   final String email;

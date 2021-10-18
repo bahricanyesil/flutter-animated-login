@@ -4,16 +4,16 @@ import 'package:provider/provider.dart';
 import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 
+/// Base [TextFormField] wrapper to manage the size values in one place.
+/// Directly implements the given width and avoids exceeding a specific height.
 class BaseTextFormFieldWrapper extends StatelessWidget {
   const BaseTextFormFieldWrapper({
     required this.formField,
     this.widthFactor,
-    this.heightFactor,
     Key? key,
   }) : super(key: key);
   final TextFormField formField;
   final double? widthFactor;
-  final double? heightFactor;
 
   @override
   Widget build(BuildContext context) {

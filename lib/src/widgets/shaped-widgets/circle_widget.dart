@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 
+/// Provides a circle button with custom stylings.
+/// Shapes the button as circle with the given height/width.
 class CircleWidget extends StatelessWidget {
   final Widget child;
   final double widthFactor;
@@ -35,6 +37,7 @@ class CircleWidget extends StatelessWidget {
     );
   }
 
+  /// Returns the border style of the button.
   ShapeBorder _buttonShape(BuildContext context) => CircleBorder(
         side: context.read<LoginTheme>().socialLoginBorder ??
             BorderSide(

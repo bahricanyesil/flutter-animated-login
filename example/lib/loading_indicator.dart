@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Loading indicator widget to show in processes.
+
 class LoadingIndicator extends StatelessWidget {
   const LoadingIndicator({Key? key}) : super(key: key);
 
@@ -16,14 +18,14 @@ class LoadingIndicator extends StatelessWidget {
         ),
       );
 
-  Padding _getLoadingIndicator(BuildContext context) => const Padding(
-        padding: EdgeInsets.only(bottom: 10),
+  Padding _getLoadingIndicator(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 10),
         child: SizedBox(
           width: 100,
           height: 100,
           child: Center(
             child: CircularProgressIndicator(
-              color: Colors.purple,
+              color: Theme.of(context).primaryColor,
               strokeWidth: 3,
             ),
           ),

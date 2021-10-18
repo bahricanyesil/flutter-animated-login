@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../constants/border/border_radii.dart';
-
+/// [ButtonStyles] class collects all button styles in one file.
 class ButtonStyles {
   const ButtonStyles(this.context);
   final BuildContext context;
 
+  /// Gives rounded style to the button with the optional [borderRadius].
+  /// If no radius provided, uses default value as 30 radius.
+  /// Takes additional optional parameters to further customize the style.
   ButtonStyle roundedStyle({
     Color? backgroundColor,
     Color? borderColor,
@@ -24,7 +26,8 @@ class ButtonStyles {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         shape: _all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadii.mediumCircular,
+            borderRadius:
+                borderRadius ?? const BorderRadius.all(Radius.circular(30)),
             side: BorderSide(
               color: borderColor ?? Theme.of(context).primaryColor,
               width: borderWidth ?? 2.0,
@@ -33,10 +36,12 @@ class ButtonStyles {
         ),
       );
 
+  /// Text button style to give it custom padding.
   ButtonStyle textButtonStyle({
     EdgeInsets? padding,
   }) =>
       ButtonStyle(padding: _all<EdgeInsets?>(padding));
 
+  /// Returns [MaterialStateProperty] form of given [value] as [T] type.
   MaterialStateProperty<T> _all<T>(T value) => MaterialStateProperty.all(value);
 }

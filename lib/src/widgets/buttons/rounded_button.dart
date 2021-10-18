@@ -5,6 +5,9 @@ import '../../decorations/text_styles.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';
 
+/// An [ElevatedButton] with rounded corners.
+/// Takes some parameters to customize the design,
+/// and uses "ButtonStyles(context).roundedStyle" to give roundness.
 class RoundedButton extends StatelessWidget {
   const RoundedButton({
     required this.buttonText,
@@ -43,6 +46,7 @@ class RoundedButton extends StatelessWidget {
         ),
       );
 
+  /// Calls the rounded style from [ButtonStyles] class with custom parameters.
   ButtonStyle _defaultButtonStyle(BuildContext context) =>
       ButtonStyles(context).roundedStyle(
         borderWidth: borderWidth,

@@ -81,9 +81,9 @@ class _FormPartState extends State<FormPart> {
     );
     offsetAnimation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
-        _tweenSequenceItem(end: 50),
-        _tweenSequenceItem(begin: 50, end: 50, weight: 10),
-        _tweenSequenceItem(begin: -50),
+        _tweenSequenceItem(end: 80),
+        _tweenSequenceItem(begin: 80, end: 80, weight: 10),
+        _tweenSequenceItem(begin: -80),
       ],
     ).animate(
       CurvedAnimation(

@@ -3,7 +3,6 @@ library animated_login;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'src/constants/curve/custom_curves.dart';
 import 'src/constants/enums/sign_up_modes.dart';
 import 'src/models/social_login.dart';
 import 'src/providers/providers_shelf.dart';
@@ -22,9 +21,9 @@ class AnimatedLogin extends StatefulWidget {
     this.onLogin,
     this.onSignup,
     this.onForgotPassword,
-    this.animationCurve = CustomCurves.animationCurve,
+    this.animationCurve = const Cubic(0.85, 0.40, 0.40, 0.85),
     this.formWidthRatio = 60,
-    this.animationDuration = const Duration(milliseconds: 400),
+    this.animationDuration = const Duration(milliseconds: 600),
     this.formKey,
     this.formElementsSpacing,
     this.socialLoginsSpacing,

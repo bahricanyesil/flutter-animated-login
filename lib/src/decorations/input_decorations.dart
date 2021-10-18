@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../constants/border/border_radii.dart';
 import '../providers/login_theme.dart';
 import '../responsiveness/dynamic_size.dart';
 import '../widgets/icons/base_icon.dart';
 import 'text_styles.dart';
 
+/// [InputDeco] class collects all input decorations in one file.
 class InputDeco {
+  /// Initializes dynamicSize and theme fields after got the context.
   InputDeco(this.context) {
     dynamicSize = DynamicSize(context);
-    theme = Theme.of(context);
   }
   final BuildContext context;
   late final DynamicSize dynamicSize;
-  late final ThemeData theme;
 
+  /// [InputDecoration] for the text form fields in the login screen.
+  /// Both "CustomTextFormField" and "ObscuredTextFormField" uses this deco.
   InputDecoration loginDeco({
     String? hintText,
     String? labelText,
@@ -23,39 +24,41 @@ class InputDeco {
     IconData? prefixIcon,
     Widget? prefixWidget,
   }) {
-    final LoginTheme theme = context.read<LoginTheme>();
+    final LoginTheme loginTheme = context.read<LoginTheme>();
     return InputDecoration(
       contentPadding: EdgeInsets.symmetric(
         horizontal: dynamicSize.width * paddingFactor,
         vertical: dynamicSize.height * 3.3,
       ),
-      fillColor: theme.formFieldBackgroundColor ??
-          theme.backgroundColor?.withOpacity(.8) ??
+      fillColor: loginTheme.formFieldBackgroundColor ??
+          loginTheme.backgroundColor?.withOpacity(.8) ??
           Colors.white54,
-      hoverColor: theme.formFieldHoverColor ??
+      hoverColor: loginTheme.formFieldHoverColor ??
           Theme.of(context).primaryColorLight.withOpacity(.1),
       hintText: hintText,
-      hintStyle: TextStyles(context).hintTextStyle().merge(theme.hintTextStyle),
-      labelText: theme.showLabelTexts ? hintText : null,
+      hintStyle:
+          TextStyles(context).hintTextStyle().merge(loginTheme.hintTextStyle),
+      labelText: loginTheme.showLabelTexts ? hintText : null,
       labelStyle:
-          TextStyles(context).hintTextStyle().merge(theme.hintTextStyle),
+          TextStyles(context).hintTextStyle().merge(loginTheme.hintTextStyle),
       errorMaxLines: 1,
       errorStyle:
-          TextStyles(context).errorTextStyle().merge(theme.errorTextStyle),
-      enabledBorder: theme.enabledBorder ??
-          _getOutlineBorder(theme.enabledBorderColor, widthFactor: .4),
-      focusedBorder:
-          theme.focusedBorder ?? _getOutlineBorder(theme.focusedBorderColor),
-      focusedErrorBorder: theme.focusedErrorBorder ??
-          _getOutlineBorder(theme.focusedErrorBorderColor),
-      errorBorder: theme.errorBorder ??
-          _getOutlineBorder(theme.errorBorderColor ?? Colors.red,
+          TextStyles(context).errorTextStyle().merge(loginTheme.errorTextStyle),
+      enabledBorder: loginTheme.enabledBorder ??
+          _getOutlineBorder(loginTheme.enabledBorderColor, widthFactor: .4),
+      focusedBorder: loginTheme.focusedBorder ??
+          _getOutlineBorder(loginTheme.focusedBorderColor),
+      focusedErrorBorder: loginTheme.focusedErrorBorder ??
+          _getOutlineBorder(loginTheme.focusedErrorBorderColor),
+      errorBorder: loginTheme.errorBorder ??
+          _getOutlineBorder(loginTheme.errorBorderColor ?? Colors.red,
               widthFactor: .4),
       prefixIcon: prefixWidget ?? getPrefixIcon(prefixIcon),
       filled: true,
     );
   }
 
+  /// Returns the prefix icon if there is any provided.
   Widget? getPrefixIcon(IconData? prefixIcon) => prefixIcon == null
       ? null
       : Padding(
@@ -63,14 +66,16 @@ class InputDeco {
           child: BaseIcon(prefixIcon, widthFactor: 7),
         );
 
+  /// Default function returns [OutlineInputBorder] with some common values.
+  /// Takes [color] and [widthFactor] as parameters to specialize each border.
   OutlineInputBorder _getOutlineBorder(Color? color,
           {double widthFactor = .62}) =>
       OutlineInputBorder(
         borderRadius: context.read<LoginTheme>().formFieldBorderRadius ??
-            BorderRadii.mediumCircular,
+            const BorderRadius.all(Radius.circular(30)),
         borderSide: BorderSide(
           width: DynamicSize(context).responsiveSize * widthFactor,
-          color: color ?? theme.primaryColorLight,
+          color: color ?? Theme.of(context).primaryColorLight,
         ),
       );
 }

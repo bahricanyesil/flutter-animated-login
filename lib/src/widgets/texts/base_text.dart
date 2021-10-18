@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../decorations/text_styles.dart';
 
+/// Base text with custom parameters
+/// Wraps [Text] with [FittedBox], and implements some stylings.
 class BaseText extends StatelessWidget {
   final String text;
   final TextStyle? style;

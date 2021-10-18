@@ -5,6 +5,8 @@ import '../../decorations/text_styles.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';
 
+/// Base text button with custom parameters
+/// Wraps [TextButton] with [FittedBox], and gives some paddings.
 class BaseTextButton extends StatelessWidget {
   final String text;
   final Function() onPressed;
