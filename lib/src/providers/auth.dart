@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../constants/enums/auth_mode.dart';
-import '../models/login_data.dart';
-import '../models/signup_data.dart';
-import '../models/social_login.dart';
+import '../models/models_shelf.dart';
 
 class Auth with ChangeNotifier {
   Auth({

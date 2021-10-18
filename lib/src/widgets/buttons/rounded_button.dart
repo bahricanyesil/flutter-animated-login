@@ -39,7 +39,7 @@ class RoundedButton extends StatelessWidget {
         onPressed: onPressed,
         child: BaseText(
           buttonText,
-          style: TextStyles(context).bodyStyle(),
+          style: textStyle ?? TextStyles(context).bodyStyle(),
         ),
       );
 

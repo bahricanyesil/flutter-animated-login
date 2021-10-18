@@ -20,12 +20,9 @@ class BaseText extends StatelessWidget {
         fit: BoxFit.scaleDown,
         child: Text(
           text,
-          style: _defaultStyle(context),
+          style: style ?? TextStyles(context).normalStyle(),
           textAlign: textAlign,
           overflow: TextOverflow.clip,
         ),
       );
-
-  TextStyle _defaultStyle(BuildContext context) =>
-      style ?? TextStyles(context).normalStyle();
 }

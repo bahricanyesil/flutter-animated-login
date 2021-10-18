@@ -13,11 +13,12 @@ class LoginTexts with ChangeNotifier {
     String? loginFormTitle,
     String? loginUseEmail,
     String? forgotPassword,
-    String? dontHaveAnAccount,
+    String? notHaveAnAccount,
     String? alreadyHaveAnAccount,
     String? nameHint,
     String? emailHint,
     String? passwordHint,
+    String? confirmPasswordHint,
   })  : _welcome = welcome,
         _welcomeDescription = welcomeDescription,
         _signUp = signUp,
@@ -29,11 +30,12 @@ class LoginTexts with ChangeNotifier {
         _loginFormTitle = loginFormTitle,
         _loginUseEmail = loginUseEmail,
         _forgotPassword = forgotPassword,
-        _dontHaveAnAccount = dontHaveAnAccount,
+        _notHaveAnAccount = notHaveAnAccount,
         _alreadyHaveAnAccount = alreadyHaveAnAccount,
         _nameHint = nameHint,
         _emailHint = emailHint,
-        _passwordHint = passwordHint;
+        _passwordHint = passwordHint,
+        _confirmPasswordHint = confirmPasswordHint;
 
   /// Welcome title in signUp mode for the informing part.
   /// Default value is given in [_defaultWelcome].
@@ -93,10 +95,9 @@ class LoginTexts with ChangeNotifier {
   String get forgotPassword => _forgotPassword ?? _defaultForgotPassword;
 
   /// Text above the sign up button to direct users who don't have an account.
-  /// Default value is given in [_defaultDontHaveAnAccount].
-  /// Custom value in the constructor is assigned to [_dontHaveAnAccount].
-  String get dontHaveAnAccount =>
-      _dontHaveAnAccount ?? _defaultDontHaveAnAccount;
+  /// Default value is given in [_defaultnotHaveAnAccount].
+  /// Custom value in the constructor is assigned to [_notHaveAnAccount].
+  String get notHaveAnAccount => _notHaveAnAccount ?? _defaultnotHaveAnAccount;
 
   /// Text above the login button to direct users who already have an account.
   /// Default value is given in [_defaultAlreadyHaveAnAccount].
@@ -119,6 +120,12 @@ class LoginTexts with ChangeNotifier {
   /// Custom value in the constructor is assigned to [_passwordHint].
   String get passwordHint => _passwordHint ?? _defaultPasswordHint;
 
+  /// Hint text for confirm password text form field.
+  /// Default value is given in [_defaultConfirmPasswordHint].
+  /// Custom value in the constructor is assigned to [_confirmPasswordHint].
+  String get confirmPasswordHint =>
+      _confirmPasswordHint ?? _defaultConfirmPasswordHint;
+
   static const String _defaultWelcome = 'Welcome!';
   static const String _defaultWelcomeDescription =
       'You are where you find the best you are looking for!';
@@ -126,7 +133,7 @@ class LoginTexts with ChangeNotifier {
   static const String _defaultSignUpFormTitle = 'Create an Account';
   static const String _defaultSignUpUseEmail =
       'or use your email for registration:';
-  static const String _defaultDontHaveAnAccount = "Don't have an account?";
+  static const String _defaultnotHaveAnAccount = "Don't have an account?";
   static const String _defaultWelcomeBack = 'Welcome Back!';
   static const String _defaultWelcomeBackDescription =
       "Welcome back to the best. We're always here, waiting for you!";
@@ -139,6 +146,7 @@ class LoginTexts with ChangeNotifier {
   static const String _defaultNameHint = 'Name';
   static const String _defaultEmailHint = 'Email';
   static const String _defaultPasswordHint = 'Password';
+  static const String _defaultConfirmPasswordHint = 'Confirm Password';
 
   final String? _welcome;
 
@@ -176,7 +184,7 @@ class LoginTexts with ChangeNotifier {
 
   /// The message to show above the sign up button. Call to action for
   /// directing users who doesn't have an account to the sign up mode.
-  final String? _dontHaveAnAccount;
+  final String? _notHaveAnAccount;
 
   /// The message to show above the login button. Call to action for
   /// directing users who already have an account to the login mode.
@@ -190,4 +198,7 @@ class LoginTexts with ChangeNotifier {
 
   /// The hint text for password text form field.
   final String? _passwordHint;
+
+  /// The hint text for confirm password text form field.
+  final String? _confirmPasswordHint;
 }

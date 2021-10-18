@@ -44,7 +44,7 @@ class TextStyles {
       );
 
   TextStyle textFormStyle({Color? color}) => TextStyle(
-        fontSize: dynamicSize.fontSize * 5.5,
+        fontSize: dynamicSize.fontSize * 5.2,
         color: color ?? Theme.of(context).primaryColor,
         fontWeight: FontWeight.w400,
         wordSpacing: 2.3,
@@ -52,11 +52,18 @@ class TextStyles {
       );
 
   TextStyle hintTextStyle({Color? color}) => TextStyle(
-        fontSize: dynamicSize.fontSize * 5.5,
+        fontSize: dynamicSize.fontSize * 5.2,
         color: color,
         fontWeight: FontWeight.w400,
         wordSpacing: 2.2,
         letterSpacing: 1.2,
+      );
+
+  TextStyle errorTextStyle({Color? color}) => TextStyle(
+        fontSize: dynamicSize.fontSize * 3,
+        color: color ?? Colors.red[400],
+        wordSpacing: 1.5,
+        height: .9,
       );
 
   TextStyle subtitleTextStyle({Color? color, TextDecoration? decoration}) =>

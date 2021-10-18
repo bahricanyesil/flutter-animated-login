@@ -1,7 +1,6 @@
-import 'package:animated_login/src/responsiveness/dynamic_size.dart';
-import 'package:animated_login/src/utils/device_type_helper.dart';
 import 'package:flutter/material.dart';
 
+import '../../responsiveness/dynamic_size.dart';
 import '../icons/base_icon.dart';
 
 class BaseIconButton extends StatelessWidget {
@@ -20,16 +19,17 @@ class BaseIconButton extends StatelessWidget {
     final DynamicSize dynamicSize = DynamicSize(context);
     return FittedBox(
       child: Padding(
-        padding: dynamicSize.extremeLowHorizontalPadding,
-        child: _iconButton,
+        padding: dynamicSize.extremeLowRightPadding,
+        child: _iconButton(dynamicSize),
       ),
     );
   }
 
-  Widget get _iconButton => IconButton(
+  Widget _iconButton(DynamicSize dynamicSize) => IconButton(
         splashRadius: 20,
-        iconSize: size ?? 24,
-        icon: BaseIcon(icon, widthFactor: 3),
+        iconSize: size ?? dynamicSize.fontSize * 6.5,
+        icon:
+            BaseIcon(icon, widthFactor: size ?? 6.5, padding: EdgeInsets.zero),
         onPressed: onPressed,
       );
 }

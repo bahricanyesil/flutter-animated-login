@@ -1,49 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../decorations/input_decorations.dart';
 import '../../decorations/text_styles.dart';
+import '../../providers/login_theme.dart';
 import 'text_form_field_wrapper.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  final TextEditingController controller;
-  final EdgeInsets? padding;
-  final String? hintText;
-  final IconData? prefixIcon;
-  final Color? backgroundColor;
-  final double? widthFactor;
-  final double? heightFactor;
   const CustomTextFormField({
     required this.controller,
-    this.padding,
+    required this.validator,
     this.hintText,
     this.prefixIcon,
+    this.prefixWidget,
     this.backgroundColor,
     this.widthFactor,
     this.heightFactor,
     Key? key,
   }) : super(key: key);
+  final TextEditingController controller;
+  final String? Function(String?) validator;
+  final String? hintText;
+  final IconData? prefixIcon;
+  final Widget? prefixWidget;
+  final Color? backgroundColor;
+  final double? widthFactor;
+  final double? heightFactor;
 
   @override
-  Widget build(BuildContext context) => BaseTextFormFieldWrapper(
-        formField: TextFormField(
-          controller: controller,
-          style: TextStyles(context).textFormStyle(),
-          decoration: _getFormDeco(context),
-          expands: true,
-          maxLines: null,
-        ),
-        backgroundColor: backgroundColor,
-        heightFactor: heightFactor,
-        widthFactor: widthFactor,
-        padding: padding,
-      );
+  Widget build(BuildContext context) {
+    final LoginTheme theme = context.read<LoginTheme>();
+    return BaseTextFormFieldWrapper(
+      formField: TextFormField(
+        key: Key(controller.toString()),
+        controller: controller,
+        validator: theme.showFormFieldErrors ? validator : null,
+        style: theme.textFormStyle ?? TextStyles(context).textFormStyle(),
+        decoration: theme.textFormFieldDeco ?? _getFormDeco(context),
+      ),
+      widthFactor: widthFactor,
+      heightFactor: heightFactor,
+    );
+  }
 
   InputDecoration _getFormDeco(BuildContext context) =>
       InputDeco(context).loginDeco(
         hintText: hintText,
-        // TODO(bahrican):
-        labelText: hintText,
         prefixIcon: prefixIcon,
-        backgroundColor: backgroundColor,
+        prefixWidget: prefixWidget,
       );
 }

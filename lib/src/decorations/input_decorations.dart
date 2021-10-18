@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/border/border_radii.dart';
+import '../providers/login_theme.dart';
 import '../responsiveness/dynamic_size.dart';
 import '../widgets/icons/base_icon.dart';
 import 'text_styles.dart';
@@ -17,47 +19,56 @@ class InputDeco {
   InputDecoration loginDeco({
     String? hintText,
     String? labelText,
+    double paddingFactor = 1,
     IconData? prefixIcon,
-    Color? backgroundColor,
-    double paddingFactor = .6,
-  }) =>
-      InputDecoration(
-        contentPadding:
-            EdgeInsets.symmetric(horizontal: dynamicSize.width * paddingFactor),
-        hintText: hintText,
-        hintStyle: TextStyles(context).hintTextStyle(),
-        enabledBorder: _getOutlineBorder(.5, 1),
-        focusedBorder: _getOutlineBorder(1.1, 1),
-        prefixIcon: getPrefixIcon(prefixIcon),
-      );
+    Widget? prefixWidget,
+  }) {
+    final LoginTheme theme = context.read<LoginTheme>();
+    return InputDecoration(
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: dynamicSize.width * paddingFactor,
+        vertical: dynamicSize.height * 3.3,
+      ),
+      fillColor: theme.formFieldBackgroundColor ??
+          theme.backgroundColor?.withOpacity(.8) ??
+          Colors.white54,
+      hoverColor: theme.formFieldHoverColor ??
+          Theme.of(context).primaryColorLight.withOpacity(.1),
+      hintText: hintText,
+      hintStyle: theme.hintTextStyle ?? TextStyles(context).hintTextStyle(),
+      labelText: theme.showLabelTexts ? hintText : null,
+      labelStyle: theme.hintTextStyle ?? TextStyles(context).hintTextStyle(),
+      errorMaxLines: 1,
+      errorStyle: theme.errorTextStyle ?? TextStyles(context).errorTextStyle(),
+      enabledBorder: theme.enabledBorder ??
+          _getOutlineBorder(theme.enabledBorderColor, widthFactor: .4),
+      focusedBorder:
+          theme.focusedBorder ?? _getOutlineBorder(theme.focusedBorderColor),
+      focusedErrorBorder: theme.focusedErrorBorder ??
+          _getOutlineBorder(theme.focusedErrorBorderColor),
+      errorBorder: theme.errorBorder ??
+          _getOutlineBorder(theme.errorBorderColor ?? Colors.red,
+              widthFactor: .4),
+      prefixIcon: prefixWidget ?? getPrefixIcon(prefixIcon),
+      filled: true,
+    );
+  }
 
   Widget? getPrefixIcon(IconData? prefixIcon) => prefixIcon == null
       ? null
       : Padding(
           padding: EdgeInsets.only(left: dynamicSize.width * .6),
-          child: BaseIcon(prefixIcon, widthFactor: 2.1),
+          child: BaseIcon(prefixIcon, widthFactor: 7),
         );
 
-  InputDecoration dialogText(
-          {required String hintText, double? verticalPadding}) =>
-      InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
-          vertical: dynamicSize.height * (verticalPadding ?? 2),
-          horizontal: dynamicSize.width * 1.8,
-        ),
-        hintText: hintText,
-        hintStyle: theme.textTheme.headline5!
-            .copyWith(color: theme.primaryColorLight.withOpacity(.8)),
-        enabledBorder: _getOutlineBorder(.5, .8),
-        focusedBorder: _getOutlineBorder(1.1, 1),
-      );
-
-  OutlineInputBorder _getOutlineBorder(double width, double opacity) =>
+  OutlineInputBorder _getOutlineBorder(Color? color,
+          {double widthFactor = .62}) =>
       OutlineInputBorder(
-        borderRadius: BorderRadii.mediumCircular,
+        borderRadius: context.read<LoginTheme>().formFieldBorderRadius ??
+            BorderRadii.mediumCircular,
         borderSide: BorderSide(
-          width: width,
-          color: theme.primaryColorLight.withOpacity(opacity),
+          width: DynamicSize(context).fontSize * widthFactor,
+          color: color ?? theme.primaryColorLight,
         ),
       );
 }

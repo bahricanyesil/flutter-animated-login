@@ -13,7 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Animated Login',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const AnimatedLogin(),
+      home: AnimatedLogin(
+        loginTheme: LoginTheme(),
+      ),
     );
   }
 }

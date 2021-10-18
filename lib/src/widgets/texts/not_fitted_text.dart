@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../decorations/text_styles.dart';
+
 class NotFittedText extends StatelessWidget {
   final String text;
   final TextStyle? style;
@@ -16,7 +18,7 @@ class NotFittedText extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(
         text,
-        style: style,
+        style: style ?? TextStyles(context).normalStyle(),
         textAlign: textAlign,
         overflow: TextOverflow.clip,
         maxLines: maxLines,

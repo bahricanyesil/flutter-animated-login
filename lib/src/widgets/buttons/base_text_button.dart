@@ -1,6 +1,6 @@
-import 'package:animated_login/src/decorations/button_styles.dart';
 import 'package:flutter/material.dart';
 
+import '../../decorations/button_styles.dart';
 import '../../decorations/text_styles.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';

@@ -5,15 +5,17 @@ class SignUpData {
   final String name;
   final String email;
   final String password;
+  final String confirmPassword;
 
   const SignUpData({
     required this.name,
     required this.email,
     required this.password,
+    required this.confirmPassword,
   });
 
   @override
-  String toString() => 'SignUpData($name, $email, $password)';
+  String toString() => 'SignUpData($name, $email, $password, $confirmPassword)';
 
   @override
   bool operator ==(Object other) {
@@ -22,14 +24,20 @@ class SignUpData {
     return other is SignUpData &&
         other.name == name &&
         other.email == email &&
-        other.password == password;
+        other.password == password &&
+        other.confirmPassword == confirmPassword;
   }
 
   /// This hashCode part is inspired from Quiver package.
   /// Quiver package link: https://pub.dev/packages/quiver
   @override
-  int get hashCode => _finish(_combine(
-      _combine(_combine(0, name.hashCode), email.hashCode), password.hashCode));
+  int get hashCode => _finish(
+        _combine(
+          _combine(_combine(_combine(0, name.hashCode), email.hashCode),
+              password.hashCode),
+          confirmPassword.hashCode,
+        ),
+      );
 
   int _combine(int hash, int value) {
     int newHash = 0x1fffffff & (hash + value);
