@@ -35,25 +35,31 @@ class RoundedButton extends StatelessWidget {
   final ButtonStyle? buttonStyle;
 
   @override
-  Widget build(BuildContext context) => ElevatedButton(
-        style: buttonStyle != null
-            ? buttonStyle!.merge(_defaultButtonStyle(context))
-            : _defaultButtonStyle(context),
-        onPressed: onPressed,
-        child: BaseText(
-          buttonText,
-          style: TextStyles(context).bodyStyle().merge(textStyle),
-        ),
-      );
+  Widget build(BuildContext context) {
+    // TODO(bahrican):
+    bool isWeb = false;
+    return ElevatedButton(
+      style: buttonStyle != null
+          ? buttonStyle!.merge(_defaultButtonStyle(context, isWeb))
+          : _defaultButtonStyle(context, isWeb),
+      onPressed: onPressed,
+      child: BaseText(
+        buttonText,
+        style: TextStyles(context)
+            .bodyStyle(color: isWeb ? null : Colors.black87)
+            .merge(textStyle),
+      ),
+    );
+  }
 
   /// Calls the rounded style from [ButtonStyles] class with custom parameters.
-  ButtonStyle _defaultButtonStyle(BuildContext context) =>
+  ButtonStyle _defaultButtonStyle(BuildContext context, bool isWeb) =>
       ButtonStyles(context).roundedStyle(
         borderWidth: borderWidth,
         backgroundColor: backgroundColor,
-        borderColor: borderColor,
+        borderColor: borderColor ?? (isWeb ? null : Colors.white),
         borderRadius: borderRadius,
-        width: width ?? DynamicSize(context).width * 13,
-        height: height ?? DynamicSize(context).height * 8.5,
+        width: width ?? DynamicSize(context).width * (isWeb ? 13 : 35),
+        height: height ?? DynamicSize(context).height * (isWeb ? 8.5 : 7.7),
       );
 }

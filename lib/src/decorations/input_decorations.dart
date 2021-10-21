@@ -24,6 +24,7 @@ class InputDeco {
     IconData? prefixIcon,
     Widget? prefixWidget,
   }) {
+    bool isWeb = false;
     final LoginTheme loginTheme = context.read<LoginTheme>();
     return InputDecoration(
       contentPadding: EdgeInsets.symmetric(
@@ -38,20 +39,25 @@ class InputDeco {
       hintText: hintText,
       hintStyle:
           TextStyles(context).hintTextStyle().merge(loginTheme.hintTextStyle),
-      labelText: loginTheme.showLabelTexts ? hintText : null,
+      labelText: isWeb
+          ? loginTheme.showLabelTexts
+              ? hintText
+              : null
+          : null,
       labelStyle:
           TextStyles(context).hintTextStyle().merge(loginTheme.hintTextStyle),
       errorMaxLines: 1,
       errorStyle:
           TextStyles(context).errorTextStyle().merge(loginTheme.errorTextStyle),
       enabledBorder: loginTheme.enabledBorder ??
-          _getOutlineBorder(loginTheme.enabledBorderColor, widthFactor: .4),
+          _getOutlineBorder(loginTheme.enabledBorderColor, isWeb,
+              widthFactor: .4),
       focusedBorder: loginTheme.focusedBorder ??
-          _getOutlineBorder(loginTheme.focusedBorderColor),
+          _getOutlineBorder(loginTheme.focusedBorderColor, isWeb),
       focusedErrorBorder: loginTheme.focusedErrorBorder ??
-          _getOutlineBorder(loginTheme.focusedErrorBorderColor),
+          _getOutlineBorder(loginTheme.focusedErrorBorderColor, isWeb),
       errorBorder: loginTheme.errorBorder ??
-          _getOutlineBorder(loginTheme.errorBorderColor ?? Colors.red,
+          _getOutlineBorder(loginTheme.errorBorderColor ?? Colors.red, isWeb,
               widthFactor: .4),
       prefixIcon: prefixWidget ?? getPrefixIcon(prefixIcon),
       filled: true,
@@ -68,14 +74,15 @@ class InputDeco {
 
   /// Default function returns [OutlineInputBorder] with some common values.
   /// Takes [color] and [widthFactor] as parameters to specialize each border.
-  OutlineInputBorder _getOutlineBorder(Color? color,
+  OutlineInputBorder _getOutlineBorder(Color? color, bool isWeb,
           {double widthFactor = .62}) =>
       OutlineInputBorder(
         borderRadius: context.read<LoginTheme>().formFieldBorderRadius ??
             const BorderRadius.all(Radius.circular(30)),
         borderSide: BorderSide(
           width: DynamicSize(context).responsiveSize * widthFactor,
-          color: color ?? Theme.of(context).primaryColorLight,
+          color: color ??
+              (isWeb ? Theme.of(context).primaryColorLight : Colors.white),
         ),
       );
 }

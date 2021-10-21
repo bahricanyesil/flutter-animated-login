@@ -96,15 +96,15 @@ class TextStyles {
 /// Extension on [TextStyle] class to be able to underline texts
 /// with some custom space between the text and underline.
 extension Underline on TextStyle {
-  TextStyle get underline => copyWith(
+  TextStyle underline({Color? customColor, double? offset}) => copyWith(
         shadows: <Shadow>[
           Shadow(
             color: color ?? Colors.white.withOpacity(.8),
-            offset: const Offset(0, -5),
+            offset: Offset(0, offset ?? -5),
           )
         ],
         color: Colors.transparent,
         decoration: TextDecoration.underline,
-        decorationColor: color ?? Colors.white.withOpacity(.8),
+        decorationColor: customColor ?? color ?? Colors.white.withOpacity(.8),
       );
 }

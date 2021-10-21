@@ -6,8 +6,9 @@ import 'package:provider/provider.dart';
 import 'src/constants/enums/sign_up_modes.dart';
 import 'src/models/social_login.dart';
 import 'src/providers/providers_shelf.dart';
+import 'src/responsiveness/dynamic_size.dart';
 import 'src/widgets/form_part.dart';
-import 'src/widgets/welcome_part.dart';
+import 'src/widgets/welcome_components.dart';
 
 export './src/constants/enums/sign_up_modes.dart';
 export './src/models/models_shelf.dart';
@@ -140,8 +141,26 @@ class AnimatedLogin extends StatefulWidget {
 
 class _AnimatedLoginState extends State<AnimatedLogin>
     with SingleTickerProviderStateMixin {
+  /// Dynamic size object to give responsive size values.
+  late final DynamicSize dynamicSize;
+
   /// Main animation controller for the transition animations.
   late final AnimationController animationController;
+
+  /// Background color of the welcome part.
+  late Color backgroundColor;
+
+  /// Transition animation that will change the location of the welcome part.
+  late final Animation<double> welcomeTransitionAnimation;
+
+  /// Custom LoginTheme data, colors and styles on the screen.
+  late final LoginTheme loginTheme;
+
+  /// Custom LoginTexts data, texts on the screen.
+  late final LoginTexts loginTexts;
+
+  // TODO(bahrican):
+  bool isWeb = false;
 
   @override
   void initState() {
@@ -150,6 +169,19 @@ class _AnimatedLoginState extends State<AnimatedLogin>
       vsync: this,
       duration: widget.animationDuration,
     );
+
+    /// Initializes the transition animation from 0 to form part's width ratio
+    /// with custom animation curve and animation controller.
+    welcomeTransitionAnimation =
+        Tween<double>(begin: 0, end: widget.formWidthRatio).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: widget.animationCurve,
+      ),
+    );
+
+    loginTexts = widget.loginTexts ?? LoginTexts();
+    loginTheme = widget.loginTheme ?? LoginTheme();
   }
 
   @override
@@ -159,75 +191,137 @@ class _AnimatedLoginState extends State<AnimatedLogin>
   }
 
   @override
-  Widget build(BuildContext context) => MultiProvider(
-        providers: <ChangeNotifierProvider<dynamic>>[
-          ChangeNotifierProvider<LoginTexts>.value(
-            value: widget.loginTexts ?? LoginTexts(),
-          ),
-          ChangeNotifierProvider<LoginTheme>.value(
-            value: widget.loginTheme ?? LoginTheme(),
-          ),
-          ChangeNotifierProvider<Auth>(
-            create: (BuildContext context) => Auth(
-              onLogin: widget.onLogin,
-              onSignup: widget.onSignup,
-              onForgotPassword: widget.onForgotPassword,
-              socialLogins: widget.socialLogins,
-            ),
-          ),
-        ],
-        child: Scaffold(
-          body: SafeArea(
-            child: AnimatedBuilder(
-              animation: animationController,
-              builder: (_, __) => _stack,
-            ),
+  Widget build(BuildContext context) {
+    backgroundColor = widget.loginTheme?.backgroundColor ??
+        Theme.of(context).primaryColor.withOpacity(.8);
+    return MultiProvider(
+      providers: <ChangeNotifierProvider<dynamic>>[
+        ChangeNotifierProvider<LoginTexts>.value(
+          value: loginTexts,
+        ),
+        ChangeNotifierProvider<LoginTheme>.value(
+          value: loginTheme,
+        ),
+        ChangeNotifierProvider<Auth>(
+          create: (BuildContext context) => Auth(
+            onLogin: widget.onLogin,
+            onSignup: widget.onSignup,
+            onForgotPassword: widget.onForgotPassword,
+            socialLogins: widget.socialLogins,
           ),
         ),
+      ],
+      child: Scaffold(
+        backgroundColor: backgroundColor,
+        body: SafeArea(
+          child: AnimatedBuilder(
+            animation: animationController,
+            builder: (_, __) => isWeb ? _webView : _mobileView,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget get _webView => Stack(
+        children: <Widget>[
+          Container(color: backgroundColor),
+          _animatedWebWelcome,
+          _formPart,
+        ],
       );
 
-  Widget get _stack {
-    final Color backgroundColor = widget.loginTheme?.backgroundColor ??
-        Theme.of(context).primaryColor.withOpacity(.8);
-    return Stack(
+  Widget get _mobileView {
+    final DynamicSize dynamicSize = DynamicSize(context);
+    return ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.symmetric(
+        vertical: dynamicSize.height * 4,
+        horizontal: dynamicSize.width * 7,
+      ),
       children: <Widget>[
-        Container(color: backgroundColor),
-        WelcomePart(
-          backgroundColor: backgroundColor,
-          backgroundImage: widget.backgroundImage,
-          animationController: animationController,
-          loginTheme: widget.loginTheme ?? LoginTheme(),
-          loginTexts: widget.loginTexts ?? LoginTexts(),
-          logo: widget.logo,
-          logoSize: widget.logoSize,
-          animationCurve: widget.animationCurve,
-          formWidthRatio: widget.formWidthRatio,
-          showChangeActionTitle: widget.showChangeActionTitle,
-          changeActionButtonStyle: widget.changeActionButtonStyle,
-          welcomeHorizontalPadding: widget.welcomeHorizontalPadding,
-        ),
-        FormPart(
-          backgroundColor: backgroundColor,
-          animationController: animationController,
-          loginTheme: widget.loginTheme ?? LoginTheme(),
-          loginTexts: widget.loginTexts ?? LoginTexts(),
-          formWidthRatio: widget.formWidthRatio,
-          animationCurve: widget.animationCurve,
-          formKey: widget.formKey,
-          formElementsSpacing: widget.formElementsSpacing,
-          socialLoginsSpacing: widget.socialLoginsSpacing,
-          checkError: widget.checkError,
-          showForgotPassword: widget.showForgotPassword,
-          actionButtonStyle: widget.actionButtonStyle,
-          formHorizontalPadding: widget.formHorizontalPadding,
-          showPasswordVisibility: widget.showPasswordVisibility,
-          nameController: widget.nameController,
-          emailController: widget.emailController,
-          passwordController: widget.passwordController,
-          confirmPasswordController: widget.confirmPasswordController,
-          signUpMode: widget.signUpMode,
-        ),
+        _logoAndTexts,
+        _formPart,
       ],
     );
   }
+
+  Widget get _animatedWebWelcome => Transform.translate(
+        offset: Offset(dynamicSize.width * welcomeTransitionAnimation.value, 0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            image: widget.backgroundImage == null
+                ? null
+                : DecorationImage(
+                    image: AssetImage(widget.backgroundImage!),
+                    fit: BoxFit.cover,
+                  ),
+          ),
+          width: dynamicSize.width * (100 - widget.formWidthRatio),
+          height: dynamicSize.height * 100,
+          child: _webWelcomeComponents(context),
+        ),
+      );
+
+  Widget _webWelcomeComponents(BuildContext context) => Padding(
+        padding: widget.welcomeHorizontalPadding ??
+            DynamicSize(context).medHighHorizontalPadding,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _logoAndTexts,
+            _changeActionButton,
+          ],
+        ),
+      );
+
+  Widget get _logoAndTexts => LogoAndTexts(
+        logo: widget.logo,
+        logoSize: widget.logoSize,
+        isForward: isForward,
+        loginTexts: loginTexts,
+        loginTheme: loginTheme,
+      );
+
+  Widget get _changeActionButton => ChangeActionButton(
+        showChangeActionTitle: widget.showChangeActionTitle,
+        isForward: isForward,
+        loginTexts: loginTexts,
+        loginTheme: loginTheme,
+        animate: () => animate(context),
+        changeActionButtonStyle: widget.changeActionButtonStyle,
+      );
+
+  Widget get _formPart => FormPart(
+        backgroundColor: backgroundColor,
+        animationController: animationController,
+        loginTheme: widget.loginTheme ?? LoginTheme(),
+        loginTexts: widget.loginTexts ?? LoginTexts(),
+        formWidthRatio: widget.formWidthRatio,
+        animationCurve: widget.animationCurve,
+        formKey: widget.formKey,
+        formElementsSpacing: widget.formElementsSpacing,
+        socialLoginsSpacing: widget.socialLoginsSpacing,
+        checkError: widget.checkError,
+        showForgotPassword: widget.showForgotPassword,
+        actionButtonStyle: widget.actionButtonStyle,
+        formHorizontalPadding: widget.formHorizontalPadding,
+        showPasswordVisibility: widget.showPasswordVisibility,
+        nameController: widget.nameController,
+        emailController: widget.emailController,
+        passwordController: widget.passwordController,
+        confirmPasswordController: widget.confirmPasswordController,
+        signUpMode: widget.signUpMode,
+      );
+
+  void animate(BuildContext context) {
+    animationController.isCompleted
+        ? animationController.reverse()
+        : animationController.forward();
+    Provider.of<Auth>(context, listen: false).switchAuth();
+  }
+
+  bool get isForward =>
+      welcomeTransitionAnimation.value <= widget.formWidthRatio / 2;
 }

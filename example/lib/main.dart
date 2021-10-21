@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // showLabelTexts: false,
         backgroundColor: Colors.blue,
         formFieldBackgroundColor: Colors.white,
-        actionTextStyle: const TextStyle(color: Colors.white),
+        actionTextStyle: const TextStyle(color: Colors.black87),
         changeActionTextStyle: const TextStyle(color: Colors.white),
       );
 

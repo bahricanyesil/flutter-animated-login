@@ -7,17 +7,19 @@ import '../../responsiveness/dynamic_size.dart';
 /// Provides a circle button with custom stylings.
 /// Shapes the button as circle with the given height/width.
 class CircleWidget extends StatelessWidget {
-  final Widget child;
-  final double widthFactor;
-  final Function()? onTap;
-  final double? borderWidthFactor;
   const CircleWidget({
     required this.child,
     this.widthFactor = 13,
     this.borderWidthFactor,
     this.onTap,
+    this.color,
     Key? key,
   }) : super(key: key);
+  final Widget child;
+  final double widthFactor;
+  final Function()? onTap;
+  final double? borderWidthFactor;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,8 @@ class CircleWidget extends StatelessWidget {
       child: RawMaterialButton(
         onPressed: onTap,
         hoverColor: context.read<LoginTheme>().socialLoginHoverColor ??
-            Theme.of(context).primaryColorLight.withOpacity(.7),
+            (color?.withOpacity(.7) ??
+                Theme.of(context).primaryColorLight.withOpacity(.7)),
         shape: _buttonShape(context),
         padding: EdgeInsets.all(dynamicSize.responsiveSize * widthFactor / 4),
         elevation: 3,
@@ -41,7 +44,7 @@ class CircleWidget extends StatelessWidget {
   ShapeBorder _buttonShape(BuildContext context) => CircleBorder(
         side: context.read<LoginTheme>().socialLoginBorder ??
             BorderSide(
-              color: Colors.black54,
+              color: color ?? Colors.black54,
               width: DynamicSize(context).width * (borderWidthFactor ?? .2),
             ),
       );

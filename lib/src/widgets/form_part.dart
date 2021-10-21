@@ -124,8 +124,8 @@ class _FormPartState extends State<FormPart> {
   late final GlobalKey<FormState> _formKey =
       widget.formKey ?? GlobalKey<FormState>();
 
-  /// Controls the focus transition between the components.
-  late final List<FocusNode> focusN;
+// TODO(bahrican):
+  bool isWeb = false;
 
   @override
   void initState() {
@@ -176,35 +176,37 @@ class _FormPartState extends State<FormPart> {
     dynamicSize = DynamicSize(context);
     theme = Theme.of(context);
     auth = context.watch<Auth>();
-    return Transform.translate(
-      offset: Offset(dynamicSize.width * transitionAnimation.value, 0),
-      child: Container(
-        width: dynamicSize.width * widget.formWidthRatio,
-        height: dynamicSize.height * 100,
-        color: Colors.white,
-        child: _formColumn,
-      ),
-    );
+    return isWeb ? _webView : _formColumn;
   }
 
-  Widget get _formColumn => Transform.translate(
-        offset: Offset(dynamicSize.width * offsetAnimation.value, 0),
-        child: Padding(
-          padding:
-              widget.formHorizontalPadding ?? dynamicSize.highHorizontalPadding,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _formTitle,
-              if (auth.socialLogins != null && auth.socialLogins!.isNotEmpty)
-                ..._socialLoginPart
-              else
-                SizedBox(height: dynamicSize.height * 6),
-              _form,
-              SizedBox(height: dynamicSize.height * 4),
-              _actionButton,
-            ],
+  Widget get _webView => Transform.translate(
+        offset: Offset(dynamicSize.width * transitionAnimation.value, 0),
+        child: Container(
+          width: dynamicSize.width * widget.formWidthRatio,
+          height: dynamicSize.height * 100,
+          color: Colors.white,
+          child: Transform.translate(
+            offset: Offset(dynamicSize.width * offsetAnimation.value, 0),
+            child: _formColumn,
           ),
+        ),
+      );
+
+  Widget get _formColumn => Padding(
+        padding:
+            widget.formHorizontalPadding ?? dynamicSize.highHorizontalPadding,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            if (isWeb) _formTitle,
+            if (auth.socialLogins != null && auth.socialLogins!.isNotEmpty)
+              ..._socialLoginPart
+            else
+              SizedBox(height: dynamicSize.height * 6),
+            _form,
+            SizedBox(height: dynamicSize.height * (isWeb ? 4 : 3)),
+            _actionButton,
+          ],
         ),
       );
 
@@ -229,7 +231,7 @@ class _FormPartState extends State<FormPart> {
             ? widget.loginTexts.loginFormTitle
             : widget.loginTexts.signUpFormTitle,
         style: TextStyles(context)
-            .titleStyle()
+            .titleStyle(color: isWeb ? null : Colors.white)
             .merge(widget.loginTheme.formTitleStyle),
       );
 
@@ -244,7 +246,7 @@ class _FormPartState extends State<FormPart> {
             ? widget.loginTexts.loginUseEmail
             : widget.loginTexts.signUpUseEmail,
         style: TextStyles(context)
-            .subtitleTextStyle(color: Colors.black87)
+            .subtitleTextStyle(color: isWeb ? Colors.black87 : Colors.white)
             .merge(widget.loginTheme.useEmailStyle),
       );
 
@@ -252,6 +254,8 @@ class _FormPartState extends State<FormPart> {
         auth.socialLogins!.length,
         (int index) => CircleWidget(
           onTap: () async => _socialLoginCallback(index),
+          color: isWeb ? null : Colors.white,
+          widthFactor: isWeb ? 13 : 16,
           child: Image.asset(auth.socialLogins![index].iconPath),
         ),
       );
@@ -268,7 +272,9 @@ class _FormPartState extends State<FormPart> {
         buttonText:
             isForward ? widget.loginTexts.login : widget.loginTexts.signUp,
         onPressed: _action,
-        backgroundColor: theme.primaryColor.withOpacity(.8),
+        backgroundColor: isWeb
+            ? theme.primaryColor.withOpacity(.8)
+            : Colors.white.withOpacity(.9),
         buttonStyle: widget.actionButtonStyle,
         textStyle: widget.loginTheme.actionTextStyle,
       );
@@ -320,7 +326,8 @@ class _FormPartState extends State<FormPart> {
           direction: Axis.vertical,
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: widget.formElementsSpacing ?? dynamicSize.height * 2.2,
+          spacing: widget.formElementsSpacing ??
+              dynamicSize.height * (isWeb ? 2.2 : 1.8),
           children: _formElements,
         ),
       );
@@ -361,12 +368,12 @@ class _FormPartState extends State<FormPart> {
       ];
 
   Widget get _forgotPassword => Padding(
-        padding: dynamicSize.lowTopPadding,
+        padding: isWeb ? dynamicSize.lowTopPadding : EdgeInsets.zero,
         child: BaseTextButton(
           text: widget.loginTexts.forgotPassword,
           style: TextStyles(context)
-              .subBodyStyle(color: theme.primaryColor)
-              .underline
+              .subBodyStyle(color: isWeb ? theme.primaryColor : Colors.white)
+              .underline(customColor: theme.primaryColor, offset: 8)
               .merge(widget.loginTheme.forgotPasswordStyle),
           onPressed: () async {
             await _errorCheck(_forgotPasswordResult);
