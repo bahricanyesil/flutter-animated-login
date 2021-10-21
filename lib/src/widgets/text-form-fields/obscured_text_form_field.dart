@@ -65,6 +65,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
         hintText: widget.hintText,
         prefixIcon: widget.prefixIcon,
         prefixWidget: context.read<LoginTheme>().passwordIcon,
+        paddingFactor: .7,
       );
 
   /// Suffix icon to change the visibility of password.

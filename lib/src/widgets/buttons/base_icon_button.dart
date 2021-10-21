@@ -30,8 +30,7 @@ class BaseIconButton extends StatelessWidget {
   Widget _iconButton(DynamicSize dynamicSize) => IconButton(
         splashRadius: 20,
         iconSize: size ?? dynamicSize.responsiveSize * 6.5,
-        icon:
-            BaseIcon(icon, widthFactor: size ?? 6.5, padding: EdgeInsets.zero),
+        icon: BaseIcon(icon, sizeFactor: size ?? 6.5, padding: EdgeInsets.zero),
         onPressed: onPressed,
       );
 }

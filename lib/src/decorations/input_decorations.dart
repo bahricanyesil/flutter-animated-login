@@ -63,7 +63,7 @@ class InputDeco {
       ? null
       : Padding(
           padding: EdgeInsets.only(left: dynamicSize.width * .6),
-          child: BaseIcon(prefixIcon, widthFactor: 7),
+          child: BaseIcon(prefixIcon, sizeFactor: 7),
         );
 
   /// Default function returns [OutlineInputBorder] with some common values.
