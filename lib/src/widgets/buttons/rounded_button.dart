@@ -53,7 +53,7 @@ class RoundedButton extends StatelessWidget {
         backgroundColor: backgroundColor,
         borderColor: borderColor,
         borderRadius: borderRadius,
-        width: width ?? DynamicSize(context).width * 14,
-        height: height ?? DynamicSize(context).height * 9,
+        width: width ?? DynamicSize(context).width * 13,
+        height: height ?? DynamicSize(context).height * 8.5,
       );
 }

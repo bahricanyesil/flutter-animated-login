@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +10,7 @@ import '../providers/providers_shelf.dart';
 import '../responsiveness/dynamic_size.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets_shelf.dart';
+import 'dialogs/dialog_builder.dart';
 
 class FormPart extends StatefulWidget {
   const FormPart({
@@ -32,24 +35,63 @@ class FormPart extends StatefulWidget {
     this.formHorizontalPadding,
     Key? key,
   }) : super(key: key);
+
+  /// Background color of the whole form part.
   final Color backgroundColor;
+
+  /// Main animation controller for the transition animation.
   final AnimationController animationController;
+
+  /// Custom LoginTheme data, colors and styles on the screen.
   final LoginTheme loginTheme;
+
+  /// Custom LoginTexts data, texts on the screen.
   final LoginTexts loginTexts;
+
+  /// Custom animation curve that will be used for animations.
   final Curve animationCurve;
+
+  /// Ratio of width of the form to the width of the screen.
   final double formWidthRatio;
+
+  /// The optional custom form key, if not provided will be created locally.
   final GlobalKey<FormState>? formKey;
+
+  /// The spacing between the elements of form.
   final double? formElementsSpacing;
+
+  /// The spacing between the social login options.
   final double? socialLoginsSpacing;
+
+  /// Indicates whether the text form fields should show error messages.
   final bool checkError;
+
+  /// Indicates whether the forgot password option will be enabled.
   final bool showForgotPassword;
+
+  /// Indicates whether the user can show the password text without obscuring.
   final bool showPasswordVisibility;
+
+  /// Optional TextEditingController for name input field.
   final TextEditingController? nameController;
+
+  /// Optional TextEditingController for email input field.
   final TextEditingController? emailController;
+
+  /// Optional TextEditingController for password input field.
   final TextEditingController? passwordController;
+
+  /// Optional TextEditingController for confirm password input field.
   final TextEditingController? confirmPasswordController;
+
+  /// Custom button style for action button (login/signup).
   final ButtonStyle? actionButtonStyle;
+
+  /// Horizontal padding of the form part widget.
   final EdgeInsets? formHorizontalPadding;
+
+  /// Enum to determine which text form fields should be displayed in addition
+  /// to the email and password fields: Name / Confirm Password / Both
   final SignUpModes signUpMode;
 
   @override
@@ -57,21 +99,40 @@ class FormPart extends StatefulWidget {
 }
 
 class _FormPartState extends State<FormPart> {
+  /// It is for giving responsive size values.
   late DynamicSize dynamicSize;
+
+  /// Its aim is to take, manage, change auth data with the state.
   late Auth auth;
+
+  /// Theme is created as a variable to call it from different code pieces.
   late ThemeData theme;
+
+  /// Transition animation that will change the location of the form part.
   late final Animation<double> transitionAnimation;
+
+  /// Animation that will change the location of the components of form.
   late final Animation<double> offsetAnimation;
+
+  /// Text Editing Controllers for the text form fields.
   late final TextEditingController nameController;
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   late final TextEditingController confirmPasswordController;
+
+  /// The form key that will be assigned to the form.
   late final GlobalKey<FormState> _formKey =
       widget.formKey ?? GlobalKey<FormState>();
+
+  /// Controls the focus transition between the components.
+  late final List<FocusNode> focusN;
 
   @override
   void initState() {
     super.initState();
+
+    /// Initializes the transition animation from welcome part's width ratio
+    /// to 0 with custom animation curve and animation controller.
     transitionAnimation =
         Tween<double>(begin: 100 - widget.formWidthRatio, end: 0).animate(
       CurvedAnimation(
@@ -79,6 +140,9 @@ class _FormPartState extends State<FormPart> {
         curve: widget.animationCurve,
       ),
     );
+
+    /// Initializes the appearance and disappearance animations
+    /// from outside to the screen for the form components.
     offsetAnimation = TweenSequence<double>(
       <TweenSequenceItem<double>>[
         _tweenSequenceItem(end: 80),
@@ -153,11 +217,11 @@ class _FormPartState extends State<FormPart> {
           tween: Tween<double>(begin: begin, end: end), weight: weight);
 
   List<Widget> get _socialLoginPart => <Widget>[
-        SizedBox(height: dynamicSize.height * 4),
+        SizedBox(height: dynamicSize.height * 3),
         _socialLoginOptions,
-        SizedBox(height: dynamicSize.height * 4),
+        SizedBox(height: dynamicSize.height * 3),
         _useEmailText,
-        SizedBox(height: dynamicSize.height * 3.5),
+        SizedBox(height: dynamicSize.height * 2.5),
       ];
 
   Widget get _formTitle => BaseText(
@@ -187,10 +251,18 @@ class _FormPartState extends State<FormPart> {
   List<Widget> get _socialLoginButtons => List<Widget>.generate(
         auth.socialLogins!.length,
         (int index) => CircleWidget(
-          onTap: auth.socialLogins![index].callback,
+          onTap: () async => _socialLoginCallback(index),
           child: Image.asset(auth.socialLogins![index].iconPath),
         ),
       );
+
+  Future<void> _socialLoginCallback(int index) async {
+    if (widget.checkError) {
+      await _errorCheck(auth.socialLogins![index].callback);
+    } else {
+      await auth.socialLogins![index].callback();
+    }
+  }
 
   Widget get _actionButton => RoundedButton(
         buttonText:
@@ -203,27 +275,42 @@ class _FormPartState extends State<FormPart> {
 
   Future<void> _action() async {
     if (_formKey.currentState!.validate()) {
-      String? errorMessage;
       if (auth.isLogin) {
-        final LoginData loginData = LoginData(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-        errorMessage = await auth.onLogin(loginData);
+        await _errorCheck(_loginResult);
       } else if (auth.isSignup) {
-        final SignUpData signupData = SignUpData(
-          name: nameController.text,
-          email: emailController.text,
-          password: passwordController.text,
-          confirmPassword: confirmPasswordController.text,
-        );
-        if (signupData.password != signupData.confirmPassword) {
-          errorMessage = 'The passwords you entered do not match, check again.';
-        } else {
-          errorMessage = await auth.onSignup(signupData);
-        }
+        await _errorCheck(_signupResult);
       }
-      if (errorMessage != null && widget.checkError) {}
+    }
+  }
+
+  Future<void> _errorCheck(Future<String?> Function() action) async {
+    final String? errorMessage = await action();
+    if (errorMessage != null && widget.checkError) {
+      DialogBuilders(context).showErrorDialog(errorMessage);
+    }
+  }
+
+  Future<String?> _loginResult() async {
+    final LoginData loginData = LoginData(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+    return auth.onLogin(loginData);
+  }
+
+  Future<String?> _signupResult() async {
+    final SignUpData signupData = SignUpData(
+      name: nameController.text,
+      email: emailController.text,
+      password: passwordController.text,
+      confirmPassword: confirmPasswordController.text,
+    );
+    if (signupData.password != signupData.confirmPassword &&
+        widget.checkError &&
+        widget.signUpMode != SignUpModes.name) {
+      return widget.loginTexts.passwordMatchingError;
+    } else {
+      return auth.onSignup(signupData);
     }
   }
 
@@ -246,6 +333,7 @@ class _FormPartState extends State<FormPart> {
             prefixIcon: Icons.person_outline,
             prefixWidget: widget.loginTheme.nameIcon,
             validator: Validators.name,
+            textInputAction: TextInputAction.next,
           ),
         CustomTextFormField(
           controller: emailController,
@@ -253,12 +341,14 @@ class _FormPartState extends State<FormPart> {
           prefixIcon: Icons.email_outlined,
           prefixWidget: widget.loginTheme.emailIcon,
           validator: Validators.email,
+          textInputAction: TextInputAction.next,
         ),
         ObscuredTextFormField(
           controller: passwordController,
           hintText: widget.loginTexts.passwordHint,
           prefixIcon: Icons.password_outlined,
           showPasswordVisibility: widget.showPasswordVisibility,
+          textInputAction: TextInputAction.next,
         ),
         if (!isForward && widget.signUpMode != SignUpModes.name)
           ObscuredTextFormField(
@@ -279,12 +369,13 @@ class _FormPartState extends State<FormPart> {
               .underline
               .merge(widget.loginTheme.forgotPasswordStyle),
           onPressed: () async {
-            final String? errorMessage =
-                await auth.onForgotPassword(emailController.text);
-            if (errorMessage != null && widget.checkError) {}
+            await _errorCheck(_forgotPasswordResult);
           },
         ),
       );
+
+  Future<String?> _forgotPasswordResult() async =>
+      auth.onForgotPassword(emailController.text);
 
   bool get isForward =>
       transitionAnimation.value >= (100 - widget.formWidthRatio) / 2;

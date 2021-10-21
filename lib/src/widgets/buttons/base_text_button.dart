@@ -11,10 +11,12 @@ class BaseTextButton extends StatelessWidget {
   final String text;
   final Function() onPressed;
   final TextStyle? style;
+  final EdgeInsets? padding;
   const BaseTextButton({
     required this.text,
     required this.onPressed,
     this.style,
+    this.padding,
     Key? key,
   }) : super(key: key);
 
@@ -25,7 +27,7 @@ class BaseTextButton extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: ButtonStyles(context).textButtonStyle(
-          padding: EdgeInsets.all(dynamicSize.height * 2),
+          padding: padding ?? EdgeInsets.all(dynamicSize.responsiveSize * 3),
         ),
         child: BaseText(
           text,

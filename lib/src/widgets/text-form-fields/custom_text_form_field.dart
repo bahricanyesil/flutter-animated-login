@@ -18,6 +18,7 @@ class CustomTextFormField extends StatelessWidget {
     this.prefixWidget,
     this.backgroundColor,
     this.widthFactor,
+    this.textInputAction = TextInputAction.done,
     Key? key,
   }) : super(key: key);
   final TextEditingController controller;
@@ -27,6 +28,7 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? prefixWidget;
   final Color? backgroundColor;
   final double? widthFactor;
+  final TextInputAction textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class CustomTextFormField extends StatelessWidget {
       formField: TextFormField(
         key: Key(controller.toString()),
         controller: controller,
+        textInputAction: textInputAction,
         validator: theme.showFormFieldErrors ? validator : null,
         style: TextStyles(context).textFormStyle().merge(theme.textFormStyle),
         decoration: theme.textFormFieldDeco ?? _getFormDeco(context),

@@ -45,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onSignup: LoginFunctions(context).onSignup,
       onForgotPassword: LoginFunctions(context).onForgotPassword,
       formWidthRatio: 60,
+      logo: 'images/logo.gif',
       signUpMode: SignUpModes.both,
       socialLogins: _socialLogins,
       loginTheme: _loginTheme,
@@ -81,15 +82,15 @@ class _LoginScreenState extends State<LoginScreen> {
   List<SocialLogin> get _socialLogins => <SocialLogin>[
         SocialLogin(
             callback: () async => LoginFunctions(context).socialLogin('Google'),
-            iconPath: 'assets/images/google.png'),
+            iconPath: 'images/google.png'),
         SocialLogin(
             callback: () async =>
                 LoginFunctions(context).socialLogin('Facebook'),
-            iconPath: 'assets/images/facebook.png'),
+            iconPath: 'images/facebook.png'),
         SocialLogin(
             callback: () async =>
                 LoginFunctions(context).socialLogin('Linkedin'),
-            iconPath: 'assets/images/linkedin.png'),
+            iconPath: 'images/linkedin.png'),
       ];
 }
 

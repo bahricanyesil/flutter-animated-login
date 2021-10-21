@@ -21,6 +21,8 @@ class LoginTexts with ChangeNotifier {
     String? emailHint,
     String? passwordHint,
     String? confirmPasswordHint,
+    String? passwordMatchingError,
+    String? dialogButtonText,
   })  : _welcome = welcome,
         _welcomeDescription = welcomeDescription,
         _signUp = signUp,
@@ -37,7 +39,9 @@ class LoginTexts with ChangeNotifier {
         _nameHint = nameHint,
         _emailHint = emailHint,
         _passwordHint = passwordHint,
-        _confirmPasswordHint = confirmPasswordHint;
+        _confirmPasswordHint = confirmPasswordHint,
+        _passwordMatchingError = passwordMatchingError,
+        _dialogButtonText = dialogButtonText;
 
   /// Welcome title in signUp mode for the informing part.
   /// Default value is given in [_defaultWelcome].
@@ -128,6 +132,17 @@ class LoginTexts with ChangeNotifier {
   String get confirmPasswordHint =>
       _confirmPasswordHint ?? _defaultConfirmPasswordHint;
 
+  /// The error text for not matching password and confirm password inputs.
+  /// Default value is given in [_defaultPasswordMatchingError].
+  /// Custom value in the constructor is assigned to [_passwordMatchingError].
+  String get passwordMatchingError =>
+      _passwordMatchingError ?? _defaultPasswordMatchingError;
+
+  /// The button text of error dialog.
+  /// Default value is given in [_dialogDialogButtonText].
+  /// Custom value in the constructor is assigned to [_dialogButtonText].
+  String get dialogButtonText => _dialogButtonText ?? _dialogDialogButtonText;
+
   static const String _defaultWelcome = 'Welcome!';
   static const String _defaultWelcomeDescription =
       'You are where you find the best you are looking for!';
@@ -149,6 +164,10 @@ class LoginTexts with ChangeNotifier {
   static const String _defaultEmailHint = 'Email';
   static const String _defaultPasswordHint = 'Password';
   static const String _defaultConfirmPasswordHint = 'Confirm Password';
+
+  static const String _defaultPasswordMatchingError =
+      'The passwords you entered do not match, check again.';
+  static const String _dialogDialogButtonText = 'OK';
 
   final String? _welcome;
 
@@ -203,4 +222,11 @@ class LoginTexts with ChangeNotifier {
 
   /// The hint text for confirm password text form field.
   final String? _confirmPasswordHint;
+
+  /// The error text will be shown when the value of password field
+  /// and confirm password field do not match.
+  final String? _passwordMatchingError;
+
+  /// The text for button in the error dialog.
+  final String? _dialogButtonText;
 }

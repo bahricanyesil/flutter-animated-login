@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../constants/enums/auth_mode.dart';
 import '../models/models_shelf.dart';
 
-// TODO(bahrican): Implement showing error dialog after button pressed
 // if there is any error message.
 /// [Auth] is the provider for auth related data, functions.
 /// Manages the state related to the authentication modes.

@@ -20,6 +20,7 @@ class ObscuredTextFormField extends StatefulWidget {
     this.prefixIcon,
     this.backgroundColor,
     this.widthFactor,
+    this.textInputAction = TextInputAction.done,
     Key? key,
   }) : super(key: key);
   final TextEditingController controller;
@@ -28,6 +29,7 @@ class ObscuredTextFormField extends StatefulWidget {
   final IconData? prefixIcon;
   final Color? backgroundColor;
   final double? widthFactor;
+  final TextInputAction textInputAction;
 
   @override
   _ObscuredTextFormFieldState createState() => _ObscuredTextFormFieldState();
@@ -43,6 +45,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
       formField: TextFormField(
         key: Key(widget.controller.toString()),
         controller: widget.controller,
+        textInputAction: widget.textInputAction,
         validator: theme.showFormFieldErrors ? Validators.password : null,
         style: TextStyles(context).textFormStyle().merge(theme.textFormStyle),
         obscureText: !_isVisible,

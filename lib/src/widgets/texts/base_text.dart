@@ -9,17 +9,19 @@ class BaseText extends StatelessWidget {
   final TextStyle? style;
   final TextAlign textAlign;
   final Color? color;
+  final BoxFit? fit;
   const BaseText(
     this.text, {
     this.style,
     this.textAlign = TextAlign.center,
     this.color,
+    this.fit,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => FittedBox(
-        fit: BoxFit.scaleDown,
+        fit: fit ?? BoxFit.scaleDown,
         child: Text(
           text,
           style: TextStyles(context).normalStyle().merge(style),
