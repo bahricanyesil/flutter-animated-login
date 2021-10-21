@@ -46,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onForgotPassword: LoginFunctions(context).onForgotPassword,
       formWidthRatio: 60,
       logo: 'images/logo.gif',
+      backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
       socialLogins: _socialLogins,
       loginTheme: _loginTheme,

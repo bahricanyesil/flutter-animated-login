@@ -191,11 +191,10 @@ class _AnimatedLoginState extends State<AnimatedLogin>
         Theme.of(context).primaryColor.withOpacity(.8);
     return Stack(
       children: <Widget>[
-        if (widget.backgroundImage != null)
-          Image.asset(widget.backgroundImage!, fit: BoxFit.fill),
         Container(color: backgroundColor),
         WelcomePart(
           backgroundColor: backgroundColor,
+          backgroundImage: widget.backgroundImage,
           animationController: animationController,
           loginTheme: widget.loginTheme ?? LoginTheme(),
           loginTexts: widget.loginTexts ?? LoginTexts(),

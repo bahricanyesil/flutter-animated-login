@@ -24,6 +24,7 @@ class WelcomePart extends StatefulWidget {
     this.welcomeHorizontalPadding,
     this.logo,
     this.logoSize,
+    this.backgroundImage,
     Key? key,
   }) : super(key: key);
 
@@ -60,6 +61,9 @@ class WelcomePart extends StatefulWidget {
 
   /// Size of the logo.
   final Size? logoSize;
+
+  /// Background image path of the whole welcome part.
+  final String? backgroundImage;
 
   @override
   _WelcomePartState createState() => _WelcomePartState();
@@ -101,7 +105,15 @@ class _WelcomePartState extends State<WelcomePart> {
     return Transform.translate(
       offset: Offset(dynamicSize.width * transitionAnimation.value, 0),
       child: Container(
-        color: widget.backgroundColor,
+        decoration: BoxDecoration(
+          color: widget.backgroundColor,
+          image: widget.backgroundImage == null
+              ? null
+              : DecorationImage(
+                  image: AssetImage(widget.backgroundImage!),
+                  fit: BoxFit.cover,
+                ),
+        ),
         width: dynamicSize.width * (100 - widget.formWidthRatio),
         height: dynamicSize.height * 100,
         child: _welcomeTexts,
