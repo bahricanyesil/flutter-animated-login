@@ -145,4 +145,11 @@ class LoginTheme with ChangeNotifier {
 
   /// Border for social login widgets.
   final BorderSide? socialLoginBorder;
+
+  /// Indicates whether the screen size is landscape.
+  bool isLandscape = true;
+  void setIsLandscape(bool newValue) {
+    isLandscape = newValue;
+    notifyListeners();
+  }
 }

@@ -35,7 +35,6 @@ class CustomTextFormField extends StatelessWidget {
     final LoginTheme theme = context.read<LoginTheme>();
     return BaseTextFormFieldWrapper(
       formField: TextFormField(
-        key: Key(controller.toString()),
         controller: controller,
         textInputAction: textInputAction,
         validator: theme.showFormFieldErrors ? validator : null,

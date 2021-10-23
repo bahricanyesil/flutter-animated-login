@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../utils/view_type_helper.dart';
+
 /// Provides dynamic size values (height/width) by using [MediaQueryData].
 /// It provides responsive [height], [width] and [responsiveSize] data
 /// that are changing when you change your window size.
@@ -19,8 +21,9 @@ class DynamicSize {
   double get width => _mediaQuery.size.width * 0.01;
 
   /// Provides responsive base size value by using default 16/9 ratio.
-  double get responsiveSize => min(height * 11.7, width * 20.8) / 30;
-  // min(height * 16, width * 9) / 30;
+  double get responsiveSize => ViewTypeHelper(context).isLandscape
+      ? min(height * 16, width * 9) / 30
+      : min(height * 11.7, width * 20.8) / 30;
 
   /// Further customizes the [height] and [width] values
   /// for integrity across the screen.

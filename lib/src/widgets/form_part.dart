@@ -8,6 +8,7 @@ import '../decorations/text_styles.dart';
 import '../models/models_shelf.dart';
 import '../providers/providers_shelf.dart';
 import '../responsiveness/dynamic_size.dart';
+import '../utils/animation_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets_shelf.dart';
 import 'dialogs/dialog_builder.dart';
@@ -16,8 +17,6 @@ class FormPart extends StatefulWidget {
   const FormPart({
     required this.backgroundColor,
     required this.animationController,
-    required this.loginTheme,
-    required this.loginTexts,
     required this.animationCurve,
     required this.formWidthRatio,
     required this.checkError,
@@ -41,12 +40,6 @@ class FormPart extends StatefulWidget {
 
   /// Main animation controller for the transition animation.
   final AnimationController animationController;
-
-  /// Custom LoginTheme data, colors and styles on the screen.
-  final LoginTheme loginTheme;
-
-  /// Custom LoginTexts data, texts on the screen.
-  final LoginTexts loginTexts;
 
   /// Custom animation curve that will be used for animations.
   final Curve animationCurve;
@@ -99,6 +92,12 @@ class FormPart extends StatefulWidget {
 }
 
 class _FormPartState extends State<FormPart> {
+  /// Custom LoginTheme data, colors and styles on the screen.
+  late final LoginTheme loginTheme = context.read<LoginTheme>();
+
+  /// Custom LoginTexts data, texts on the screen.
+  late final LoginTexts loginTexts = context.read<LoginTexts>();
+
   /// It is for giving responsive size values.
   late DynamicSize dynamicSize;
 
@@ -109,7 +108,7 @@ class _FormPartState extends State<FormPart> {
   late ThemeData theme;
 
   /// Transition animation that will change the location of the form part.
-  late final Animation<double> transitionAnimation;
+  late Animation<double> transitionAnimation;
 
   /// Animation that will change the location of the components of form.
   late final Animation<double> offsetAnimation;
@@ -124,37 +123,22 @@ class _FormPartState extends State<FormPart> {
   late final GlobalKey<FormState> _formKey =
       widget.formKey ?? GlobalKey<FormState>();
 
-// TODO(bahrican):
-  bool isWeb = false;
+  /// Checks whether the animation has passed the middle point.
+  bool isReverse = true;
+
+  late final bool isLandscape = context.read<LoginTheme>().isLandscape;
 
   @override
   void initState() {
     super.initState();
 
-    /// Initializes the transition animation from welcome part's width ratio
-    /// to 0 with custom animation curve and animation controller.
-    transitionAnimation =
-        Tween<double>(begin: 100 - widget.formWidthRatio, end: 0).animate(
-      CurvedAnimation(
-        parent: widget.animationController,
-        curve: widget.animationCurve,
-      ),
-    );
-
     /// Initializes the appearance and disappearance animations
     /// from outside to the screen for the form components.
-    offsetAnimation = TweenSequence<double>(
-      <TweenSequenceItem<double>>[
-        _tweenSequenceItem(end: 80),
-        _tweenSequenceItem(begin: 80, end: 80, weight: 10),
-        _tweenSequenceItem(begin: -80),
-      ],
-    ).animate(
-      CurvedAnimation(
-        parent: widget.animationController,
-        curve: widget.animationCurve,
-      ),
-    );
+    offsetAnimation = AnimationHelper(
+      animationController: widget.animationController,
+      animationCurve: widget.animationCurve,
+    ).tweenSequenceAnimation(80, 10);
+
     nameController = widget.nameController ?? TextEditingController();
     emailController = widget.emailController ?? TextEditingController();
     passwordController = widget.passwordController ?? TextEditingController();
@@ -176,7 +160,13 @@ class _FormPartState extends State<FormPart> {
     dynamicSize = DynamicSize(context);
     theme = Theme.of(context);
     auth = context.watch<Auth>();
-    return isWeb ? _webView : _formColumn;
+    _initializeAnimations();
+    return isLandscape
+        ? _webView
+        : Transform.translate(
+            offset: Offset(dynamicSize.width * transitionAnimation.value, 0),
+            child: _formColumn,
+          );
   }
 
   Widget get _webView => Transform.translate(
@@ -185,10 +175,7 @@ class _FormPartState extends State<FormPart> {
           width: dynamicSize.width * widget.formWidthRatio,
           height: dynamicSize.height * 100,
           color: Colors.white,
-          child: Transform.translate(
-            offset: Offset(dynamicSize.width * offsetAnimation.value, 0),
-            child: _formColumn,
-          ),
+          child: _formColumn,
         ),
       );
 
@@ -198,41 +185,31 @@ class _FormPartState extends State<FormPart> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (isWeb) _formTitle,
+            if (isLandscape) _formTitle,
             if (auth.socialLogins != null && auth.socialLogins!.isNotEmpty)
               ..._socialLoginPart
             else
               SizedBox(height: dynamicSize.height * 6),
             _form,
-            SizedBox(height: dynamicSize.height * (isWeb ? 4 : 3)),
+            SizedBox(height: dynamicSize.height * (isLandscape ? 4 : 3)),
             _actionButton,
           ],
         ),
       );
 
-  TweenSequenceItem<double> _tweenSequenceItem({
-    double begin = 0,
-    double end = 0,
-    double weight = 30,
-  }) =>
-      TweenSequenceItem<double>(
-          tween: Tween<double>(begin: begin, end: end), weight: weight);
-
   List<Widget> get _socialLoginPart => <Widget>[
-        SizedBox(height: dynamicSize.height * 3),
-        _socialLoginOptions,
-        SizedBox(height: dynamicSize.height * 3),
-        _useEmailText,
         SizedBox(height: dynamicSize.height * 2.5),
+        _socialLoginOptions,
+        SizedBox(height: dynamicSize.height * 2),
+        _useEmailText,
+        SizedBox(height: dynamicSize.height * 1.8),
       ];
 
   Widget get _formTitle => BaseText(
-        isForward
-            ? widget.loginTexts.loginFormTitle
-            : widget.loginTexts.signUpFormTitle,
+        isReverse ? loginTexts.loginFormTitle : loginTexts.signUpFormTitle,
         style: TextStyles(context)
-            .titleStyle(color: isWeb ? null : Colors.white)
-            .merge(widget.loginTheme.formTitleStyle),
+            .titleStyle(color: isLandscape ? null : Colors.white)
+            .merge(loginTheme.formTitleStyle),
       );
 
   Widget get _socialLoginOptions => Wrap(
@@ -242,20 +219,19 @@ class _FormPartState extends State<FormPart> {
       );
 
   Widget get _useEmailText => BaseText(
-        isForward
-            ? widget.loginTexts.loginUseEmail
-            : widget.loginTexts.signUpUseEmail,
+        isReverse ? loginTexts.loginUseEmail : loginTexts.signUpUseEmail,
         style: TextStyles(context)
-            .subtitleTextStyle(color: isWeb ? Colors.black87 : Colors.white)
-            .merge(widget.loginTheme.useEmailStyle),
+            .subtitleTextStyle(
+                color: isLandscape ? Colors.black87 : Colors.white)
+            .merge(loginTheme.useEmailStyle),
       );
 
   List<Widget> get _socialLoginButtons => List<Widget>.generate(
         auth.socialLogins!.length,
         (int index) => CircleWidget(
           onTap: () async => _socialLoginCallback(index),
-          color: isWeb ? null : Colors.white,
-          widthFactor: isWeb ? 13 : 16,
+          color: isLandscape ? null : Colors.white,
+          widthFactor: isLandscape ? 13 : 16,
           child: Image.asset(auth.socialLogins![index].iconPath),
         ),
       );
@@ -269,17 +245,17 @@ class _FormPartState extends State<FormPart> {
   }
 
   Widget get _actionButton => RoundedButton(
-        buttonText:
-            isForward ? widget.loginTexts.login : widget.loginTexts.signUp,
+        buttonText: isReverse ? loginTexts.login : loginTexts.signUp,
         onPressed: _action,
-        backgroundColor: isWeb
+        backgroundColor: isLandscape
             ? theme.primaryColor.withOpacity(.8)
             : Colors.white.withOpacity(.9),
         buttonStyle: widget.actionButtonStyle,
-        textStyle: widget.loginTheme.actionTextStyle,
+        textStyle: loginTheme.actionTextStyle,
       );
 
   Future<void> _action() async {
+    FocusScope.of(context).unfocus();
     if (_formKey.currentState!.validate()) {
       if (auth.isLogin) {
         await _errorCheck(_loginResult);
@@ -314,7 +290,7 @@ class _FormPartState extends State<FormPart> {
     if (signupData.password != signupData.confirmPassword &&
         widget.checkError &&
         widget.signUpMode != SignUpModes.name) {
-      return widget.loginTexts.passwordMatchingError;
+      return loginTexts.passwordMatchingError;
     } else {
       return auth.onSignup(signupData);
     }
@@ -327,63 +303,101 @@ class _FormPartState extends State<FormPart> {
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
           spacing: widget.formElementsSpacing ??
-              dynamicSize.height * (isWeb ? 2.2 : 1.8),
+              dynamicSize.height * (isLandscape ? 2.2 : 1.8),
           children: _formElements,
         ),
       );
 
   List<Widget> get _formElements => <Widget>[
-        if (!isForward && widget.signUpMode != SignUpModes.confirmPassword)
+        if (!isReverse && widget.signUpMode != SignUpModes.confirmPassword)
           CustomTextFormField(
             controller: nameController,
-            hintText: widget.loginTexts.nameHint,
+            hintText: loginTexts.nameHint,
             prefixIcon: Icons.person_outline,
-            prefixWidget: widget.loginTheme.nameIcon,
+            prefixWidget: loginTheme.nameIcon,
             validator: Validators.name,
             textInputAction: TextInputAction.next,
           ),
         CustomTextFormField(
           controller: emailController,
-          hintText: widget.loginTexts.emailHint,
+          hintText: loginTexts.emailHint,
           prefixIcon: Icons.email_outlined,
-          prefixWidget: widget.loginTheme.emailIcon,
+          prefixWidget: loginTheme.emailIcon,
           validator: Validators.email,
           textInputAction: TextInputAction.next,
         ),
         ObscuredTextFormField(
           controller: passwordController,
-          hintText: widget.loginTexts.passwordHint,
+          hintText: loginTexts.passwordHint,
           prefixIcon: Icons.password_outlined,
           showPasswordVisibility: widget.showPasswordVisibility,
-          textInputAction: TextInputAction.next,
+          textInputAction:
+              auth.isSignup ? TextInputAction.next : TextInputAction.done,
+          onFieldSubmitted: auth.isSignup ? null : (_) => _action(),
         ),
-        if (!isForward && widget.signUpMode != SignUpModes.name)
+        if (!isReverse && widget.signUpMode != SignUpModes.name)
           ObscuredTextFormField(
             controller: confirmPasswordController,
-            hintText: widget.loginTexts.confirmPasswordHint,
+            hintText: loginTexts.confirmPasswordHint,
             prefixIcon: Icons.password_outlined,
             showPasswordVisibility: widget.showPasswordVisibility,
+            onFieldSubmitted: (_) => _action(),
           ),
-        if (isForward && widget.showForgotPassword) _forgotPassword,
+        if (isReverse && widget.showForgotPassword) _forgotPassword,
       ];
 
-  Widget get _forgotPassword => Padding(
-        padding: isWeb ? dynamicSize.lowTopPadding : EdgeInsets.zero,
+  Widget get _forgotPassword => Container(
+        alignment: isLandscape ? Alignment.center : Alignment.topCenter,
+        padding: isLandscape
+            ? dynamicSize.lowTopPadding
+            : dynamicSize.lowMedBottomPadding,
         child: BaseTextButton(
-          text: widget.loginTexts.forgotPassword,
-          style: TextStyles(context)
-              .subBodyStyle(color: isWeb ? theme.primaryColor : Colors.white)
-              .underline(customColor: theme.primaryColor, offset: 8)
-              .merge(widget.loginTheme.forgotPasswordStyle),
+          text: loginTexts.forgotPassword,
+          style: _defaultStyle
+              .copyWith(decoration: TextDecoration.underline)
+              .merge(loginTheme.forgotPasswordStyle),
           onPressed: () async {
             await _errorCheck(_forgotPasswordResult);
           },
         ),
       );
 
+  TextStyle get _defaultStyle => TextStyles(context)
+      .subBodyStyle(color: isLandscape ? theme.primaryColor : Colors.white);
+
   Future<String?> _forgotPasswordResult() async =>
       auth.onForgotPassword(emailController.text);
 
-  bool get isForward =>
-      transitionAnimation.value >= (100 - widget.formWidthRatio) / 2;
+  void _initializeAnimations() {
+    /// Initializes the transition animation from welcome part's width ratio
+    /// to 0 with custom animation curve and animation controller.
+    transitionAnimation = isLandscape
+        ? Tween<double>(begin: 100 - widget.formWidthRatio, end: 0).animate(
+            CurvedAnimation(
+              parent: widget.animationController,
+              curve: widget.animationCurve,
+            ),
+          )
+        : AnimationHelper(
+            animationController: widget.animationController,
+            animationCurve: widget.animationCurve,
+          ).tweenSequenceAnimation(120, 20);
+
+    transitionAnimation.addListener(() {
+      if (isLandscape) {
+        isReverse =
+            transitionAnimation.value >= (100 - widget.formWidthRatio) / 2;
+      } else if (_forwardCheck) {
+        isReverse = !isReverse;
+      }
+    });
+  }
+
+  bool get _forwardCheck => isLandscape
+      ? transitionAnimation.value >= (100 - widget.formWidthRatio) / 2
+      : transitionAnimation.value >= 100 && _statusCheck;
+
+  bool get _statusCheck =>
+      (transitionAnimation.status == AnimationStatus.forward && isReverse) ||
+      (transitionAnimation.status == AnimationStatus.reverse && !isReverse);
 }

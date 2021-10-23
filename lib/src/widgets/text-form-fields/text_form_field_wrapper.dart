@@ -19,16 +19,15 @@ class BaseTextFormFieldWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final LoginTheme loginTheme = context.read<LoginTheme>();
     final DynamicSize dynamicSize = DynamicSize(context);
-    // TODO(bahrican):
-    bool isWeb = false;
+    final bool isLandscape = loginTheme.isLandscape;
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(
         width: loginTheme.formFieldSize?.width ??
-            dynamicSize.width * (widthFactor ?? (isWeb ? 35 : 70)),
+            dynamicSize.width * (widthFactor ?? (isLandscape ? 35 : 68)),
       ).enforce(
         BoxConstraints(
           maxHeight: loginTheme.formFieldSize?.height ??
-              dynamicSize.height * (isWeb ? 12 : 9),
+              dynamicSize.height * (isLandscape ? 12 : 10),
         ),
       ),
       child: formField,

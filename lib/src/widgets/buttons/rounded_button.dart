@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../decorations/button_styles.dart';
 import '../../decorations/text_styles.dart';
+import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';
 
@@ -36,30 +38,30 @@ class RoundedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO(bahrican):
-    bool isWeb = false;
+    final bool isLandscape = context.read<LoginTheme>().isLandscape;
     return ElevatedButton(
       style: buttonStyle != null
-          ? buttonStyle!.merge(_defaultButtonStyle(context, isWeb))
-          : _defaultButtonStyle(context, isWeb),
+          ? buttonStyle!.merge(_defaultButtonStyle(context, isLandscape))
+          : _defaultButtonStyle(context, isLandscape),
       onPressed: onPressed,
       child: BaseText(
         buttonText,
         style: TextStyles(context)
-            .bodyStyle(color: isWeb ? null : Colors.black87)
+            .bodyStyle(
+                color: isLandscape ? null : Theme.of(context).primaryColor)
             .merge(textStyle),
       ),
     );
   }
 
   /// Calls the rounded style from [ButtonStyles] class with custom parameters.
-  ButtonStyle _defaultButtonStyle(BuildContext context, bool isWeb) =>
+  ButtonStyle _defaultButtonStyle(BuildContext context, bool isLandscape) =>
       ButtonStyles(context).roundedStyle(
         borderWidth: borderWidth,
         backgroundColor: backgroundColor,
-        borderColor: borderColor ?? (isWeb ? null : Colors.white),
+        borderColor: borderColor ?? (isLandscape ? null : Colors.white),
         borderRadius: borderRadius,
-        width: width ?? DynamicSize(context).width * (isWeb ? 13 : 35),
-        height: height ?? DynamicSize(context).height * (isWeb ? 8.5 : 7.7),
+        width: width ?? DynamicSize(context).width * (isLandscape ? 14 : 30),
+        height: height ?? DynamicSize(context).height * (isLandscape ? 9 : 7.3),
       );
 }

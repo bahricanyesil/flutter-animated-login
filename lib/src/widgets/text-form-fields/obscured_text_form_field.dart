@@ -5,6 +5,7 @@ import '../../decorations/input_decorations.dart';
 import '../../decorations/text_styles.dart';
 import '../../providers/login_theme.dart';
 import '../../utils/validators.dart';
+import '../../utils/view_type_helper.dart';
 import '../buttons/base_icon_button.dart';
 import 'text_form_field_wrapper.dart';
 
@@ -21,6 +22,7 @@ class ObscuredTextFormField extends StatefulWidget {
     this.backgroundColor,
     this.widthFactor,
     this.textInputAction = TextInputAction.done,
+    this.onFieldSubmitted,
     Key? key,
   }) : super(key: key);
   final TextEditingController controller;
@@ -30,6 +32,7 @@ class ObscuredTextFormField extends StatefulWidget {
   final Color? backgroundColor;
   final double? widthFactor;
   final TextInputAction textInputAction;
+  final Function(String)? onFieldSubmitted;
 
   @override
   _ObscuredTextFormFieldState createState() => _ObscuredTextFormFieldState();
@@ -43,13 +46,13 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
     final LoginTheme theme = context.read<LoginTheme>();
     return BaseTextFormFieldWrapper(
       formField: TextFormField(
-        key: Key(widget.controller.toString()),
         controller: widget.controller,
         textInputAction: widget.textInputAction,
         validator: theme.showFormFieldErrors ? Validators.password : null,
         style: TextStyles(context).textFormStyle().merge(theme.textFormStyle),
         obscureText: !_isVisible,
         decoration: theme.textFormFieldDeco ?? _formDeco,
+        onFieldSubmitted: widget.onFieldSubmitted,
       ),
       widthFactor: widget.widthFactor,
     );
@@ -65,7 +68,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
         hintText: widget.hintText,
         prefixIcon: widget.prefixIcon,
         prefixWidget: context.read<LoginTheme>().passwordIcon,
-        paddingFactor: .7,
+        paddingFactor: ViewTypeHelper(context).isLandscape ? .7 : 0.2,
       );
 
   /// Suffix icon to change the visibility of password.
@@ -77,5 +80,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
       );
 
   /// Changes the visibility of password, and reloads the widget.
-  void _changeVisibility() => setState(() => _isVisible = !_isVisible);
+  void _changeVisibility() {
+    setState(() => _isVisible = !_isVisible);
+  }
 }
