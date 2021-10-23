@@ -14,7 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Animated Login',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+          primarySwatch: Colors.blue), //const MaterialColor(0xFF6666FF, color)
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
@@ -23,6 +24,19 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+
+  static const Map<int, Color> color = {
+    50: Color.fromRGBO(4, 131, 184, .1),
+    100: Color.fromRGBO(4, 131, 184, .2),
+    200: Color.fromRGBO(4, 131, 184, .3),
+    300: Color.fromRGBO(4, 131, 184, .4),
+    400: Color.fromRGBO(4, 131, 184, .5),
+    500: Color.fromRGBO(4, 131, 184, .6),
+    600: Color.fromRGBO(4, 131, 184, .7),
+    700: Color.fromRGBO(4, 131, 184, .8),
+    800: Color.fromRGBO(4, 131, 184, .9),
+    900: Color.fromRGBO(4, 131, 184, 1),
+  };
 }
 
 class LoginScreen extends StatefulWidget {
@@ -59,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
   /// You can also set some additional display options such as [showLabelTexts].
   LoginTheme get _loginTheme => LoginTheme(
         // showLabelTexts: false,
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blue, // const Color(0xFF6666FF),
         formFieldBackgroundColor: Colors.white,
         changeActionTextStyle: const TextStyle(color: Colors.white),
       );

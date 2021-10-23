@@ -23,6 +23,7 @@ class ObscuredTextFormField extends StatefulWidget {
     this.widthFactor,
     this.textInputAction = TextInputAction.done,
     this.onFieldSubmitted,
+    this.focusNode,
     Key? key,
   }) : super(key: key);
   final TextEditingController controller;
@@ -33,6 +34,7 @@ class ObscuredTextFormField extends StatefulWidget {
   final double? widthFactor;
   final TextInputAction textInputAction;
   final Function(String)? onFieldSubmitted;
+  final FocusNode? focusNode;
 
   @override
   _ObscuredTextFormFieldState createState() => _ObscuredTextFormFieldState();
@@ -46,6 +48,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
     final LoginTheme theme = context.read<LoginTheme>();
     return BaseTextFormFieldWrapper(
       formField: TextFormField(
+        focusNode: widget.focusNode,
         controller: widget.controller,
         textInputAction: widget.textInputAction,
         validator: theme.showFormFieldErrors ? Validators.password : null,

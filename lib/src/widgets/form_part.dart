@@ -123,6 +123,8 @@ class _FormPartState extends State<FormPart> {
   late final GlobalKey<FormState> _formKey =
       widget.formKey ?? GlobalKey<FormState>();
 
+  final FocusNode confirmPasswordFocus = FocusNode();
+
   /// Checks whether the animation has passed the middle point.
   bool isReverse = true;
 
@@ -336,7 +338,8 @@ class _FormPartState extends State<FormPart> {
           showPasswordVisibility: widget.showPasswordVisibility,
           textInputAction:
               auth.isSignup ? TextInputAction.next : TextInputAction.done,
-          onFieldSubmitted: auth.isSignup ? null : (_) => _action(),
+          onFieldSubmitted: (_) =>
+              auth.isSignup ? confirmPasswordFocus.requestFocus() : _action(),
         ),
         if (!isReverse && widget.signUpMode != SignUpModes.name)
           ObscuredTextFormField(
@@ -345,6 +348,7 @@ class _FormPartState extends State<FormPart> {
             prefixIcon: Icons.password_outlined,
             showPasswordVisibility: widget.showPasswordVisibility,
             onFieldSubmitted: (_) => _action(),
+            focusNode: confirmPasswordFocus,
           ),
         if (isReverse && widget.showForgotPassword) _forgotPassword,
       ];
