@@ -5,12 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "flutter-web-animated-login",
+      "name": "flutter-animated-login",
       "request": "launch",
       "type": "dart"
     },
     {
-      "name": "flutter-web-animated-login (profile mode)",
+      "name": "flutter-animated-login (profile mode)",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
