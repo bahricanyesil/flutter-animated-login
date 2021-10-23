@@ -175,7 +175,10 @@ class _FormPartState extends State<FormPart> {
           width: dynamicSize.width * widget.formWidthRatio,
           height: dynamicSize.height * 100,
           color: Colors.white,
-          child: _formColumn,
+          child: Transform.translate(
+            offset: Offset(dynamicSize.width * offsetAnimation.value, 0),
+            child: _formColumn,
+          ),
         ),
       );
 
