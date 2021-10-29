@@ -16,6 +16,7 @@ import 'text_form_field_wrapper.dart';
 class ObscuredTextFormField extends StatefulWidget {
   const ObscuredTextFormField({
     required this.controller,
+    required this.onChanged,
     this.showPasswordVisibility = true,
     this.hintText,
     this.prefixIcon,
@@ -34,6 +35,7 @@ class ObscuredTextFormField extends StatefulWidget {
   final double? widthFactor;
   final TextInputAction textInputAction;
   final Function(String)? onFieldSubmitted;
+  final void Function(String?) onChanged;
   final FocusNode? focusNode;
 
   @override
@@ -56,6 +58,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
         obscureText: !_isVisible,
         decoration: theme.textFormFieldDeco ?? _formDeco,
         onFieldSubmitted: widget.onFieldSubmitted,
+        onChanged: widget.onChanged,
       ),
       widthFactor: widget.widthFactor,
     );

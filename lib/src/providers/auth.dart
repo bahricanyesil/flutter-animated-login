@@ -61,4 +61,25 @@ class Auth with ChangeNotifier {
     }
     return mode;
   }
+
+  /// Username in the text controller.
+  String? username;
+
+  /// Email user entered in the text controller.
+  String? email;
+
+  /// Password text in the text controller.
+  String? password;
+
+  /// Confirm password text in the text controller.
+  String? confirmPassword;
+
+  void setUsername(String? newUsername) => username = newUsername;
+
+  void setEmail(String? newEmail) => email = newEmail;
+
+  void setPassword(String? newPassword) => password = newPassword;
+
+  void setConfirmPassword(String? newConfirmPassword) =>
+      confirmPassword = newConfirmPassword;
 }

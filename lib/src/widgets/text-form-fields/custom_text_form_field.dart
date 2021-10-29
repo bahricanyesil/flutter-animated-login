@@ -13,6 +13,7 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     required this.controller,
     required this.validator,
+    required this.onChanged,
     this.hintText,
     this.prefixIcon,
     this.prefixWidget,
@@ -23,6 +24,7 @@ class CustomTextFormField extends StatelessWidget {
   }) : super(key: key);
   final TextEditingController controller;
   final String? Function(String?) validator;
+  final void Function(String?) onChanged;
   final String? hintText;
   final IconData? prefixIcon;
   final Widget? prefixWidget;
@@ -40,6 +42,7 @@ class CustomTextFormField extends StatelessWidget {
         validator: theme.showFormFieldErrors ? validator : null,
         style: TextStyles(context).textFormStyle().merge(theme.textFormStyle),
         decoration: theme.textFormFieldDeco ?? _getFormDeco(context),
+        onChanged: onChanged,
       ),
       widthFactor: widthFactor,
     );

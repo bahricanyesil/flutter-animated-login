@@ -152,4 +152,7 @@ class LoginTheme with ChangeNotifier {
     isLandscape = newValue;
     notifyListeners();
   }
+
+  /// Indicates whether the screen animation is reverse mode.
+  bool isReverse = true;
 }

@@ -43,14 +43,23 @@ class AnimatedLogin extends StatefulWidget {
     this.confirmPasswordController,
     this.actionButtonStyle,
     this.changeActionButtonStyle,
-    this.welcomeHorizontalPadding,
-    this.formHorizontalPadding,
+    this.welcomePadding,
+    this.formPadding,
     this.backgroundImage,
     this.logo,
     this.logoSize,
     this.signUpMode = SignUpModes.both,
     Key? key,
-  }) : super(key: key);
+  })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
+        assert(formElementsSpacing == null || formElementsSpacing <= 70,
+            "Spacing between the form elements cannot be more than 70."),
+        assert(socialLoginsSpacing == null || socialLoginsSpacing <= 200,
+            "Social logins spacing cannot be more than 200."),
+        assert(socialLoginsSpacing == null || socialLoginsSpacing <= 200,
+            "Social logins spacing cannot be more than 200."),
+        assert(logoSize == null || logoSize <= const Size(500, 400),
+            "Logo size cannot be more than Size(500, 400)."),
+        super(key: key);
 
   /// Custom LoginTheme data, colors and styles on the screen.
   final LoginTheme? loginTheme;
@@ -119,11 +128,11 @@ class AnimatedLogin extends StatefulWidget {
   /// Custom button style for change action button that will switch auth mode.
   final ButtonStyle? changeActionButtonStyle;
 
-  /// Horizontal padding of the welcome part widget.
-  final EdgeInsets? welcomeHorizontalPadding;
+  /// Padding of the welcome part widget.
+  final EdgeInsets? welcomePadding;
 
-  /// Horizontal padding of the form part widget.
-  final EdgeInsets? formHorizontalPadding;
+  /// Padding of the form part widget.
+  final EdgeInsets? formPadding;
 
   /// Full asset image path for background of the welcome part.
   final String? backgroundImage;
@@ -194,8 +203,8 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
               confirmPasswordController: widget.confirmPasswordController,
               actionButtonStyle: widget.actionButtonStyle,
               changeActionButtonStyle: widget.changeActionButtonStyle,
-              welcomeHorizontalPadding: widget.welcomeHorizontalPadding,
-              formHorizontalPadding: widget.formHorizontalPadding,
+              welcomePadding: widget.welcomePadding,
+              formPadding: widget.formPadding,
               backgroundImage: widget.backgroundImage,
               logo: widget.logo,
               logoSize: widget.logoSize,
@@ -229,8 +238,8 @@ class _View extends StatefulWidget {
     this.confirmPasswordController,
     this.actionButtonStyle,
     this.changeActionButtonStyle,
-    this.welcomeHorizontalPadding,
-    this.formHorizontalPadding,
+    this.welcomePadding,
+    this.formPadding,
     this.backgroundImage,
     this.logo,
     this.logoSize,
@@ -254,8 +263,8 @@ class _View extends StatefulWidget {
   final TextEditingController? confirmPasswordController;
   final ButtonStyle? actionButtonStyle;
   final ButtonStyle? changeActionButtonStyle;
-  final EdgeInsets? welcomeHorizontalPadding;
-  final EdgeInsets? formHorizontalPadding;
+  final EdgeInsets? welcomePadding;
+  final EdgeInsets? formPadding;
   final String? backgroundImage;
   final String? logo;
   final Size? logoSize;
@@ -277,13 +286,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   late Animation<double> welcomeTransitionAnimation;
 
   /// Custom LoginTheme data, colors and styles on the screen.
-  late final LoginTheme loginTheme = context.read<LoginTheme>();
+  late LoginTheme loginTheme;
 
   /// Custom LoginTexts data, texts on the screen.
-  late final LoginTexts loginTexts = context.read<LoginTexts>();
-
-  /// Checks whether the animation has passed the middle point.
-  bool isReverse = true;
+  late LoginTexts loginTexts;
 
   bool isLandscape = true;
 
@@ -304,6 +310,8 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    loginTexts = context.read<LoginTexts>();
+    loginTheme = context.read<LoginTheme>();
     isLandscape = context.watch<LoginTheme>().isLandscape;
     dynamicSize = DynamicSize(context);
     _initializeAnimations();
@@ -335,7 +343,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             if (widget.showChangeActionTitle)
               _welcomeAnimationWrapper(
                 ChangeActionTitle(
-                  isReverse: isReverse,
+                  isReverse: loginTheme.isReverse,
                   showButtonText: true,
                   animate: () => animate(context),
                 ),
@@ -368,7 +376,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       );
 
   Widget _webWelcomeComponents(BuildContext context) => Padding(
-        padding: widget.welcomeHorizontalPadding ??
+        padding: widget.welcomePadding ??
             DynamicSize(context).medHighHorizontalPadding,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -376,7 +384,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             _logoAndTexts,
             SizedBox(height: DynamicSize(context).height * 7),
             if (widget.showChangeActionTitle)
-              ChangeActionTitle(isReverse: isReverse),
+              ChangeActionTitle(isReverse: loginTheme.isReverse),
             SizedBox(height: DynamicSize(context).height * 2),
             _changeActionButton,
           ],
@@ -386,11 +394,11 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   Widget get _logoAndTexts => LogoAndTexts(
         logo: widget.logo,
         logoSize: widget.logoSize,
-        isReverse: isReverse,
+        isReverse: loginTheme.isReverse,
       );
 
   Widget get _changeActionButton => ChangeActionButton(
-        isReverse: isReverse,
+        isReverse: loginTheme.isReverse,
         animate: () => animate(context),
         changeActionButtonStyle: widget.changeActionButtonStyle,
       );
@@ -406,7 +414,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         checkError: widget.checkError,
         showForgotPassword: widget.showForgotPassword,
         actionButtonStyle: widget.actionButtonStyle,
-        formHorizontalPadding: widget.formHorizontalPadding,
+        formPadding: widget.formPadding,
         showPasswordVisibility: widget.showPasswordVisibility,
         nameController: widget.nameController,
         emailController: widget.emailController,
@@ -439,10 +447,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
     welcomeTransitionAnimation.addListener(() {
       if (isLandscape) {
-        isReverse =
+        loginTheme.isReverse =
             welcomeTransitionAnimation.value <= widget.formWidthRatio / 2;
       } else if (_forwardCheck) {
-        isReverse = !isReverse;
+        loginTheme.isReverse = !loginTheme.isReverse;
       }
     });
   }
@@ -453,7 +461,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
   bool get _statusCheck =>
       (welcomeTransitionAnimation.status == AnimationStatus.forward &&
-          isReverse) ||
+          loginTheme.isReverse) ||
       (welcomeTransitionAnimation.status == AnimationStatus.reverse &&
-          !isReverse);
+          !loginTheme.isReverse);
 }
