@@ -24,11 +24,11 @@ typedef ForgotPasswordCallback = Future<String?> Function(String email);
 /// Contains [iconPath], and [callback] fields.
 @immutable
 class SocialLogin {
-  /// [iconPath] is the full assets path of social platform logo.
+  /// Full asset path of the social platform logo.
   /// Ex: 'assets/images/google.png'
   final String iconPath;
 
-  /// [callback] is the callback will be performed when clicked.
+  /// The callback will be called on click to logo of the social platform.
   final SocialLoginCallback callback;
 
   const SocialLogin({

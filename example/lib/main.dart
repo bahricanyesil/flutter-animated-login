@@ -39,18 +39,13 @@ class MyApp extends StatelessWidget {
   };
 }
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
   /// Simulates the multilanguage, you will implement your own logic.
   /// According to the current language, you can display a text message
   /// with the help of [LoginTexts] class.
-  String langCode = 'en';
+  final String langCode = 'en';
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
       logo: 'images/logo.gif',
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
-      socialLogins: _socialLogins,
+      socialLogins: _socialLogins(context),
       loginTheme: _loginTheme,
       loginTexts: _loginTexts,
     );
@@ -93,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Social login options, you should provide callback function and icon path.
   /// Icon paths should be the full path in the assets
   /// Don't forget to also add the icon folder to the "pubspec.yaml" file.
-  List<SocialLogin> get _socialLogins => <SocialLogin>[
+  List<SocialLogin> _socialLogins(BuildContext context) => <SocialLogin>[
         SocialLogin(
             callback: () async => LoginFunctions(context).socialLogin('Google'),
             iconPath: 'images/google.png'),

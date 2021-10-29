@@ -17,7 +17,7 @@ class LoginFunctions {
   }
 
   /// Sign up action that will be performed on click to action button in sign up mode.
-  Future<String?> onSignup(SignUpData loginData) async {
+  Future<String?> onSignup(SignUpData signupData) async {
     DialogBuilders(context).showLoadingDialog();
     await Future.delayed(const Duration(seconds: 2));
     Navigator.of(context).pop();

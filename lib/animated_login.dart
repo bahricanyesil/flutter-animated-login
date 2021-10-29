@@ -61,10 +61,11 @@ class AnimatedLogin extends StatefulWidget {
             "Logo size cannot be more than Size(500, 400)."),
         super(key: key);
 
-  /// Custom LoginTheme data, colors and styles on the screen.
+  /// Determines all of the theme related variables on the screen.
+  /// Example: colors, text styles, button styles...
   final LoginTheme? loginTheme;
 
-  /// Custom LoginTexts data, texts on the screen.
+  /// Determines all of the texts on the screen.
   final LoginTexts? loginTexts;
 
   /// List of social login options that will be provided.
@@ -77,6 +78,7 @@ class AnimatedLogin extends StatefulWidget {
   final SignupCallback? onSignup;
 
   /// Callback that will be called after on tap of forgot password text.
+  /// Commonly it navigates user to a screen to reset the password.
   final ForgotPasswordCallback? onForgotPassword;
 
   /// Custom animation curve that will be used for animations.
@@ -98,7 +100,7 @@ class AnimatedLogin extends StatefulWidget {
   final double? socialLoginsSpacing;
 
   /// Indicates whether the login screen should handle errors,
-  /// show error messages returned from the in a dialog.
+  /// show the error messages returned from the callbacks in a dialog.
   final bool checkError;
 
   /// Indicates whether the forgot password option will be enabled.
@@ -140,7 +142,7 @@ class AnimatedLogin extends StatefulWidget {
   /// Full asset image path for the logo.
   final String? logo;
 
-  /// Size of the logo in the welcome part
+  /// Size of the logo in the welcome part.
   final Size? logoSize;
 
   /// Enum to determine which text form fields should be displayed in addition

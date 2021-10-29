@@ -54,7 +54,7 @@ class LoginTexts with ChangeNotifier {
   String get welcomeDescription =>
       _welcomeDescription ?? _defaultWelcomeDescription;
 
-  /// Button text for sign up mode.
+  /// Action button text for sign up mode.
   /// Default value is given in [_defaultSignUp].
   /// Custom value in the constructor is assigned to [_signUp].
   String get signUp => _signUp ?? _defaultSignUp;
@@ -80,7 +80,7 @@ class LoginTexts with ChangeNotifier {
   String get welcomeBackDescription =>
       _welcomeBackDescription ?? _defaultWelcomeBackDescription;
 
-  /// Button text for login mode.
+  /// Action button text for login mode.
   /// Default value is given in [_defaultLogin].
   /// Custom value in the constructor is assigned to [_login].
   String get login => _login ?? _defaultLogin;
