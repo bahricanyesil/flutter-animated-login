@@ -3,7 +3,12 @@
 `Flutter Animated Login` is a ready-made login/signup screen with soft and pleasant animations.
 It is fully responsible to be able to use on both web and mobile apps.
 
+## Web View Example Video
+
 ![Web View](https://github.com/bahricanyesil/flutter-animated-login/blob/master/screenshots/web_view.gif)
+
+## Mobile View Example Video
+
 ![Mobile View](https://github.com/bahricanyesil/flutter-animated-login/blob/master/screenshots/mobile_view.gif)
 
 ## Installation
