@@ -17,37 +17,36 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 
 ## Reference
 
-| Property                  | Type                                | Description                                                                                                                                           |
-| ------------------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| onSignup                  | `SignupCallback`]                   | <sub>Signup callback that will be called after signup button pressed.</sub>                                                                           |
-| onLogin                   | `LoginCallback`]                    | <sub>Login callback that will be called after login button pressed.</sub>                                                                             |
-| socialLogins              | [`List<SocialLogin>`](#SocialLogin) | <sub>List of social login options that will be provided.</sub>                                                                                        |
-| loginTexts                | [`LoginTexts`](#LoginTexts)         | <sub>Determines all of the texts on the screen.</sub>                                                                                                 |
-| loginTheme                | [`LoginTheme`](#LoginTheme)         | <sub>Determines all of the theme related variables on the screen.</sub>                                                                               |
-| onForgotPassword          | `ForgotPasswordCallback`            | <sub>Callback that will be called after on tap of forgot password text. Commonly it navigates user to a screen to reset the password.</sub>           |
-| animationCurve            | `Curve`                             | <sub>Custom animation curve that will be used for animations.</sub>                                                                                   |
-| formWidthRatio            | `double`                            | <sub>Ratio of width of the form to the width of the screen.</sub>                                                                                     |
-| animationDuration         | `Duration`                          | <sub>The duration of the animations.</sub>                                                                                                            |
-| formKey                   | `GlobalKey<FormState>`              | <sub> The optional custom form key, if not provided will be created locally.</sub>                                                                    |
-| formElementsSpacing       | `double`                            | <sub>The spacing between the elements of form.</sub>                                                                                                  |
-| socialLoginsSpacing       | `double`                            | <sub>The spacing between the social login options.</sub>                                                                                              |
-| checkError                | `bool`                              | <sub>Indicates whether the login screen should handle errors, show the error messages returned from the callbacks in a dialog.</sub>                  |
-| showForgotPassword        | `bool`                              | <sub>Indicates whether the forgot password option will be enabled.</sub>                                                                              |
-| showChangeActionTitle     | `bool`                              | <sub>Indicates whether the change action title should be displayed.</sub>                                                                             |
-| showPasswordVisibility    | `bool`                              | <sub>Indicates whether the user can show the password text without obscuring.</sub>                                                                   |
-| nameController            | `TextEditingController`             | <sub>Optional TextEditingController for name input field.</sub>                                                                                       |
-| emailController           | `TextEditingController`             | <sub>Optional TextEditingController for email input field.</sub>                                                                                      |
-| passwordController        | `TextEditingController`             | <sub>Optional TextEditingController for password input field.</sub>                                                                                   |
-| confirmPasswordController | `TextEditingController`             | <sub>Optional TextEditingController for confirm password input field.</sub>                                                                           |
-| actionButtonStyle         | `ButtonStyle`                       | <sub>Custom button style for action button (login/signup).</sub>                                                                                      |
-| changeActionButtonStyle   | `ButtonStyle`                       | <sub>Custom button style for change action button that will switch auth mode.</sub>                                                                   |
-| welcomePadding            | `EdgeInsets`                        | <sub>Padding of the welcome part widget.</sub>                                                                                                        |
-| formPadding               | `EdgeInsets`                        | <sub>Padding of the form part widget.</sub>                                                                                                           |
-| backgroundImage           | `String`                            | <sub>Full asset image path for background of the welcome part.</sub>                                                                                  |
-| logo                      | `String`                            | <sub>Full asset image path for the logo.</sub>                                                                                                        |
-| logoSize                  | `Size`                              | <sub>Size of the logo in the welcome part.</sub>                                                                                                      |
-| signUpMode                | [`SignUpModes`](#SignUpModes)       | <sub>Enum to determine which text form fields should be displayed in addition to the email and password fields: Name / Confirm Password / Both.</sub> |
-
+| Property                  | Type                                | Description                                                                                                                                |
+| ------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| onSignup                  | `SignupCallback`                    | Signup callback that will be called after signup button pressed.                                                                           |
+| onLogin                   | `LoginCallback`                     | Login callback that will be called after login button pressed.                                                                             |
+| socialLogins              | [`List<SocialLogin>`](#SocialLogin) | List of social login options that will be provided.                                                                                        |
+| loginTexts                | [`LoginTexts`](#LoginTexts)         | Determines all of the texts on the screen.                                                                                                 |
+| loginTheme                | [`LoginTheme`](#LoginTheme)         | Determines all of the theme related variables on the screen.                                                                               |
+| onForgotPassword          | `ForgotPasswordCallback`            | Callback that will be called after on tap of forgot password text. Commonly it navigates user to a screen to reset the password.           |
+| animationCurve            | `Curve`                             | Custom animation curve that will be used for animations.                                                                                   |
+| formWidthRatio            | `double`                            | Ratio of width of the form to the width of the screen.                                                                                     |
+| animationDuration         | `Duration`                          | The duration of the animations.                                                                                                            |
+| formKey                   | `GlobalKey<FormState>`              | The optional custom form key, if not provided will be created locally.                                                                     |
+| formElementsSpacing       | `double`                            | The spacing between the elements of form.                                                                                                  |
+| socialLoginsSpacing       | `double`                            | The spacing between the social login options.                                                                                              |
+| checkError                | `bool`                              | Indicates whether the login screen should handle errors, show the error messages returned from the callbacks in a dialog.                  |
+| showForgotPassword        | `bool`                              | Indicates whether the forgot password option will be enabled.                                                                              |
+| showChangeActionTitle     | `bool`                              | Indicates whether the change action title should be displayed.                                                                             |
+| showPasswordVisibility    | `bool`                              | Indicates whether the user can show the password text without obscuring.                                                                   |
+| nameController            | `TextEditingController`             | Optional TextEditingController for name input field.                                                                                       |
+| emailController           | `TextEditingController`             | Optional TextEditingController for email input field.                                                                                      |
+| passwordController        | `TextEditingController`             | Optional TextEditingController for password input field.                                                                                   |
+| confirmPasswordController | `TextEditingController`             | Optional TextEditingController for confirm password input field.                                                                           |
+| actionButtonStyle         | `ButtonStyle`                       | Custom button style for action button (login/signup).                                                                                      |
+| changeActionButtonStyle   | `ButtonStyle`                       | Custom button style for change action button that will switch auth mode.                                                                   |
+| welcomePadding            | `EdgeInsets`                        | Padding of the welcome part widget.                                                                                                        |
+| formPadding               | `EdgeInsets`                        | Padding of the form part widget.                                                                                                           |
+| backgroundImage           | `String`                            | Full asset image path for background of the welcome part.                                                                                  |
+| logo                      | `String`                            | Full asset image path for the logo.                                                                                                        |
+| logoSize                  | `Size`                              | Size of the logo in the welcome part.                                                                                                      |
+| signUpMode                | [`SignUpModes`](#SignUpModes)       | Enum to determine which text form fields should be displayed in addition to the email and password fields: Name / Confirm Password / Both. |
 
 ### LoginTexts
 
