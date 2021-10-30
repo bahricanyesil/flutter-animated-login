@@ -1,5 +1,11 @@
 # Animated Login
 
+## Author: [Bahrican Yeşil](https://github.com/bahricanyesil)
+
+[![Pub](https://img.shields.io/pub/v/animated_login.svg)](https://pub.dartlang.org/packages/animated_login)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fbahricanyesil%2Fflutter-animated-login&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 `Animated Login` for Flutter is a ready-made login/signup screen with soft and pleasant animations.
 It is fully responsible to be able to use on both web and mobile apps. You can welcome your users with this beautiful animated screen that gives functionality for both login and sign up.
 
@@ -146,7 +152,7 @@ Sign up modes to determine which text form fields should be displayed.
 
 ## Complete Example
 
-You can see the complete example in the example folder with example project. The video recordings for the example project are shown above via gifs.
+You can see the [complete example](https://github.com/bahricanyesil/flutter-animated-login/tree/master/example) in the example folder with the example project. The video recordings for the example project are shown above via gifs.
 
 ### Basic example
 
@@ -346,8 +352,14 @@ class LoginScreen extends StatelessWidget {
 | :---------------------------------------------------------------------------------------------------------------------------: |
 | ![Error Example](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/error-example.png) |
 
+## Contributing
+
+Contributions are so important for both me and those who want to use this package. I will be very appreciative if you allocate time to push forward the package.
+
+All help is welcomed but if you have questions, bug reports, issues, feature requests, pull requests, etc, please first refer to the [Contributing Guide](https://github.com/bahricanyesil/flutter-animated-login/blob/master/contributing.md).
+
+If you like and benefit from this package, please give us a [star on GitHub](https://github.com/bahricanyesil/flutter-animated-login/stargazers) and [like on pub.dev](https://pub.dev/packages/animated_login/score) to help!
+
 ## License
 
 * MIT License
-
-[example project]: example/
