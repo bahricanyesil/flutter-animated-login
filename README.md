@@ -5,11 +5,11 @@ It is fully responsible to be able to use on both web and mobile apps. You can w
 
 ## Web View Example Video
 
-![Web View](https://github.com/bahricanyesil/flutter-animated-login/raw/master/screenshots/web_view.gif)
+![Web View](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/web_view.gif)
 
 ## Mobile View Example Video
 
-![Mobile View](https://github.com/bahricanyesil/flutter-animated-login/raw/master/screenshots/mobile_view.gif)
+![Mobile View](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/mobile_view.gif)
 
 ## Installation
 
@@ -143,7 +143,6 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | both            | Displays both name and confirm password text form fields.          |
 
 Sign up modes to determine which text form fields should be displayed.
-
 
 ## Complete Example
 
@@ -331,21 +330,21 @@ class LoginScreen extends StatelessWidget {
 
 ## More Screenshots
 
-|                                                 Web Login                                                  |                                                   Mobile Login                                                   |
-| :--------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: |
-| ![Web Login](https://github.com/bahricanyesil/flutter-animated-login/raw/master/screenshots/web-login.png) | ![Mobile Login](https://github.com/bahricanyesil/flutter-animated-login/raw/master/screenshots/mobile-login.png) |
+|                                                       Web Login                                                       |                                                        Mobile Login                                                         |
+| :-------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: |
+| ![Web Login](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/web-login.png) | ![Mobile Login](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/mobile-login.png) |
 
-|                                                  Web Sign Up                                                   |                                                    Mobile Sign Up                                                    |
-| :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------: |
-| ![Web Sign Up](https://github.com/bahricanyesil/flutter-animated-login/raw/master/screenshots/web-sign-up.png) | ![Mobile Sign Up](https://github.com/bahricanyesil/flutter-animated-login/raw/master/screenshots/mobile-sign-up.png) |
+|                                                        Web Sign Up                                                        |                                                         Mobile Sign Up                                                          |
+| :-----------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
+| ![Web Sign Up](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/web-sign-up.png) | ![Mobile Sign Up](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/mobile-sign-up.png) |
 
-|                                                   Color Change                                                   |                                                       Without Social Logins                                                        |
-| :--------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: |
-| ![Color Change](https://github.com/bahricanyesil/flutter-animated-login/raw/master/screenshots/color-change.png) | ![Without Social Logins](https://github.com/bahricanyesil/flutter-animated-login/raw/master/screenshots/without-social-logins.png) |
+|                                                        Color Change                                                         |                                                             Without Social Logins                                                             |
+| :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: |
+| ![Color Change](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/color-change.png) | ![Without Social Logins](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/without-social-logins.png) |
 
-|                                                   Error Example                                                    |
-| :----------------------------------------------------------------------------------------------------------------: |
-| ![Error Example](https://github.com/bahricanyesil/flutter-animated-login/raw/master/screenshots/error-example.png) |
+|                                                         Error Example                                                         |
+| :---------------------------------------------------------------------------------------------------------------------------: |
+| ![Error Example](https://raw.githubusercontent.com/bahricanyesil/flutter-animated-login/master/screenshots/error-example.png) |
 
 ## License
 
