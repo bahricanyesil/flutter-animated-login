@@ -1,3 +1,3 @@
-## 0.0.1
+# [0.0.1] - 30.10.2021
 
-* TODO: Describe initial release.
+* Initial release of the animated login screen.
