@@ -17,8 +17,8 @@ class TextStyles {
         fontSize: dynamicSize.responsiveSize * 11.5,
         color: color ?? Theme.of(context).primaryColor,
         fontWeight: FontWeight.bold,
-        wordSpacing: 4,
-        letterSpacing: 1.5,
+        wordSpacing: 3.5,
+        letterSpacing: 1.3,
       );
 
   /// Custom text style for body texts in the login screen.
@@ -27,8 +27,8 @@ class TextStyles {
         fontSize: dynamicSize.responsiveSize * 6.8,
         color: color ?? Colors.white.withOpacity(.8),
         fontWeight: FontWeight.w500,
-        wordSpacing: 3,
-        letterSpacing: 1.3,
+        wordSpacing: 2.8,
+        letterSpacing: 1.2,
       );
 
   /// Custom text style for subbody texts in the login screen.
@@ -39,7 +39,7 @@ class TextStyles {
         color: color ?? Colors.white.withOpacity(.8),
         fontWeight: FontWeight.w400,
         wordSpacing: 2.4,
-        letterSpacing: 1.2,
+        letterSpacing: 1.1,
         decoration: decoration,
       );
 
@@ -50,7 +50,7 @@ class TextStyles {
         color: color ?? Colors.white.withOpacity(.8),
         fontWeight: FontWeight.w500,
         wordSpacing: 3,
-        letterSpacing: 1.3,
+        letterSpacing: 1.2,
       );
 
   /// Custom text style for text form field texts.
@@ -59,8 +59,8 @@ class TextStyles {
         fontSize: dynamicSize.responsiveSize * 5.2,
         color: color ?? Theme.of(context).primaryColor,
         fontWeight: FontWeight.w400,
-        wordSpacing: 2.3,
-        letterSpacing: 1.2,
+        wordSpacing: 1.1,
+        letterSpacing: .7,
       );
 
   /// Custom text style for text form field hint/label texts.
@@ -69,8 +69,8 @@ class TextStyles {
         fontSize: dynamicSize.responsiveSize * 5.2,
         color: color,
         fontWeight: FontWeight.w400,
-        wordSpacing: 2.2,
-        letterSpacing: 1.2,
+        wordSpacing: 1.1,
+        letterSpacing: .7,
       );
 
   /// Custom text style for text form field error texts.
