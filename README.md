@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `Animated Login` for Flutter is a ready-made login/signup screen with soft and pleasant animations.
-It is fully responsible to be able to use on both web and mobile apps. You can welcome your users with this beautiful animated screen that gives functionality for both login and sign up.
+It is fully responsive to be able to use on both web and mobile apps. You can welcome your users with this beautiful animated screen that gives functionality for both login and sign up.
 
 ## Web View Example Video
 
