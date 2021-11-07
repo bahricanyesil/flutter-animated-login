@@ -53,6 +53,9 @@ class DynamicSize {
   EdgeInsets get lowHorizontalPadding =>
       EdgeInsets.symmetric(horizontal: lowWidth);
 
+  EdgeInsets get lowMedHorizontalPadding =>
+      EdgeInsets.symmetric(horizontal: lowMedWidth);
+
   EdgeInsets get highHorizontalPadding =>
       EdgeInsets.symmetric(horizontal: highWidth);
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../models/language_option.dart';
+
 /// [LoginTexts] is the provider for all texts in the login screen.
 /// Provides default texts for those aren't provided in the constructor.
 class LoginTexts with ChangeNotifier {
@@ -23,6 +25,8 @@ class LoginTexts with ChangeNotifier {
     String? confirmPasswordHint,
     String? passwordMatchingError,
     String? dialogButtonText,
+    String? chooseLanguageTitle,
+    LanguageOption? initialLanguage,
   })  : _welcome = welcome,
         _welcomeDescription = welcomeDescription,
         _signUp = signUp,
@@ -41,7 +45,9 @@ class LoginTexts with ChangeNotifier {
         _passwordHint = passwordHint,
         _confirmPasswordHint = confirmPasswordHint,
         _passwordMatchingError = passwordMatchingError,
-        _dialogButtonText = dialogButtonText;
+        _dialogButtonText = dialogButtonText,
+        _chooseLanguageTitle = chooseLanguageTitle,
+        language = initialLanguage;
 
   /// Welcome title in signUp mode for the informing part.
   /// Default value is given in [_defaultWelcome].
@@ -139,9 +145,15 @@ class LoginTexts with ChangeNotifier {
       _passwordMatchingError ?? _defaultPasswordMatchingError;
 
   /// The button text of error dialog.
-  /// Default value is given in [_dialogDialogButtonText].
+  /// Default value is given in [_defaultDialogButtonText].
   /// Custom value in the constructor is assigned to [_dialogButtonText].
-  String get dialogButtonText => _dialogButtonText ?? _dialogDialogButtonText;
+  String get dialogButtonText => _dialogButtonText ?? _defaultDialogButtonText;
+
+  /// The title of choose language dialog.
+  /// Default value is given in [_defaultChooseLanguageTitle].
+  /// Custom value in the constructor is assigned to [_chooseLanguageTitle].
+  String get chooseLanguageTitle =>
+      _chooseLanguageTitle ?? _defaultChooseLanguageTitle;
 
   static const String _defaultWelcome = 'Welcome!';
   static const String _defaultWelcomeDescription =
@@ -167,7 +179,8 @@ class LoginTexts with ChangeNotifier {
 
   static const String _defaultPasswordMatchingError =
       'The passwords you entered do not match, check again.';
-  static const String _dialogDialogButtonText = 'OK';
+  static const String _defaultDialogButtonText = 'OK';
+  static const String _defaultChooseLanguageTitle = 'Choose your language';
 
   final String? _welcome;
 
@@ -229,4 +242,14 @@ class LoginTexts with ChangeNotifier {
 
   /// The text for button in the error dialog.
   final String? _dialogButtonText;
+
+  /// The title for choose language dialog.
+  final String? _chooseLanguageTitle;
+
+  /// Currently selected language.
+  LanguageOption? language;
+  void setLanguage(LanguageOption newLanguage) {
+    language = newLanguage;
+    notifyListeners();
+  }
 }

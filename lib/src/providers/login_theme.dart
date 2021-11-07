@@ -40,6 +40,14 @@ class LoginTheme with ChangeNotifier {
     this.showLabelTexts = true,
     this.socialLoginHoverColor,
     this.socialLoginBorder,
+    this.changeLangBorderWidth,
+    this.changeLangBgColor,
+    this.changeLangBorderColor,
+    this.changeLangBorderRadius,
+    this.changeLangSize,
+    this.changeLangButtonStyle,
+    this.changeLangContentColor,
+    this.changeLangButtonTextStyle,
   });
 
   /// Text style for the title of form part.
@@ -145,6 +153,30 @@ class LoginTheme with ChangeNotifier {
 
   /// Border for social login widgets.
   final BorderSide? socialLoginBorder;
+
+  /// Border width of the change language button.
+  final double? changeLangBorderWidth;
+
+  /// Background color of the change language button.
+  final Color? changeLangBgColor;
+
+  /// Border color of the change language button.
+  final Color? changeLangBorderColor;
+
+  /// Border radius of the change language button.
+  final BorderRadius? changeLangBorderRadius;
+
+  /// Size of the change language button, can provide width and height.
+  final Size? changeLangSize;
+
+  /// Custom button style for change language button.
+  final ButtonStyle? changeLangButtonStyle;
+
+  /// Custom color for change language button text and icon.
+  final Color? changeLangContentColor;
+
+  /// Custom text style for change language button text.
+  final TextStyle? changeLangButtonTextStyle;
 
   /// Indicates whether the screen size is landscape.
   bool isLandscape = true;

@@ -189,7 +189,10 @@ class _FormPartState extends State<FormPart> {
       );
 
   Widget get _formColumn => Padding(
-        padding: widget.formPadding ?? dynamicSize.highHorizontalPadding,
+        padding: widget.formPadding ??
+            (isLandscape
+                ? dynamicSize.highHorizontalPadding
+                : dynamicSize.lowMedHorizontalPadding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -259,9 +262,8 @@ class _FormPartState extends State<FormPart> {
   Widget get _actionButton => RoundedButton(
         buttonText: loginTheme.isReverse ? loginTexts.login : loginTexts.signUp,
         onPressed: _action,
-        backgroundColor: isLandscape
-            ? theme.primaryColor.withOpacity(.8)
-            : Colors.white.withOpacity(.9),
+        backgroundColor:
+            isLandscape ? theme.primaryColor.withOpacity(.8) : Colors.white,
         buttonStyle: widget.actionButtonStyle,
         textStyle: loginTheme.actionTextStyle,
       );
@@ -280,7 +282,7 @@ class _FormPartState extends State<FormPart> {
   Future<void> _errorCheck(Future<String?> Function() action) async {
     final String? errorMessage = await action();
     if (errorMessage != null && widget.checkError) {
-      DialogBuilders(context).showErrorDialog(errorMessage);
+      DialogBuilder(context).showErrorDialog(errorMessage);
     }
   }
 
@@ -315,7 +317,7 @@ class _FormPartState extends State<FormPart> {
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
           spacing: widget.formElementsSpacing ??
-              dynamicSize.height * (isLandscape ? 2.2 : 1.8),
+              dynamicSize.height * (isLandscape ? 2.2 : 1.5),
           children: _formElements,
         ),
       );

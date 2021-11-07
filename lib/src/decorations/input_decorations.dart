@@ -79,9 +79,9 @@ class InputDeco {
         : Padding(
             padding: EdgeInsets.only(
               left: dynamicSize.width * (isLandscape ? .6 : 2.6),
-              right: isLandscape ? 0 : dynamicSize.width * 1.6,
+              right: isLandscape ? 0 : dynamicSize.width * 1.1,
             ),
-            child: BaseIcon(prefixIcon, sizeFactor: 7),
+            child: BaseIcon(prefixIcon, sizeFactor: isLandscape ? 7 : 8.5),
           );
   }
 

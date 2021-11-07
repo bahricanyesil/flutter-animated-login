@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'loading_indicator.dart';
 
-class DialogBuilders {
-  const DialogBuilders(this.context);
+class DialogBuilder {
+  const DialogBuilder(this.context);
   final BuildContext context;
 
   /// Example loading dialog
