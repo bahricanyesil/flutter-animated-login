@@ -177,7 +177,6 @@ class LoginTheme with ChangeNotifier {
 
   /// Custom text style for change language button text.
   final TextStyle? changeLangButtonTextStyle;
-  // TODO(bahrican): Icon of language
 
   /// Indicates whether the screen size is landscape.
   bool isLandscape = true;
