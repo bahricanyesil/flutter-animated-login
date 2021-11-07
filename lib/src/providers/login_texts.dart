@@ -149,7 +149,7 @@ class LoginTexts with ChangeNotifier {
   /// Custom value in the constructor is assigned to [_dialogButtonText].
   String get dialogButtonText => _dialogButtonText ?? _defaultDialogButtonText;
 
-  /// The title text of choose language dialog.
+  /// The title of choose language dialog.
   /// Default value is given in [_defaultChooseLanguageTitle].
   /// Custom value in the constructor is assigned to [_chooseLanguageTitle].
   String get chooseLanguageTitle =>

@@ -173,6 +173,8 @@ class ChangeLanguage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ButtonStyle? buttonStyle =
         context.read<LoginTheme>().changeLangButtonStyle;
+    final LanguageOption selectedLanguage =
+        context.watch<LoginTexts>().language!;
     return AnimatedBuilder(
       animation: colorTween,
       builder: (BuildContext context, _) => ElevatedButton(
@@ -186,34 +188,31 @@ class ChangeLanguage extends StatelessWidget {
               context.read<LoginTexts>().setLanguage(newLanguage);
             }
           } else {
-            await _openChooseDialog(context);
+            await _openChooseDialog(context, selectedLanguage);
           }
         },
-        child: _buttonChild(context),
+        child: _buttonChild(context, selectedLanguage),
       ),
     );
   }
 
-  Widget _buttonChild(BuildContext context) {
+  Widget _buttonChild(BuildContext context, LanguageOption selectedLanguage) {
     final double responsiveSize = DynamicSize(context).responsiveSize;
     final LoginTheme loginTheme = context.read<LoginTheme>();
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         SizedBox(width: responsiveSize * 1),
         Expanded(
           flex: 2,
-          child: BaseIcon(
-            Icons.language_outlined,
-            color: _contentColor(context),
-            padding: EdgeInsets.zero,
-          ),
+          child: selectedLanguage.iconPath == null
+              ? _defaultIcon(context)
+              : Image.asset(selectedLanguage.iconPath!),
         ),
-        SizedBox(width: responsiveSize * .6),
+        SizedBox(width: responsiveSize * 1.3),
         Expanded(
           flex: 3,
           child: BaseText(
-            context.watch<LoginTexts>().language!.languageAbbr,
+            selectedLanguage.languageAbbr,
             style: TextStyle(
               fontSize: responsiveSize * 4.4,
               color: _contentColor(context),
@@ -225,12 +224,17 @@ class ChangeLanguage extends StatelessWidget {
     );
   }
 
-  Future<void> _openChooseDialog(BuildContext context) async =>
+  Widget _defaultIcon(BuildContext context) => BaseIcon(
+        Icons.language_outlined,
+        color: _contentColor(context),
+        padding: EdgeInsets.zero,
+      );
+
+  Future<void> _openChooseDialog(
+          BuildContext context, LanguageOption selectedLanguage) async =>
       DialogBuilder(context)
-          .showSelectDialog(
-        context.read<LoginTexts>().chooseLanguageTitle,
-        languageOptions.map((LanguageOption e) => e.language).toList(),
-      )
+          .showSelectDialog(context.read<LoginTexts>().chooseLanguageTitle,
+              languageOptions, selectedLanguage)
           .then((int? index) {
         LanguageOption? selectedLang;
         if (index != null) selectedLang = languageOptions[index];

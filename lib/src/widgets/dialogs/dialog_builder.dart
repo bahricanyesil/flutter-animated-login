@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/language_option.dart';
 import '../../providers/login_texts.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../widgets_shelf.dart';
@@ -30,12 +31,13 @@ class DialogBuilder {
         },
       );
 
-  Future<int?> showSelectDialog<T>(String title, List<T> elements) async =>
+  Future<int?> showSelectDialog(String title, List<LanguageOption> elements,
+          LanguageOption? initialValue) async =>
       showDialog<int>(
         context: localContext,
         barrierDismissible: true,
-        builder: (BuildContext context) =>
-            SingleChooseDialog<T>(title: title, elements: elements),
+        builder: (BuildContext context) => SingleChooseDialog(
+            title: title, elements: elements, initialValue: initialValue),
       );
 
   Widget _content(String text, BuildContext context) {

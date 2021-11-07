@@ -61,16 +61,28 @@ class LoginScreen extends StatelessWidget {
       socialLogins: _socialLogins(context),
       loginTheme: _loginTheme,
       loginTexts: _loginTexts,
-      changeLanguageCallback: (String? val) =>
-          DialogBuilder(context).showResultDialog('Successfully changed the language to: $val.'),
+      changeLanguageCallback: (String? val) {
+        if (val != null) {
+          DialogBuilder(context)
+              .showResultDialog('Successfully changed the language to: $val.');
+        }
+      },
       languageOptions: _languageOptions,
       initialLanguage: _languageOptions[0],
     );
   }
 
   List<LanguageOption> get _languageOptions => const <LanguageOption>[
-        LanguageOption(languageAbbr: 'TR', language: 'Turkish'),
-        LanguageOption(languageAbbr: 'EN', language: 'English'),
+        LanguageOption(
+          languageAbbr: 'TR',
+          language: 'Turkish',
+          iconPath: 'assets/images/tr.png',
+        ),
+        LanguageOption(
+          languageAbbr: 'EN',
+          language: 'English',
+          iconPath: 'assets/images/en.png',
+        ),
       ];
 
   /// You can adjust the colors, text styles, button styles, borders

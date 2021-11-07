@@ -14,7 +14,7 @@ class LanguageOption {
   /// The abbrevation of the language option.
   final String languageAbbr;
 
-  /// The text for the language option.
+  /// The complete name of the language option.
   final String language;
 
   /// Full asset path of the language option.

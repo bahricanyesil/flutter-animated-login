@@ -159,10 +159,11 @@ class AnimatedLogin extends StatefulWidget {
   /// Callback that will be called when a language is selected.
   final ChangeLanguageCallback? changeLanguageCallback;
 
-  /// Initial language which is selected as default
+  /// Initial language which is selected as default.
   final LanguageOption? initialLanguage;
 
   /// Optional function will be called on pressed to the change language button.
+  /// It should prompt a dialog to select a language and return the selected.
   final ChangeLangOnPressedCallback? changeLangOnPressed;
 
   @override
