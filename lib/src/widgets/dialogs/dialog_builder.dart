@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import '../../providers/login_texts.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../widgets_shelf.dart';
+import 'single_choose_dialog.dart';
 
-class DialogBuilders {
-  const DialogBuilders(this.localContext);
+class DialogBuilder {
+  const DialogBuilder(this.localContext);
   final BuildContext localContext;
 
   /// Shows error dialog
@@ -27,6 +28,14 @@ class DialogBuilders {
             actions: <Widget>[_okButton(context)],
           );
         },
+      );
+
+  Future<int?> showSelectDialog<T>(String title, List<T> elements) async =>
+      showDialog<int>(
+        context: localContext,
+        barrierDismissible: true,
+        builder: (BuildContext context) =>
+            SingleChooseDialog<T>(title: title, elements: elements),
       );
 
   Widget _content(String text, BuildContext context) {

@@ -23,10 +23,10 @@ class TextStyles {
 
   /// Custom text style for body texts in the login screen.
   /// Such as: "welcomeDescription", "RoundedButton" action text and so on.
-  TextStyle bodyStyle({Color? color}) => TextStyle(
+  TextStyle bodyStyle({Color? color, FontWeight? fontWeight}) => TextStyle(
         fontSize: dynamicSize.responsiveSize * 6.8,
         color: color ?? Colors.white.withOpacity(.8),
-        fontWeight: FontWeight.w500,
+        fontWeight: fontWeight ?? FontWeight.w500,
         wordSpacing: 2.8,
         letterSpacing: 1.2,
       );

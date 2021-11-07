@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:animated_login/animated_login.dart';
 
+import 'dialog_builders.dart';
 import 'login_functions.dart';
 
 void main() {
@@ -60,8 +61,17 @@ class LoginScreen extends StatelessWidget {
       socialLogins: _socialLogins(context),
       loginTheme: _loginTheme,
       loginTexts: _loginTexts,
+      changeLanguageCallback: (String? val) =>
+          DialogBuilder(context).showResultDialog('Successfully changed the language to: $val.'),
+      languageOptions: _languageOptions,
+      initialLanguage: _languageOptions[0],
     );
   }
+
+  List<LanguageOption> get _languageOptions => const <LanguageOption>[
+        LanguageOption(languageAbbr: 'TR', language: 'Turkish'),
+        LanguageOption(languageAbbr: 'EN', language: 'English'),
+      ];
 
   /// You can adjust the colors, text styles, button styles, borders
   /// according to your design preferences.
