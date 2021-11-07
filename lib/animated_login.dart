@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'src/constants/enums/sign_up_modes.dart';
-import 'src/models/social_login.dart';
+import 'src/models/models_shelf.dart';
 import 'src/providers/providers_shelf.dart';
 import 'src/responsiveness/dynamic_size.dart';
 import 'src/utils/animation_helper.dart';
@@ -49,6 +49,10 @@ class AnimatedLogin extends StatefulWidget {
     this.logo,
     this.logoSize,
     this.signUpMode = SignUpModes.both,
+    this.languageOptions = const <LanguageOption>[],
+    this.changeLanguageCallback,
+    this.initialLanguage,
+    this.changeLangOnPressed,
     Key? key,
   })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
         assert(formElementsSpacing == null || formElementsSpacing <= 70,
@@ -149,6 +153,19 @@ class AnimatedLogin extends StatefulWidget {
   /// to the email and password fields: Name / Confirm Password / Both
   final SignUpModes signUpMode;
 
+  /// List of languages that user can select.
+  final List<LanguageOption> languageOptions;
+
+  /// Callback that will be called when a language is selected.
+  final ChangeLanguageCallback? changeLanguageCallback;
+
+  /// Initial language which is selected as default.
+  final LanguageOption? initialLanguage;
+
+  /// Optional function will be called on pressed to the change language button.
+  /// It should prompt a dialog to select a language and return the selected.
+  final ChangeLangOnPressedCallback? changeLangOnPressed;
+
   @override
   State<AnimatedLogin> createState() => _AnimatedLoginState();
 }
@@ -164,11 +181,11 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
         Theme.of(context).primaryColor.withOpacity(.8);
     final LoginTheme loginTheme = widget.loginTheme ?? LoginTheme()
       ..isLandscape = ViewTypeHelper(context).isLandscape;
+    final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
+      ..language = widget.initialLanguage;
     return MultiProvider(
       providers: <ChangeNotifierProvider<dynamic>>[
-        ChangeNotifierProvider<LoginTexts>.value(
-          value: widget.loginTexts ?? LoginTexts(),
-        ),
+        ChangeNotifierProvider<LoginTexts>.value(value: loginTexts),
         ChangeNotifierProvider<LoginTheme>.value(value: loginTheme),
         ChangeNotifierProvider<Auth>(
           create: (BuildContext context) => Auth(
@@ -211,6 +228,9 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
               logo: widget.logo,
               logoSize: widget.logoSize,
               signUpMode: widget.signUpMode,
+              languageOptions: widget.languageOptions,
+              changeLanguageCallback: widget.changeLanguageCallback,
+              changeLangOnPressed: widget.changeLangOnPressed,
             ),
           );
         }),
@@ -246,6 +266,9 @@ class _View extends StatefulWidget {
     this.logo,
     this.logoSize,
     this.signUpMode = SignUpModes.both,
+    this.languageOptions = const <LanguageOption>[],
+    this.changeLanguageCallback,
+    this.changeLangOnPressed,
     Key? key,
   }) : super(key: key);
 
@@ -272,6 +295,9 @@ class _View extends StatefulWidget {
   final Size? logoSize;
   final SignUpModes signUpMode;
   final Color backgroundColor;
+  final List<LanguageOption> languageOptions;
+  final ChangeLanguageCallback? changeLanguageCallback;
+  final ChangeLangOnPressedCallback? changeLangOnPressed;
 
   @override
   __ViewState createState() => __ViewState();
@@ -286,6 +312,9 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
   /// Transition animation that will change the location of the welcome part.
   late Animation<double> welcomeTransitionAnimation;
+
+  /// Animation for color change in the change language button.
+  late Animation<double> colorTween;
 
   /// Custom LoginTheme data, colors and styles on the screen.
   late LoginTheme loginTheme;
@@ -328,30 +357,42 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
           Container(color: widget.backgroundColor),
           _animatedWebWelcome,
           _formPart,
+          if (widget.changeLanguageCallback != null &&
+              loginTexts.language != null &&
+              widget.languageOptions.isNotEmpty)
+            _changeLanguage,
         ],
       );
 
-  Widget get _mobileView => Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.symmetric(
-            vertical: dynamicSize.height * 2.5,
-            horizontal: dynamicSize.width * 7,
-          ),
-          children: <Widget>[
-            _welcomeAnimationWrapper(_logoAndTexts),
-            _formPart,
-            SizedBox(height: dynamicSize.height * 2.5),
-            if (widget.showChangeActionTitle)
-              _welcomeAnimationWrapper(
-                ChangeActionTitle(
-                  isReverse: loginTheme.isReverse,
-                  showButtonText: true,
-                  animate: () => animate(context),
-                ),
+  Widget get _mobileView => Stack(
+        children: <Widget>[
+          Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(
+                vertical: dynamicSize.height * 2.5,
+                horizontal: dynamicSize.width * 7,
               ),
-          ],
-        ),
+              children: <Widget>[
+                _welcomeAnimationWrapper(_logoAndTexts),
+                _formPart,
+                SizedBox(height: dynamicSize.height * 2.5),
+                if (widget.showChangeActionTitle)
+                  _welcomeAnimationWrapper(
+                    ChangeActionTitle(
+                      isReverse: loginTheme.isReverse,
+                      showButtonText: true,
+                      animate: () => animate(context),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          if (widget.changeLanguageCallback != null &&
+              loginTexts.language != null &&
+              widget.languageOptions.isNotEmpty)
+            _changeLanguage,
+        ],
       );
 
   Widget _welcomeAnimationWrapper(Widget child) => Transform.translate(
@@ -390,6 +431,17 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             SizedBox(height: DynamicSize(context).height * 2),
             _changeActionButton,
           ],
+        ),
+      );
+
+  Widget get _changeLanguage => Positioned(
+        top: dynamicSize.responsiveSize * 6,
+        right: dynamicSize.responsiveSize * 8,
+        child: ChangeLanguage(
+          chooseLanguageCallback: widget.changeLanguageCallback!,
+          languageOptions: widget.languageOptions,
+          colorTween: colorTween,
+          onPressed: widget.changeLangOnPressed,
         ),
       );
 
@@ -446,6 +498,13 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             animationController: animationController,
             animationCurve: widget.animationCurve,
           ).tweenSequenceAnimation(-110, 20);
+
+    colorTween = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: widget.animationCurve,
+      ),
+    );
 
     welcomeTransitionAnimation.addListener(() {
       if (isLandscape) {

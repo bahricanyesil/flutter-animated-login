@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/language_option.dart';
 import '../../providers/login_texts.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../widgets_shelf.dart';
+import 'single_choose_dialog.dart';
 
-class DialogBuilders {
-  const DialogBuilders(this.localContext);
+class DialogBuilder {
+  const DialogBuilder(this.localContext);
   final BuildContext localContext;
 
   /// Shows error dialog
@@ -27,6 +29,15 @@ class DialogBuilders {
             actions: <Widget>[_okButton(context)],
           );
         },
+      );
+
+  Future<int?> showSelectDialog(String title, List<LanguageOption> elements,
+          LanguageOption? initialValue) async =>
+      showDialog<int>(
+        context: localContext,
+        barrierDismissible: true,
+        builder: (BuildContext context) => SingleChooseDialog(
+            title: title, elements: elements, initialValue: initialValue),
       );
 
   Widget _content(String text, BuildContext context) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../icons/base_icon.dart';
 
@@ -22,15 +24,23 @@ class BaseIconButton extends StatelessWidget {
     return FittedBox(
       child: Padding(
         padding: dynamicSize.extremeLowRightPadding,
-        child: _iconButton(dynamicSize),
+        child: _iconButton(dynamicSize, context),
       ),
     );
   }
 
-  Widget _iconButton(DynamicSize dynamicSize) => IconButton(
-        splashRadius: 20,
-        iconSize: size ?? dynamicSize.responsiveSize * 6.5,
-        icon: BaseIcon(icon, sizeFactor: size ?? 6.5, padding: EdgeInsets.zero),
-        onPressed: onPressed,
-      );
+  Widget _iconButton(DynamicSize dynamicSize, BuildContext context) {
+    final double sizeFactor =
+        context.read<LoginTheme>().isLandscape ? 6.5 : 3.2;
+    return IconButton(
+      splashRadius: 20,
+      iconSize: size ?? (dynamicSize.responsiveSize * sizeFactor),
+      icon: BaseIcon(
+        icon,
+        sizeFactor: size ?? (dynamicSize.responsiveSize * sizeFactor),
+        padding: EdgeInsets.zero,
+      ),
+      onPressed: onPressed,
+    );
+  }
 }

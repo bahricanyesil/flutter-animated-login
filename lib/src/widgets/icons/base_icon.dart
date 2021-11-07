@@ -6,12 +6,12 @@ import '../../responsiveness/dynamic_size.dart';
 /// Wraps [Icon] with [FittedBox], and gives some paddings.
 class BaseIcon extends StatelessWidget {
   final IconData iconData;
-  final double sizeFactor;
+  final double? sizeFactor;
   final Color? color;
   final EdgeInsets? padding;
   const BaseIcon(
     this.iconData, {
-    required this.sizeFactor,
+    this.sizeFactor,
     this.color,
     this.padding,
     Key? key,
@@ -24,8 +24,13 @@ class BaseIcon extends StatelessWidget {
       fit: BoxFit.scaleDown,
       child: Padding(
         padding: _getPadding(context, dynamicSize),
-        child: Icon(iconData,
-            size: dynamicSize.responsiveSize * sizeFactor, color: color),
+        child: Icon(
+          iconData,
+          size: sizeFactor != null
+              ? (dynamicSize.responsiveSize * sizeFactor!)
+              : null,
+          color: color,
+        ),
       ),
     );
   }

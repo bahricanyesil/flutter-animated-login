@@ -14,16 +14,17 @@ class ButtonStyles {
     BorderRadius? borderRadius,
     EdgeInsets? padding,
     double? borderWidth,
-    double? width,
-    double? height,
+    Size? size,
+    double? elevation,
   }) =>
       ButtonStyle(
         padding: _all<EdgeInsets?>(padding),
         backgroundColor: _all<Color>(backgroundColor ?? Colors.white),
-        fixedSize: _all<Size>(
-            Size(width ?? double.maxFinite, height ?? double.maxFinite)),
+        fixedSize: _all<Size>(Size(
+            size?.width ?? double.maxFinite, size?.height ?? double.maxFinite)),
         minimumSize: _all<Size>(Size.zero),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        elevation: elevation == null ? null : _all<double>(elevation),
         shape: _all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius:

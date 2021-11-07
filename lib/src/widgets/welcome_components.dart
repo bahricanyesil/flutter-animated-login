@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../decorations/button_styles.dart';
 import '../decorations/text_styles.dart';
+import '../models/language_option.dart';
 import '../providers/providers_shelf.dart';
 import '../responsiveness/dynamic_size.dart';
 import '../utils/view_type_helper.dart';
 import '../widgets/buttons/rounded_button.dart';
 import '../widgets/texts/base_text.dart';
 import '../widgets/texts/not_fitted_text.dart';
+import 'dialogs/dialog_builder.dart';
+import 'icons/base_icon.dart';
 
 class LogoAndTexts extends StatelessWidget {
   const LogoAndTexts({
@@ -150,4 +154,117 @@ class ChangeActionTitle extends StatelessWidget {
           .merge(context.read<LoginTheme>().changeActionStyle),
     );
   }
+}
+
+class ChangeLanguage extends StatelessWidget {
+  final List<LanguageOption> languageOptions;
+  final Function(String?) chooseLanguageCallback;
+  final Animation<double> colorTween;
+  final ChangeLangOnPressedCallback? onPressed;
+  const ChangeLanguage({
+    required this.chooseLanguageCallback,
+    required this.colorTween,
+    this.languageOptions = const <LanguageOption>[],
+    this.onPressed,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final ButtonStyle? buttonStyle =
+        context.read<LoginTheme>().changeLangButtonStyle;
+    final LanguageOption selectedLanguage =
+        context.watch<LoginTexts>().language!;
+    return AnimatedBuilder(
+      animation: colorTween,
+      builder: (BuildContext context, _) => ElevatedButton(
+        style: buttonStyle != null
+            ? buttonStyle.merge(_defaultButtonStyle(context))
+            : _defaultButtonStyle(context),
+        onPressed: () async {
+          if (onPressed != null) {
+            final LanguageOption? newLanguage = onPressed!();
+            if (newLanguage != null) {
+              context.read<LoginTexts>().setLanguage(newLanguage);
+            }
+          } else {
+            await _openChooseDialog(context, selectedLanguage);
+          }
+        },
+        child: _buttonChild(context, selectedLanguage),
+      ),
+    );
+  }
+
+  Widget _buttonChild(BuildContext context, LanguageOption selectedLanguage) {
+    final double responsiveSize = DynamicSize(context).responsiveSize;
+    final LoginTheme loginTheme = context.read<LoginTheme>();
+    return Row(
+      children: <Widget>[
+        SizedBox(width: responsiveSize * 1),
+        Expanded(
+          flex: 2,
+          child: selectedLanguage.iconPath == null
+              ? _defaultIcon(context)
+              : Image.asset(selectedLanguage.iconPath!),
+        ),
+        SizedBox(width: responsiveSize * 1.3),
+        Expanded(
+          flex: 3,
+          child: BaseText(
+            selectedLanguage.languageAbbr,
+            style: TextStyle(
+              fontSize: responsiveSize * 4.4,
+              color: _contentColor(context),
+            ).merge(loginTheme.changeLangButtonTextStyle),
+          ),
+        ),
+        SizedBox(width: responsiveSize * 1),
+      ],
+    );
+  }
+
+  Widget _defaultIcon(BuildContext context) => BaseIcon(
+        Icons.language_outlined,
+        color: _contentColor(context),
+        padding: EdgeInsets.zero,
+      );
+
+  Future<void> _openChooseDialog(
+          BuildContext context, LanguageOption selectedLanguage) async =>
+      DialogBuilder(context)
+          .showSelectDialog(context.read<LoginTexts>().chooseLanguageTitle,
+              languageOptions, selectedLanguage)
+          .then((int? index) {
+        LanguageOption? selectedLang;
+        if (index != null) selectedLang = languageOptions[index];
+        if (selectedLang != null) {
+          context.read<LoginTexts>().setLanguage(selectedLang);
+        }
+        chooseLanguageCallback(selectedLang?.language);
+      });
+
+  ButtonStyle _defaultButtonStyle(BuildContext context) {
+    final LoginTheme loginTheme = context.read<LoginTheme>();
+    final double responsiveSize = DynamicSize(context).responsiveSize;
+    return ButtonStyles(context).roundedStyle(
+      borderWidth: loginTheme.changeLangBorderWidth ?? 1.4,
+      backgroundColor: loginTheme.changeLangBgColor ?? _buttonBgColor(context),
+      borderColor: loginTheme.changeLangBorderColor,
+      borderRadius:
+          loginTheme.changeLangBorderRadius ?? BorderRadius.circular(8),
+      padding: EdgeInsets.symmetric(horizontal: responsiveSize * 2),
+      size: loginTheme.changeLangSize ??
+          Size(responsiveSize * 20, responsiveSize * 12),
+      elevation: 16,
+    );
+  }
+
+  Color? _contentColor(BuildContext context) =>
+      context.read<LoginTheme>().changeLangContentColor ??
+      Color.lerp(
+          Colors.white, Theme.of(context).primaryColor, colorTween.value);
+
+  Color? _buttonBgColor(BuildContext context) => Color.lerp(
+      Theme.of(context).primaryColor, Colors.white, colorTween.value);
 }
