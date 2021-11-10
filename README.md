@@ -40,6 +40,12 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | showForgotPassword        | `bool`                                    | Indicates whether the forgot password option will be enabled.                                                                                               |
 | showChangeActionTitle     | `bool`                                    | Indicates whether the change action title should be displayed.                                                                                              |
 | showPasswordVisibility    | `bool`                                    | Indicates whether the user can show the password text without obscuring.                                                                                    |
+| nameValidator             | [`ValidatorModel`](#ValidatorModel)       | Custom input validator for name field.                                                                                                                      |
+| emailValidator            | [`ValidatorModel`](#ValidatorModel)       | Custom input validator for email field.                                                                                                                     |
+| passwordValidator         | [`ValidatorModel`](#ValidatorModel)       | Custom input validator for password field.                                                                                                                  |
+| validateName              | `bool`                                    | Indicates whether the name field should be validated.                                                                                                       |
+| validateEmail             | `bool`                                    | Indicates whether the email field should be validated.                                                                                                      |
+| validatePassword          | `bool`                                    | Indicates whether the password fields should be validated.                                                                                                  |
 | nameController            | `TextEditingController`                   | Optional TextEditingController for name input field.                                                                                                        |
 | emailController           | `TextEditingController`                   | Optional TextEditingController for email input field.                                                                                                       |
 | passwordController        | `TextEditingController`                   | Optional TextEditingController for password input field.                                                                                                    |
@@ -159,6 +165,17 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | languageCode | `String` | The abbrevation/code of the language option.                                       |
 | value        | `String` | The complete name of the language option.                                          |
 | iconPath     | `String` | Full asset path of the language option. Probably it will be the flag of a country. |
+
+### ValidatorModel
+
+| Property        | Type                          | Description                                                                                                                                           |
+| --------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| customValidator | `FormFieldValidator<String?>` | Custom validator for the text field. If it is provided, then all fields below will be inactivated and form will be validated to the custom validator. |
+| length          | `int`                         | Minimum required length for the text. If not provided, default values for email, password and name will be used.                                      |
+| checkUpperCase  | `bool`                        | Indicates whether the text should contain upper case character.                                                                                       |
+| checkLowerCase  | `bool`                        | Indicates whether the text should contain lower case character.                                                                                       |
+| checkSpace      | `bool`                        | Indicates whether the text can contain space or not.                                                                                                  |
+| checkNumber     | `bool`                        | Indicates whether the text should contain a number.                                                                                                   |
 
 ### SignUpModes
 

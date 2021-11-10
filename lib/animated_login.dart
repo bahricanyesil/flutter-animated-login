@@ -1,21 +1,34 @@
 library animated_login;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'src/constants/enums/sign_up_modes.dart';
+import 'src/decorations/button_styles.dart';
+import 'src/decorations/text_styles.dart';
+import 'src/models/language_option.dart';
 import 'src/models/models_shelf.dart';
 import 'src/providers/providers_shelf.dart';
 import 'src/responsiveness/dynamic_size.dart';
 import 'src/utils/animation_helper.dart';
+import 'src/utils/validators.dart';
 import 'src/utils/view_type_helper.dart';
-import 'src/widgets/form_part.dart';
-import 'src/widgets/welcome_components.dart';
+import 'src/widgets/buttons/rounded_button.dart';
+import 'src/widgets/dialogs/dialog_builder.dart';
+import 'src/widgets/icons/base_icon.dart';
+import 'src/widgets/texts/base_text.dart';
+import 'src/widgets/texts/not_fitted_text.dart';
+import 'src/widgets/widgets_shelf.dart';
 
 export './src/constants/enums/sign_up_modes.dart';
 export './src/models/models_shelf.dart';
 export './src/providers/providers_shelf.dart';
+
+part 'src/widgets/form_part.dart';
+part 'src/widgets/welcome_components.dart';
 
 /// Main widget creates the animated login screen
 /// Wraps the main view with providers.
@@ -37,6 +50,12 @@ class AnimatedLogin extends StatefulWidget {
     this.showForgotPassword = true,
     this.showChangeActionTitle = true,
     this.showPasswordVisibility = true,
+    this.nameValidator,
+    this.emailValidator,
+    this.passwordValidator,
+    this.validateName = true,
+    this.validateEmail = true,
+    this.validatePassword = true,
     this.nameController,
     this.emailController,
     this.passwordController,
@@ -63,10 +82,14 @@ class AnimatedLogin extends StatefulWidget {
             "Social logins spacing cannot be more than 200."),
         assert(logoSize == null || logoSize <= const Size(500, 400),
             "Logo size cannot be more than Size(500, 400)."),
+        assert(
+            (changeLanguageCallback != null && languageOptions.length != 0) ||
+                (changeLanguageCallback == null && languageOptions.length == 0),
+            """To use change language button, you should provide both callback and language options."""),
         super(key: key);
 
   /// Determines all of the theme related variables on the screen.
-  /// Example: colors, text styles, button styles...
+  /// Example: colors, text styles, button stylessrc.
   final LoginTheme? loginTheme;
 
   /// Determines all of the texts on the screen.
@@ -116,6 +139,24 @@ class AnimatedLogin extends StatefulWidget {
   /// Indicates whether the user can show the password text without obscuring.
   final bool showPasswordVisibility;
 
+  /// Custom input validator for name field.
+  final ValidatorModel? nameValidator;
+
+  /// Custom input validator for email field.
+  final ValidatorModel? emailValidator;
+
+  /// Custom input validator for password field.
+  final ValidatorModel? passwordValidator;
+
+  /// Indicates whether the name field should be validated.
+  final bool validateName;
+
+  /// Indicates whether the email field should be validated.
+  final bool validateEmail;
+
+  /// Indicates whether the password fields should be validated.
+  final bool validatePassword;
+
   /// Optional TextEditingController for name input field.
   final TextEditingController? nameController;
 
@@ -160,6 +201,7 @@ class AnimatedLogin extends StatefulWidget {
   final ChangeLanguageCallback? changeLanguageCallback;
 
   /// Initial language which is selected as default.
+  /// If nothing provided, first element of [languageOptions] is taken.
   final LanguageOption? initialLanguage;
 
   /// Optional function will be called on pressed to the change language button.
@@ -182,7 +224,8 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
     final LoginTheme loginTheme = widget.loginTheme ?? LoginTheme()
       ..isLandscape = ViewTypeHelper(context).isLandscape;
     final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
-      ..language = widget.initialLanguage;
+      ..language = widget.initialLanguage ??
+          (widget.languageOptions.isEmpty ? null : widget.languageOptions[0]);
     return MultiProvider(
       providers: <ChangeNotifierProvider<dynamic>>[
         ChangeNotifierProvider<LoginTexts>.value(value: loginTexts),
@@ -231,6 +274,12 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
               languageOptions: widget.languageOptions,
               changeLanguageCallback: widget.changeLanguageCallback,
               changeLangOnPressed: widget.changeLangOnPressed,
+              nameValidator: widget.nameValidator,
+              emailValidator: widget.emailValidator,
+              passwordValidator: widget.passwordValidator,
+              validateName: widget.validateName,
+              validateEmail: widget.validateEmail,
+              validatePassword: widget.validatePassword,
             ),
           );
         }),
@@ -240,7 +289,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
 }
 
 /// Draws the main view of the screen by using
-/// [FormPart], [LogoAndTexts], [ChangeActionTitle] and [ChangeActionButton]
+/// [_FormPart], [_LogoAndTexts], [_ChangeActionTitle] and [_ChangeActionButton]
 class _View extends StatefulWidget {
   const _View({
     required this.backgroundColor,
@@ -269,6 +318,12 @@ class _View extends StatefulWidget {
     this.languageOptions = const <LanguageOption>[],
     this.changeLanguageCallback,
     this.changeLangOnPressed,
+    this.nameValidator,
+    this.emailValidator,
+    this.passwordValidator,
+    this.validateName = true,
+    this.validateEmail = true,
+    this.validatePassword = true,
     Key? key,
   }) : super(key: key);
 
@@ -298,6 +353,12 @@ class _View extends StatefulWidget {
   final List<LanguageOption> languageOptions;
   final ChangeLanguageCallback? changeLanguageCallback;
   final ChangeLangOnPressedCallback? changeLangOnPressed;
+  final ValidatorModel? nameValidator;
+  final ValidatorModel? emailValidator;
+  final ValidatorModel? passwordValidator;
+  final bool validateName;
+  final bool validateEmail;
+  final bool validatePassword;
 
   @override
   __ViewState createState() => __ViewState();
@@ -321,6 +382,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
   /// Custom LoginTexts data, texts on the screen.
   late LoginTexts loginTexts;
+
+  /// The optional custom form key, if not provided will be created locally.
+  late final GlobalKey<FormState> formKey =
+      widget.formKey ?? GlobalKey<FormState>();
 
   bool isLandscape = true;
 
@@ -379,7 +444,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
                 SizedBox(height: dynamicSize.height * 2.5),
                 if (widget.showChangeActionTitle)
                   _welcomeAnimationWrapper(
-                    ChangeActionTitle(
+                    _ChangeActionTitle(
                       isReverse: loginTheme.isReverse,
                       showButtonText: true,
                       animate: () => animate(context),
@@ -427,7 +492,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             _logoAndTexts,
             SizedBox(height: DynamicSize(context).height * 7),
             if (widget.showChangeActionTitle)
-              ChangeActionTitle(isReverse: loginTheme.isReverse),
+              _ChangeActionTitle(isReverse: loginTheme.isReverse),
             SizedBox(height: DynamicSize(context).height * 2),
             _changeActionButton,
           ],
@@ -437,7 +502,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   Widget get _changeLanguage => Positioned(
         top: dynamicSize.responsiveSize * 6,
         right: dynamicSize.responsiveSize * 8,
-        child: ChangeLanguage(
+        child: _ChangeLanguage(
           chooseLanguageCallback: widget.changeLanguageCallback!,
           languageOptions: widget.languageOptions,
           colorTween: colorTween,
@@ -445,24 +510,24 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         ),
       );
 
-  Widget get _logoAndTexts => LogoAndTexts(
+  Widget get _logoAndTexts => _LogoAndTexts(
         logo: widget.logo,
         logoSize: widget.logoSize,
         isReverse: loginTheme.isReverse,
       );
 
-  Widget get _changeActionButton => ChangeActionButton(
+  Widget get _changeActionButton => _ChangeActionButton(
         isReverse: loginTheme.isReverse,
         animate: () => animate(context),
         changeActionButtonStyle: widget.changeActionButtonStyle,
       );
 
-  Widget get _formPart => FormPart(
+  Widget get _formPart => _FormPart(
         backgroundColor: widget.backgroundColor,
         animationController: animationController,
         formWidthRatio: widget.formWidthRatio,
         animationCurve: widget.animationCurve,
-        formKey: widget.formKey,
+        formKey: formKey,
         formElementsSpacing: widget.formElementsSpacing,
         socialLoginsSpacing: widget.socialLoginsSpacing,
         checkError: widget.checkError,
@@ -475,9 +540,16 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         passwordController: widget.passwordController,
         confirmPasswordController: widget.confirmPasswordController,
         signUpMode: widget.signUpMode,
+        nameValidator: widget.nameValidator,
+        emailValidator: widget.emailValidator,
+        passwordValidator: widget.passwordValidator,
+        validateName: widget.validateName,
+        validateEmail: widget.validateEmail,
+        validatePassword: widget.validatePassword,
       );
 
   void animate(BuildContext context) {
+    formKey.currentState?.reset();
     animationController.isCompleted
         ? animationController.reverse()
         : animationController.forward();

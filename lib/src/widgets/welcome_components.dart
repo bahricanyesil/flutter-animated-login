@@ -1,20 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+part of '../../animated_login.dart';
 
-import '../decorations/button_styles.dart';
-import '../decorations/text_styles.dart';
-import '../models/language_option.dart';
-import '../providers/providers_shelf.dart';
-import '../responsiveness/dynamic_size.dart';
-import '../utils/view_type_helper.dart';
-import '../widgets/buttons/rounded_button.dart';
-import '../widgets/texts/base_text.dart';
-import '../widgets/texts/not_fitted_text.dart';
-import 'dialogs/dialog_builder.dart';
-import 'icons/base_icon.dart';
-
-class LogoAndTexts extends StatelessWidget {
-  const LogoAndTexts({
+class _LogoAndTexts extends StatelessWidget {
+  const _LogoAndTexts({
     required this.logo,
     required this.logoSize,
     required this.isReverse,
@@ -72,8 +59,8 @@ class LogoAndTexts extends StatelessWidget {
   }
 }
 
-class ChangeActionButton extends StatelessWidget {
-  const ChangeActionButton({
+class _ChangeActionButton extends StatelessWidget {
+  const _ChangeActionButton({
     required this.isReverse,
     required this.animate,
     required this.changeActionButtonStyle,
@@ -97,8 +84,8 @@ class ChangeActionButton extends StatelessWidget {
   }
 }
 
-class ChangeActionTitle extends StatelessWidget {
-  const ChangeActionTitle({
+class _ChangeActionTitle extends StatelessWidget {
+  const _ChangeActionTitle({
     required this.isReverse,
     this.showButtonText = false,
     this.animate,
@@ -156,12 +143,12 @@ class ChangeActionTitle extends StatelessWidget {
   }
 }
 
-class ChangeLanguage extends StatelessWidget {
+class _ChangeLanguage extends StatelessWidget {
   final List<LanguageOption> languageOptions;
   final Function(LanguageOption? language) chooseLanguageCallback;
   final Animation<double> colorTween;
   final ChangeLangOnPressedCallback? onPressed;
-  const ChangeLanguage({
+  const _ChangeLanguage({
     required this.chooseLanguageCallback,
     required this.colorTween,
     this.languageOptions = const <LanguageOption>[],

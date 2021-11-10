@@ -50,7 +50,7 @@ class RoundedButton extends StatelessWidget {
             .bodyStyle(
               color:
                   isLandscape ? Colors.white : Theme.of(context).primaryColor,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
             )
             .merge(textStyle),
       ),

@@ -1,20 +1,7 @@
-import 'dart:async';
+part of '../../animated_login.dart';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../constants/enums/sign_up_modes.dart';
-import '../decorations/text_styles.dart';
-import '../models/models_shelf.dart';
-import '../providers/providers_shelf.dart';
-import '../responsiveness/dynamic_size.dart';
-import '../utils/animation_helper.dart';
-import '../utils/validators.dart';
-import '../widgets/widgets_shelf.dart';
-import 'dialogs/dialog_builder.dart';
-
-class FormPart extends StatefulWidget {
-  const FormPart({
+class _FormPart extends StatefulWidget {
+  const _FormPart({
     required this.backgroundColor,
     required this.animationController,
     required this.animationCurve,
@@ -23,7 +10,7 @@ class FormPart extends StatefulWidget {
     required this.showForgotPassword,
     required this.showPasswordVisibility,
     required this.signUpMode,
-    this.formKey,
+    required this.formKey,
     this.formElementsSpacing,
     this.socialLoginsSpacing,
     this.nameController,
@@ -32,6 +19,12 @@ class FormPart extends StatefulWidget {
     this.confirmPasswordController,
     this.actionButtonStyle,
     this.formPadding,
+    this.nameValidator,
+    this.emailValidator,
+    this.passwordValidator,
+    this.validateName = true,
+    this.validateEmail = true,
+    this.validatePassword = true,
     Key? key,
   }) : super(key: key);
 
@@ -47,8 +40,8 @@ class FormPart extends StatefulWidget {
   /// Ratio of width of the form to the width of the screen.
   final double formWidthRatio;
 
-  /// The optional custom form key, if not provided will be created locally.
-  final GlobalKey<FormState>? formKey;
+  /// Form key in the form widget. It is especially used for input validations.
+  final GlobalKey<FormState> formKey;
 
   /// The spacing between the elements of form.
   final double? formElementsSpacing;
@@ -87,11 +80,29 @@ class FormPart extends StatefulWidget {
   /// to the email and password fields: Name / Confirm Password / Both
   final SignUpModes signUpMode;
 
+  /// Custom input validator for name field.
+  final ValidatorModel? nameValidator;
+
+  /// Custom input validator for email field.
+  final ValidatorModel? emailValidator;
+
+  /// Custom input validator for password field.
+  final ValidatorModel? passwordValidator;
+
+  /// Indicates whether the name field should be validated.
+  final bool validateName;
+
+  /// Indicates whether the email field should be validated.
+  final bool validateEmail;
+
+  /// Indicates whether the password fields should be validated.
+  final bool validatePassword;
+
   @override
-  _FormPartState createState() => _FormPartState();
+  __FormPartState createState() => __FormPartState();
 }
 
-class _FormPartState extends State<FormPart> {
+class __FormPartState extends State<_FormPart> {
   /// Custom LoginTheme data, colors and styles on the screen.
   late LoginTheme loginTheme;
 
@@ -120,8 +131,7 @@ class _FormPartState extends State<FormPart> {
   late final TextEditingController confirmPasswordController;
 
   /// The form key that will be assigned to the form.
-  late final GlobalKey<FormState> _formKey =
-      widget.formKey ?? GlobalKey<FormState>();
+  late final GlobalKey<FormState> _formKey = widget.formKey;
 
   final FocusNode confirmPasswordFocus = FocusNode();
 
@@ -330,7 +340,7 @@ class _FormPartState extends State<FormPart> {
             hintText: loginTexts.nameHint,
             prefixIcon: Icons.person_outline,
             prefixWidget: loginTheme.nameIcon,
-            validator: Validators.name,
+            validator: _nameValidator,
             textInputAction: TextInputAction.next,
             onChanged: auth.setUsername,
           ),
@@ -339,7 +349,7 @@ class _FormPartState extends State<FormPart> {
           hintText: loginTexts.emailHint,
           prefixIcon: Icons.email_outlined,
           prefixWidget: loginTheme.emailIcon,
-          validator: Validators.email,
+          validator: _emailValidator,
           textInputAction: TextInputAction.next,
           onChanged: auth.setEmail,
         ),
@@ -353,6 +363,7 @@ class _FormPartState extends State<FormPart> {
           onFieldSubmitted: (_) =>
               auth.isSignup ? confirmPasswordFocus.requestFocus() : _action(),
           onChanged: auth.setPassword,
+          validator: _passwordValidator,
         ),
         if (!loginTheme.isReverse && widget.signUpMode != SignUpModes.name)
           ObscuredTextFormField(
@@ -363,9 +374,33 @@ class _FormPartState extends State<FormPart> {
             onFieldSubmitted: (_) => _action(),
             focusNode: confirmPasswordFocus,
             onChanged: auth.setConfirmPassword,
+            validator: _passwordValidator,
           ),
         if (loginTheme.isReverse && widget.showForgotPassword) _forgotPassword,
       ];
+
+  FormFieldValidator<String?>? get _nameValidator => widget.validateName
+      ? (widget.nameValidator?.customValidator ??
+          Validators(validator: widget.nameValidator).name)
+      : null;
+
+  FormFieldValidator<String?>? get _emailValidator => widget.validateEmail
+      ? (widget.emailValidator?.customValidator ??
+          Validators(validator: widget.emailValidator).email)
+      : null;
+
+  FormFieldValidator<String?>? get _passwordValidator => widget.validatePassword
+      ? (widget.passwordValidator?.customValidator ??
+          Validators(
+            validator: widget.passwordValidator ??
+                const ValidatorModel(
+                  checkLowerCase: true,
+                  checkUpperCase: true,
+                  checkNumber: true,
+                  checkSpace: true,
+                ),
+          ).password)
+      : null;
 
   Widget get _forgotPassword => Container(
         alignment: isLandscape ? Alignment.center : Alignment.topCenter,
