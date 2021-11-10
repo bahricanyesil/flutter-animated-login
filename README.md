@@ -156,8 +156,8 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 
 | Property     | Type     | Description                                                                        |
 | ------------ | -------- | ---------------------------------------------------------------------------------- |
-| languageAbbr | `String` | The abbrevation of the language option.                                            |
-| language     | `String` | The complete name of the language option.                                          |
+| languageCode | `String` | The abbrevation/code of the language option.                                       |
+| value        | `String` | The complete name of the language option.                                          |
 | iconPath     | `String` | Full asset path of the language option. Probably it will be the flag of a country. |
 
 ### SignUpModes

@@ -45,7 +45,7 @@ class SingleChooseDialog extends StatelessWidget {
             horizontal: DynamicSize(context).responsiveSize * 2),
         padding: EdgeInsets.symmetric(
             vertical: DynamicSize(context).responsiveSize * .5),
-        color: initialValue?.language == elements[index].language
+        color: initialValue?.value == elements[index].value
             ? Theme.of(context).primaryColor.withOpacity(.7)
             : null,
         child: SimpleDialogOption(
@@ -74,9 +74,9 @@ class SingleChooseDialog extends StatelessWidget {
   }
 
   Widget _languageText(BuildContext context, int index) => BaseText(
-        elements[index].language.toString(),
+        elements[index].value.toString(),
         style: TextStyles(context).subBodyStyle(
-          color: initialValue?.language == elements[index].language
+          color: initialValue?.value == elements[index].value
               ? Colors.white
               : Theme.of(context).primaryColor,
         ),

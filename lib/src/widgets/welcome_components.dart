@@ -158,7 +158,7 @@ class ChangeActionTitle extends StatelessWidget {
 
 class ChangeLanguage extends StatelessWidget {
   final List<LanguageOption> languageOptions;
-  final Function(String?) chooseLanguageCallback;
+  final Function(LanguageOption? language) chooseLanguageCallback;
   final Animation<double> colorTween;
   final ChangeLangOnPressedCallback? onPressed;
   const ChangeLanguage({
@@ -212,7 +212,7 @@ class ChangeLanguage extends StatelessWidget {
         Expanded(
           flex: 3,
           child: BaseText(
-            selectedLanguage.languageAbbr,
+            selectedLanguage.languageCode,
             style: TextStyle(
               fontSize: responsiveSize * 4.4,
               color: _contentColor(context),
@@ -241,7 +241,7 @@ class ChangeLanguage extends StatelessWidget {
         if (selectedLang != null) {
           context.read<LoginTexts>().setLanguage(selectedLang);
         }
-        chooseLanguageCallback(selectedLang?.language);
+        chooseLanguageCallback(selectedLang);
       });
 
   ButtonStyle _defaultButtonStyle(BuildContext context) {
