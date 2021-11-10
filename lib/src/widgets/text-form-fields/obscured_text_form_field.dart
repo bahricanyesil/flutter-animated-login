@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../decorations/input_decorations.dart';
 import '../../decorations/text_styles.dart';
 import '../../providers/login_theme.dart';
-import '../../utils/validators.dart';
 import '../../utils/view_type_helper.dart';
 import '../buttons/base_icon_button.dart';
 import 'text_form_field_wrapper.dart';
@@ -25,6 +24,7 @@ class ObscuredTextFormField extends StatefulWidget {
     this.textInputAction = TextInputAction.done,
     this.onFieldSubmitted,
     this.focusNode,
+    this.validator,
     Key? key,
   }) : super(key: key);
   final TextEditingController controller;
@@ -37,6 +37,7 @@ class ObscuredTextFormField extends StatefulWidget {
   final Function(String text)? onFieldSubmitted;
   final void Function(String? text) onChanged;
   final FocusNode? focusNode;
+  final FormFieldValidator<String?>? validator;
 
   @override
   _ObscuredTextFormFieldState createState() => _ObscuredTextFormFieldState();
@@ -53,7 +54,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
         focusNode: widget.focusNode,
         controller: widget.controller,
         textInputAction: widget.textInputAction,
-        validator: theme.showFormFieldErrors ? Validators.password : null,
+        validator: widget.validator,
         style: TextStyles(context).textFormStyle().merge(theme.textFormStyle),
         obscureText: !_isVisible,
         decoration: theme.textFormFieldDeco ?? _formDeco,

@@ -36,7 +36,6 @@ class LoginTheme with ChangeNotifier {
     this.enabledBorder,
     this.focusedBorder,
     this.focusedErrorBorder,
-    this.showFormFieldErrors = true,
     this.showLabelTexts = true,
     this.socialLoginHoverColor,
     this.socialLoginBorder,
@@ -139,10 +138,6 @@ class LoginTheme with ChangeNotifier {
 
   /// Focused border for text form fields.
   final InputBorder? focusedBorder;
-
-  /// Indicates whether the error messages should be displayed
-  /// below the text form fields.
-  final bool showFormFieldErrors;
 
   /// Indicates whether the labels should be displayed
   /// above the text form fields.

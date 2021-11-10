@@ -1,5 +1,6 @@
-import 'package:animated_login/src/utils/hasher.dart';
 import 'package:flutter/foundation.dart';
+
+import '../utils/hasher.dart';
 
 /// When user select a language, returns the corresponding language option.
 typedef ChangeLanguageCallback = void Function(LanguageOption? language);
