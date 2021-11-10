@@ -232,17 +232,13 @@ class _ChangeLanguage extends StatelessWidget {
       });
 
   ButtonStyle _defaultButtonStyle(BuildContext context) {
-    final LoginTheme loginTheme = context.read<LoginTheme>();
     final double responsiveSize = DynamicSize(context).responsiveSize;
     return ButtonStyles(context).roundedStyle(
-      borderWidth: loginTheme.changeLangBorderWidth ?? 1.4,
-      backgroundColor: loginTheme.changeLangBgColor ?? _buttonBgColor(context),
-      borderColor: loginTheme.changeLangBorderColor,
-      borderRadius:
-          loginTheme.changeLangBorderRadius ?? BorderRadius.circular(8),
+      borderWidth: 1.4,
+      backgroundColor: _buttonBgColor(context),
+      borderRadius: BorderRadius.circular(8),
       padding: EdgeInsets.symmetric(horizontal: responsiveSize * 2),
-      size: loginTheme.changeLangSize ??
-          Size(responsiveSize * 20, responsiveSize * 12),
+      size: Size(responsiveSize * 20, responsiveSize * 12),
       elevation: 16,
     );
   }

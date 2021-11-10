@@ -126,11 +126,6 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | showLabelTexts            | `bool`            | Indicates whether the labels should be displayed above the text form fields.         |
 | socialLoginHoverColor     | `Color`           | Hover color for social login widgets.                                                |
 | socialLoginBorder         | `BorderSide`      | Border for social login widgets.                                                     |
-| changeLangBorderWidth     | `double`          | Border width of the change language button.                                          |
-| changeLangBgColor         | `Color`           | Background color of the change language button.                                      |
-| changeLangBorderColor     | `Color`           | Border color of the change language button.                                          |
-| changeLangBorderRadius    | `BorderRadius`    | Border radius of the change language button.                                         |
-| changeLangSize            | `Size`            | Size of the change language button, can provide width and height.                    |
 | changeLangButtonStyle     | `ButtonStyle`     | Custom button style for change language button.                                      |
 | changeLangContentColor    | `Color`           | Custom color for change language button text and icon.                               |
 | changeLangButtonTextStyle | `TextStyle`       | Custom text style for change language button text.                                   |
