@@ -34,8 +34,8 @@ class ObscuredTextFormField extends StatefulWidget {
   final Color? backgroundColor;
   final double? widthFactor;
   final TextInputAction textInputAction;
-  final Function(String)? onFieldSubmitted;
-  final void Function(String?) onChanged;
+  final Function(String text)? onFieldSubmitted;
+  final void Function(String? text) onChanged;
   final FocusNode? focusNode;
 
   @override

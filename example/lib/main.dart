@@ -61,10 +61,10 @@ class LoginScreen extends StatelessWidget {
       socialLogins: _socialLogins(context),
       loginTheme: _loginTheme,
       loginTexts: _loginTexts,
-      changeLanguageCallback: (String? val) {
-        if (val != null) {
-          DialogBuilder(context)
-              .showResultDialog('Successfully changed the language to: $val.');
+      changeLanguageCallback: (LanguageOption? language) {
+        if (language != null) {
+          DialogBuilder(context).showResultDialog(
+              'Successfully changed the language to: ${language.value}.');
         }
       },
       languageOptions: _languageOptions,
@@ -74,13 +74,13 @@ class LoginScreen extends StatelessWidget {
 
   List<LanguageOption> get _languageOptions => const <LanguageOption>[
         LanguageOption(
-          languageAbbr: 'TR',
-          language: 'Turkish',
+          value: 'Turkish',
+          languageCode: 'TR',
           iconPath: 'assets/images/tr.png',
         ),
         LanguageOption(
-          languageAbbr: 'EN',
-          language: 'English',
+          value: 'English',
+          languageCode: 'EN',
           iconPath: 'assets/images/en.png',
         ),
       ];

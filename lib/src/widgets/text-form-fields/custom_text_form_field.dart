@@ -23,8 +23,8 @@ class CustomTextFormField extends StatelessWidget {
     Key? key,
   }) : super(key: key);
   final TextEditingController controller;
-  final String? Function(String?) validator;
-  final void Function(String?) onChanged;
+  final String? Function(String? text) validator;
+  final void Function(String? text) onChanged;
   final String? hintText;
   final IconData? prefixIcon;
   final Widget? prefixWidget;

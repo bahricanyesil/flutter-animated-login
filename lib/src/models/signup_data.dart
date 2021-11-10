@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+import '../utils/hasher.dart';
+
 /// [String] model is to store/transfer signup mode data.
 /// Contains [name], [email], [password] and [confirmPassword] fields.
 /// Overrides [toString], [hashCode] methods and [==] operator.
@@ -34,23 +36,6 @@ class SignUpData {
   /// This hashCode part is inspired from Quiver package.
   /// Quiver package link: https://pub.dev/packages/quiver
   @override
-  int get hashCode => _finish(
-        _combine(
-          _combine(_combine(_combine(0, name.hashCode), email.hashCode),
-              password.hashCode),
-          confirmPassword.hashCode,
-        ),
-      );
-
-  int _combine(int hash, int value) {
-    int newHash = 0x1fffffff & (hash + value);
-    newHash = 0x1fffffff & (newHash + ((0x0007ffff & newHash) << 10));
-    return newHash ^ (newHash >> 6);
-  }
-
-  int _finish(int hash) {
-    int newHash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
-    newHash = newHash ^ (newHash >> 11);
-    return 0x1fffffff & (newHash + ((0x00003fff & newHash) << 15));
-  }
+  int get hashCode =>
+      Hasher.getHashCode(<String>[email, name, password, confirmPassword]);
 }
