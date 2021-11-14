@@ -310,6 +310,12 @@ class __FormPartState extends State<_FormPart> {
             validator: _nameValidator,
             textInputAction: TextInputAction.next,
             onChanged: auth.setUsername,
+            autofillHints: const <String>[
+              AutofillHints.username,
+              AutofillHints.newUsername,
+              AutofillHints.name,
+            ],
+            textInputType: TextInputType.name,
           ),
         CustomTextFormField(
           controller: emailController,
@@ -319,6 +325,8 @@ class __FormPartState extends State<_FormPart> {
           validator: _emailValidator,
           textInputAction: TextInputAction.next,
           onChanged: auth.setEmail,
+          autofillHints: const <String>[AutofillHints.email],
+          textInputType: TextInputType.emailAddress,
         ),
         ObscuredTextFormField(
           controller: passwordController,

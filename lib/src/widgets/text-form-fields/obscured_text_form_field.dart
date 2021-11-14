@@ -60,6 +60,11 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
         decoration: theme.textFormFieldDeco ?? _formDeco,
         onFieldSubmitted: widget.onFieldSubmitted,
         onChanged: widget.onChanged,
+        keyboardType: TextInputType.visiblePassword,
+        autofillHints: const <String>[
+          AutofillHints.password,
+          AutofillHints.newPassword
+        ],
       ),
       widthFactor: widget.widthFactor,
     );
