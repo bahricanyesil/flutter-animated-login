@@ -19,6 +19,7 @@ import 'src/responsiveness/dynamic_size.dart';
 import 'src/utils/animation_helper.dart';
 import 'src/utils/validators.dart';
 import 'src/utils/view_type_helper.dart';
+import 'src/widgets/dialogs/dialog_builder.dart';
 import 'src/widgets/widgets_shelf.dart';
 
 export './src/constants/enums/enums_shelf.dart';
