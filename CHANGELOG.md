@@ -1,5 +1,43 @@
 # Versions
 
+## [0.0.4] - 15.11.2021
+
+Fixed most of the issues opened by @wer-mathurin, special thanks to @wer-mathurin
+Fixes, New Features:
+
+* Implemented AnimatedDialog with a soft animation for general dialog use
+* Implemented LanguageDialogTheme model for language dialog style
+* Implemented AnimatedDialogTheme model for custom dialog style
+* Added "copyWith" method to LoginViewTheme
+* Added auto-fill hints for email, password, and name fields
+* Added distinct text input types for each input field.
+* Created two distinct LoginViewTheme parameters for desktop and mobile views.
+* Added initialAuthMode field to be able to start with a custom mode (login/signup)
+* Added onAuthModeChange field to be able to track the current mode and may take some actions.
+* Removed actionTextStyle and changeActionTextStyle since they are suppressed by the foreground color of button styles.
+* Changed initialLanguage to selectedLanguage
+* Changed example project to show language change in a stateful widget.
+* ValidatorModel is created for custom validations
+* With the help of this new model, you can directly use your own custom validation or you can also enable/disable some of the default validations.
+* Form and welcome components are declared as private and part of the animated login widget.
+* Name parameters in the callbacks
+* The return type is changed to LanguageOption instead of String in the ChangeLanguageCallback
+* Field names are revised in the LanguageOption model.
+* Used equality operator instead of direct field comparison in the language comparison.
+* Readme and documentation update
+* Transferred style parameters to LoginTheme:
+1- animationCurve
+2- formWidthRatio
+3- animationDuration
+4- formElementsSpacing
+5- socialLoginsSpacing
+6- actionButtonStyle
+7- changeActionButtonStyle
+8- welcomePadding
+9- formPadding
+10- logoSize
+* Removed unnecessary change language button style properties such as: border color, background-color
+
 ## [0.0.3] - 07.11.2021
 
 * Added change language button with dialog, adjustments on sizes.
