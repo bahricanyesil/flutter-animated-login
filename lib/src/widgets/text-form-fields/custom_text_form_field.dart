@@ -20,6 +20,8 @@ class CustomTextFormField extends StatelessWidget {
     this.backgroundColor,
     this.widthFactor,
     this.textInputAction = TextInputAction.done,
+    this.autofillHints = const <String>[],
+    this.textInputType,
     Key? key,
   }) : super(key: key);
   final TextEditingController controller;
@@ -31,6 +33,8 @@ class CustomTextFormField extends StatelessWidget {
   final Color? backgroundColor;
   final double? widthFactor;
   final TextInputAction textInputAction;
+  final Iterable<String> autofillHints;
+  final TextInputType? textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +47,8 @@ class CustomTextFormField extends StatelessWidget {
         style: TextStyles(context).textFormStyle().merge(theme.textFormStyle),
         decoration: theme.textFormFieldDeco ?? _getFormDeco(context),
         onChanged: onChanged,
+        autofillHints: autofillHints,
+        keyboardType: textInputType,
       ),
       widthFactor: widthFactor,
     );
