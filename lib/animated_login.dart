@@ -8,6 +8,11 @@ import 'package:provider/provider.dart';
 
 import 'src/src_shelf.dart';
 
+export 'src/constants/enums/enums_shelf.dart';
+export 'src/models/models_shelf.dart';
+export 'src/providers/login_texts.dart';
+export 'src/providers/login_view_theme.dart';
+
 part 'src/widgets/form_part.dart';
 part 'src/widgets/welcome_components.dart';
 
