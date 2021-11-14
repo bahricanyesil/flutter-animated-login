@@ -6,25 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import 'src/constants/enums/auth_mode.dart';
-import 'src/constants/enums/sign_up_modes.dart';
-import 'src/decorations/button_styles.dart';
-import 'src/decorations/text_styles.dart';
-import 'src/models/language_option.dart';
-import 'src/models/models_shelf.dart';
-import 'src/providers/login_theme.dart';
-import 'src/providers/login_view_theme.dart';
-import 'src/providers/providers_shelf.dart';
-import 'src/responsiveness/dynamic_size.dart';
-import 'src/utils/animation_helper.dart';
-import 'src/utils/validators.dart';
-import 'src/utils/view_type_helper.dart';
-import 'src/widgets/dialogs/dialog_builder.dart';
-import 'src/widgets/widgets_shelf.dart';
-
-export './src/constants/enums/enums_shelf.dart';
-export './src/models/models_shelf.dart';
-export './src/providers/providers_shelf.dart';
+import 'src/src_shelf.dart';
 
 part 'src/widgets/form_part.dart';
 part 'src/widgets/welcome_components.dart';
