@@ -1,5 +1,9 @@
 # Versions
 
+## [0.0.5] - 15.11.2021
+
+* Replaced "io" package with [universal_io](https://pub.dev/packages/universal_io/example) because of web support.
+
 ## [0.0.4] - 15.11.2021
 
 Fixed most of the issues opened by [@wer-mathurin](https://github.com/wer-mathurin), special thanks to [@wer-mathurin](https://github.com/wer-mathurin)

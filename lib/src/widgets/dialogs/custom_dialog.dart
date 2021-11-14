@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:universal_io/io.dart';
 
 import '../../decorations/text_styles.dart';
 import '../../models/animated_dialog_theme.dart';

@@ -1,6 +1,6 @@
 name: animated_login
 description: Animated Login for Flutter. You can welcome your users with this beautiful animated screen that gives functionality for both login and sign up.
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/bahricanyesil/flutter-animated-login
 repository: https://github.com/bahricanyesil/flutter-animated-login
 
@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   provider: ^6.0.1
   animations: ^2.0.2
+  universal_io: ^2.0.4
 
 dev_dependencies:
   flutter_test:
