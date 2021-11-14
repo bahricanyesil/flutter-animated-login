@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../models/animated_dialog_theme.dart';
 import 'login_view_theme.dart';
 
 class LoginTheme with ChangeNotifier implements LoginViewTheme {
-  LoginTheme({
-    LoginViewTheme? initialTheme,
-  }) {
+  LoginTheme({LoginViewTheme? initialTheme}) {
     _currentTheme = initialTheme ?? LoginViewTheme();
   }
 
@@ -161,4 +160,7 @@ class LoginTheme with ChangeNotifier implements LoginViewTheme {
 
   @override
   TextStyle? get welcomeTitleStyle => currentTheme.welcomeTitleStyle;
+
+  @override
+  AnimatedDialogTheme? get dialogTheme => currentTheme.dialogTheme;
 }

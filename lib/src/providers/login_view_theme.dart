@@ -1,3 +1,4 @@
+import 'package:animated_login/src/models/animated_dialog_theme.dart';
 import 'package:flutter/material.dart';
 
 /// [LoginViewTheme] is the provider for all design/theme related data.
@@ -50,6 +51,7 @@ class LoginViewTheme {
     this.logoSize,
     this.socialLoginsSpacing,
     this.welcomePadding,
+    this.dialogTheme,
   })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
         assert(formElementsSpacing == null || formElementsSpacing <= 70,
             "Spacing between the form elements cannot be more than 70."),
@@ -192,4 +194,7 @@ class LoginViewTheme {
 
   /// The duration of the animations.
   final Duration? animationDuration;
+
+  /// Theme preferences for dialogs.
+  final AnimatedDialogTheme? dialogTheme;
 }

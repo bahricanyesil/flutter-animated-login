@@ -92,6 +92,18 @@ class TextStyles {
         fontWeight: fontWeight ?? FontWeight.w400,
         decoration: decoration,
       );
+
+  /// Custom text style for dialog content.
+  TextStyle dialogTextStyle(
+          {Color? color, FontWeight? fontWeight, TextDecoration? decoration}) =>
+      TextStyle(
+        fontSize: dynamicSize.responsiveSize * 5.2,
+        color: color ?? Colors.black.withOpacity(.8),
+        fontWeight: fontWeight ?? FontWeight.w400,
+        letterSpacing: .8,
+        wordSpacing: 1.5,
+        decoration: decoration,
+      );
 }
 
 /// Extension on [TextStyle] class to be able to underline texts
