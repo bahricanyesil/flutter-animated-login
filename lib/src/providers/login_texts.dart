@@ -26,7 +26,7 @@ class LoginTexts with ChangeNotifier {
     String? passwordMatchingError,
     String? dialogButtonText,
     String? chooseLanguageTitle,
-    LanguageOption? initialLanguage,
+    LanguageOption? selectedLanguage,
   })  : _welcome = welcome,
         _welcomeDescription = welcomeDescription,
         _signUp = signUp,
@@ -47,7 +47,7 @@ class LoginTexts with ChangeNotifier {
         _passwordMatchingError = passwordMatchingError,
         _dialogButtonText = dialogButtonText,
         _chooseLanguageTitle = chooseLanguageTitle,
-        language = initialLanguage;
+        language = selectedLanguage;
 
   /// Welcome title in signUp mode for the informing part.
   /// Default value is given in [_defaultWelcome].

@@ -70,7 +70,7 @@ class AnimatedLogin extends StatefulWidget {
     this.signUpMode = SignUpModes.both,
     this.languageOptions = const <LanguageOption>[],
     this.changeLanguageCallback,
-    this.initialLanguage,
+    this.selectedLanguage,
     this.changeLangOnPressed,
     Key? key,
   })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
@@ -83,8 +83,12 @@ class AnimatedLogin extends StatefulWidget {
         assert(logoSize == null || logoSize <= const Size(500, 400),
             "Logo size cannot be more than Size(500, 400)."),
         assert(
-            (changeLanguageCallback != null && languageOptions.length != 0) ||
-                (changeLanguageCallback == null && languageOptions.length == 0),
+            (changeLanguageCallback != null &&
+                    languageOptions.length != 0 &&
+                    selectedLanguage != null) ||
+                (changeLanguageCallback == null &&
+                    languageOptions.length == 0 &&
+                    selectedLanguage == null),
             """To use change language button, you should provide both callback and language options."""),
         super(key: key);
 
@@ -200,9 +204,9 @@ class AnimatedLogin extends StatefulWidget {
   /// Callback that will be called when a language is selected.
   final ChangeLanguageCallback? changeLanguageCallback;
 
-  /// Initial language which is selected as default.
-  /// If nothing provided, first element of [languageOptions] is taken.
-  final LanguageOption? initialLanguage;
+  /// Selected language that is stored in your side.
+  /// It will be used as an initial language at first.
+  final LanguageOption? selectedLanguage;
 
   /// Optional function will be called on pressed to the change language button.
   /// It should prompt a dialog to select a language and return the selected.
@@ -224,8 +228,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
     final LoginTheme loginTheme = widget.loginTheme ?? LoginTheme()
       ..isLandscape = ViewTypeHelper(context).isLandscape;
     final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
-      ..language = widget.initialLanguage ??
-          (widget.languageOptions.isEmpty ? null : widget.languageOptions[0]);
+      ..language = widget.selectedLanguage;
     return MultiProvider(
       providers: <ChangeNotifierProvider<dynamic>>[
         ChangeNotifierProvider<LoginTexts>.value(value: loginTexts),
