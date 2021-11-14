@@ -1,60 +1,31 @@
-import 'dart:async';
+part of '../../animated_login.dart';
 
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../constants/enums/sign_up_modes.dart';
-import '../decorations/text_styles.dart';
-import '../models/models_shelf.dart';
-import '../providers/providers_shelf.dart';
-import '../responsiveness/dynamic_size.dart';
-import '../utils/animation_helper.dart';
-import '../utils/validators.dart';
-import '../widgets/widgets_shelf.dart';
-import 'dialogs/dialog_builder.dart';
-
-class FormPart extends StatefulWidget {
-  const FormPart({
-    required this.backgroundColor,
+class _FormPart extends StatefulWidget {
+  const _FormPart({
     required this.animationController,
-    required this.animationCurve,
-    required this.formWidthRatio,
     required this.checkError,
     required this.showForgotPassword,
     required this.showPasswordVisibility,
     required this.signUpMode,
-    this.formKey,
-    this.formElementsSpacing,
-    this.socialLoginsSpacing,
+    required this.formKey,
     this.nameController,
     this.emailController,
     this.passwordController,
     this.confirmPasswordController,
-    this.actionButtonStyle,
-    this.formPadding,
+    this.nameValidator,
+    this.emailValidator,
+    this.passwordValidator,
+    this.validateName = true,
+    this.validateEmail = true,
+    this.validatePassword = true,
     Key? key,
   }) : super(key: key);
-
-  /// Background color of the whole form part.
-  final Color backgroundColor;
 
   /// Main animation controller for the transition animation.
   final AnimationController animationController;
 
-  /// Custom animation curve that will be used for animations.
-  final Curve animationCurve;
-
-  /// Ratio of width of the form to the width of the screen.
-  final double formWidthRatio;
-
-  /// The optional custom form key, if not provided will be created locally.
-  final GlobalKey<FormState>? formKey;
-
-  /// The spacing between the elements of form.
-  final double? formElementsSpacing;
-
-  /// The spacing between the social login options.
-  final double? socialLoginsSpacing;
+  /// Form key in the form widget. It is especially used for input validations.
+  final GlobalKey<FormState> formKey;
 
   /// Indicates whether the text form fields should show error messages.
   final bool checkError;
@@ -77,21 +48,33 @@ class FormPart extends StatefulWidget {
   /// Optional TextEditingController for confirm password input field.
   final TextEditingController? confirmPasswordController;
 
-  /// Custom button style for action button (login/signup).
-  final ButtonStyle? actionButtonStyle;
-
-  /// Padding of the form part widget.
-  final EdgeInsets? formPadding;
-
   /// Enum to determine which text form fields should be displayed in addition
   /// to the email and password fields: Name / Confirm Password / Both
   final SignUpModes signUpMode;
 
+  /// Custom input validator for name field.
+  final ValidatorModel? nameValidator;
+
+  /// Custom input validator for email field.
+  final ValidatorModel? emailValidator;
+
+  /// Custom input validator for password field.
+  final ValidatorModel? passwordValidator;
+
+  /// Indicates whether the name field should be validated.
+  final bool validateName;
+
+  /// Indicates whether the email field should be validated.
+  final bool validateEmail;
+
+  /// Indicates whether the password fields should be validated.
+  final bool validatePassword;
+
   @override
-  _FormPartState createState() => _FormPartState();
+  __FormPartState createState() => __FormPartState();
 }
 
-class _FormPartState extends State<FormPart> {
+class __FormPartState extends State<_FormPart> {
   /// Custom LoginTheme data, colors and styles on the screen.
   late LoginTheme loginTheme;
 
@@ -120,8 +103,7 @@ class _FormPartState extends State<FormPart> {
   late final TextEditingController confirmPasswordController;
 
   /// The form key that will be assigned to the form.
-  late final GlobalKey<FormState> _formKey =
-      widget.formKey ?? GlobalKey<FormState>();
+  late final GlobalKey<FormState> _formKey = widget.formKey;
 
   final FocusNode confirmPasswordFocus = FocusNode();
 
@@ -135,7 +117,7 @@ class _FormPartState extends State<FormPart> {
     /// from outside to the screen for the form components.
     offsetAnimation = AnimationHelper(
       animationController: widget.animationController,
-      animationCurve: widget.animationCurve,
+      animationCurve: context.read<LoginTheme>().animationCurve,
     ).tweenSequenceAnimation(80, 10);
 
     final Auth readAuth = context.read<Auth>();
@@ -165,7 +147,7 @@ class _FormPartState extends State<FormPart> {
     isLandscape = loginTheme.isLandscape;
     loginTexts = context.read<LoginTexts>();
     theme = Theme.of(context);
-    auth = context.watch<Auth>();
+    auth = context.read<Auth>();
     _initializeAnimations();
     return isLandscape
         ? _webView
@@ -178,7 +160,7 @@ class _FormPartState extends State<FormPart> {
   Widget get _webView => Transform.translate(
         offset: Offset(dynamicSize.width * transitionAnimation.value, 0),
         child: Container(
-          width: dynamicSize.width * widget.formWidthRatio,
+          width: dynamicSize.width * context.read<LoginTheme>().formWidthRatio,
           height: dynamicSize.height * 100,
           color: Colors.white,
           child: Transform.translate(
@@ -189,7 +171,7 @@ class _FormPartState extends State<FormPart> {
       );
 
   Widget get _formColumn => Padding(
-        padding: widget.formPadding ??
+        padding: context.read<LoginTheme>().formPadding ??
             (isLandscape
                 ? dynamicSize.highHorizontalPadding
                 : dynamicSize.lowMedHorizontalPadding),
@@ -217,24 +199,21 @@ class _FormPartState extends State<FormPart> {
       ];
 
   Widget get _formTitle => BaseText(
-        loginTheme.isReverse
-            ? loginTexts.loginFormTitle
-            : loginTexts.signUpFormTitle,
+        auth.isReverse ? loginTexts.loginFormTitle : loginTexts.signUpFormTitle,
         style: TextStyles(context)
             .titleStyle(color: isLandscape ? null : Colors.white)
             .merge(loginTheme.formTitleStyle),
       );
 
   Widget get _socialLoginOptions => Wrap(
-        spacing: widget.socialLoginsSpacing ?? dynamicSize.responsiveSize * 10,
+        spacing: context.read<LoginTheme>().socialLoginsSpacing ??
+            dynamicSize.responsiveSize * 10,
         alignment: WrapAlignment.center,
         children: _socialLoginButtons,
       );
 
   Widget get _useEmailText => BaseText(
-        loginTheme.isReverse
-            ? loginTexts.loginUseEmail
-            : loginTexts.signUpUseEmail,
+        auth.isReverse ? loginTexts.loginUseEmail : loginTexts.signUpUseEmail,
         style: TextStyles(context)
             .subtitleTextStyle(
                 color: isLandscape ? Colors.black87 : Colors.white)
@@ -260,12 +239,11 @@ class _FormPartState extends State<FormPart> {
   }
 
   Widget get _actionButton => RoundedButton(
-        buttonText: loginTheme.isReverse ? loginTexts.login : loginTexts.signUp,
+        buttonText: auth.isReverse ? loginTexts.login : loginTexts.signUp,
         onPressed: _action,
         backgroundColor:
             isLandscape ? theme.primaryColor.withOpacity(.8) : Colors.white,
-        buttonStyle: widget.actionButtonStyle,
-        textStyle: loginTheme.actionTextStyle,
+        buttonStyle: loginTheme.actionButtonStyle,
       );
 
   Future<void> _action() async {
@@ -316,32 +294,39 @@ class _FormPartState extends State<FormPart> {
           direction: Axis.vertical,
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
-          spacing: widget.formElementsSpacing ??
+          spacing: context.read<LoginTheme>().formElementsSpacing ??
               dynamicSize.height * (isLandscape ? 2.2 : 1.5),
           children: _formElements,
         ),
       );
 
   List<Widget> get _formElements => <Widget>[
-        if (!loginTheme.isReverse &&
-            widget.signUpMode != SignUpModes.confirmPassword)
+        if (!auth.isReverse && widget.signUpMode != SignUpModes.confirmPassword)
           CustomTextFormField(
             controller: nameController,
             hintText: loginTexts.nameHint,
             prefixIcon: Icons.person_outline,
             prefixWidget: loginTheme.nameIcon,
-            validator: Validators.name,
+            validator: _nameValidator,
             textInputAction: TextInputAction.next,
             onChanged: auth.setUsername,
+            autofillHints: const <String>[
+              AutofillHints.username,
+              AutofillHints.newUsername,
+              AutofillHints.name,
+            ],
+            textInputType: TextInputType.name,
           ),
         CustomTextFormField(
           controller: emailController,
           hintText: loginTexts.emailHint,
           prefixIcon: Icons.email_outlined,
           prefixWidget: loginTheme.emailIcon,
-          validator: Validators.email,
+          validator: _emailValidator,
           textInputAction: TextInputAction.next,
           onChanged: auth.setEmail,
+          autofillHints: const <String>[AutofillHints.email],
+          textInputType: TextInputType.emailAddress,
         ),
         ObscuredTextFormField(
           controller: passwordController,
@@ -353,8 +338,9 @@ class _FormPartState extends State<FormPart> {
           onFieldSubmitted: (_) =>
               auth.isSignup ? confirmPasswordFocus.requestFocus() : _action(),
           onChanged: auth.setPassword,
+          validator: _passwordValidator,
         ),
-        if (!loginTheme.isReverse && widget.signUpMode != SignUpModes.name)
+        if (!auth.isReverse && widget.signUpMode != SignUpModes.name)
           ObscuredTextFormField(
             controller: confirmPasswordController,
             hintText: loginTexts.confirmPasswordHint,
@@ -363,9 +349,33 @@ class _FormPartState extends State<FormPart> {
             onFieldSubmitted: (_) => _action(),
             focusNode: confirmPasswordFocus,
             onChanged: auth.setConfirmPassword,
+            validator: _passwordValidator,
           ),
-        if (loginTheme.isReverse && widget.showForgotPassword) _forgotPassword,
+        if (auth.isReverse && widget.showForgotPassword) _forgotPassword,
       ];
+
+  FormFieldValidator<String?>? get _nameValidator => widget.validateName
+      ? (widget.nameValidator?.customValidator ??
+          Validators(validator: widget.nameValidator).name)
+      : null;
+
+  FormFieldValidator<String?>? get _emailValidator => widget.validateEmail
+      ? (widget.emailValidator?.customValidator ??
+          Validators(validator: widget.emailValidator).email)
+      : null;
+
+  FormFieldValidator<String?>? get _passwordValidator => widget.validatePassword
+      ? (widget.passwordValidator?.customValidator ??
+          Validators(
+            validator: widget.passwordValidator ??
+                const ValidatorModel(
+                  checkLowerCase: true,
+                  checkUpperCase: true,
+                  checkNumber: true,
+                  checkSpace: true,
+                ),
+          ).password)
+      : null;
 
   Widget get _forgotPassword => Container(
         alignment: isLandscape ? Alignment.center : Alignment.topCenter,
@@ -393,15 +403,15 @@ class _FormPartState extends State<FormPart> {
     /// Initializes the transition animation from welcome part's width ratio
     /// to 0 with custom animation curve and animation controller.
     transitionAnimation = isLandscape
-        ? Tween<double>(begin: 100 - widget.formWidthRatio, end: 0).animate(
+        ? Tween<double>(begin: 100 - loginTheme.formWidthRatio, end: 0).animate(
             CurvedAnimation(
               parent: widget.animationController,
-              curve: widget.animationCurve,
+              curve: loginTheme.animationCurve,
             ),
           )
         : AnimationHelper(
             animationController: widget.animationController,
-            animationCurve: widget.animationCurve,
+            animationCurve: loginTheme.animationCurve,
           ).tweenSequenceAnimation(120, 20);
 
     _checkReverse();
@@ -409,11 +419,13 @@ class _FormPartState extends State<FormPart> {
   }
 
   void _checkReverse() {
-    if (isLandscape) {
-      loginTheme.isReverse =
-          transitionAnimation.value >= (100 - widget.formWidthRatio) / 2;
-    } else if (_forwardCheck) {
-      loginTheme.isReverse = !loginTheme.isReverse;
+    if (mounted) {
+      if (isLandscape) {
+        auth.isReverse = transitionAnimation.value >=
+            (100 - context.read<LoginTheme>().formWidthRatio) / 2;
+      } else if (_forwardCheck) {
+        auth.isReverse = !auth.isReverse;
+      }
     }
   }
 
@@ -421,7 +433,7 @@ class _FormPartState extends State<FormPart> {
 
   bool get _statusCheck =>
       (transitionAnimation.status == AnimationStatus.forward &&
-          loginTheme.isReverse) ||
+          auth.isReverse) ||
       (transitionAnimation.status == AnimationStatus.reverse &&
-          !loginTheme.isReverse);
+          !auth.isReverse);
 }

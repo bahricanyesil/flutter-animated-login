@@ -1,73 +1,86 @@
 library animated_login;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import 'src/constants/enums/auth_mode.dart';
 import 'src/constants/enums/sign_up_modes.dart';
+import 'src/decorations/button_styles.dart';
+import 'src/decorations/text_styles.dart';
+import 'src/models/language_option.dart';
 import 'src/models/models_shelf.dart';
+import 'src/providers/login_theme.dart';
+import 'src/providers/login_view_theme.dart';
 import 'src/providers/providers_shelf.dart';
 import 'src/responsiveness/dynamic_size.dart';
 import 'src/utils/animation_helper.dart';
+import 'src/utils/validators.dart';
 import 'src/utils/view_type_helper.dart';
-import 'src/widgets/form_part.dart';
-import 'src/widgets/welcome_components.dart';
+import 'src/widgets/widgets_shelf.dart';
 
-export './src/constants/enums/sign_up_modes.dart';
+export './src/constants/enums/enums_shelf.dart';
 export './src/models/models_shelf.dart';
 export './src/providers/providers_shelf.dart';
+
+part 'src/widgets/form_part.dart';
+part 'src/widgets/welcome_components.dart';
 
 /// Main widget creates the animated login screen
 /// Wraps the main view with providers.
 class AnimatedLogin extends StatefulWidget {
   const AnimatedLogin({
-    this.loginTheme,
+    this.loginDesktopTheme,
+    this.loginMobileTheme,
     this.loginTexts,
     this.socialLogins,
     this.onLogin,
     this.onSignup,
     this.onForgotPassword,
-    this.animationCurve = const Cubic(0.85, 0.40, 0.40, 0.85),
-    this.formWidthRatio = 60,
-    this.animationDuration,
     this.formKey,
-    this.formElementsSpacing,
-    this.socialLoginsSpacing,
     this.checkError = true,
     this.showForgotPassword = true,
     this.showChangeActionTitle = true,
     this.showPasswordVisibility = true,
+    this.nameValidator,
+    this.emailValidator,
+    this.passwordValidator,
+    this.validateName = true,
+    this.validateEmail = true,
+    this.validatePassword = true,
     this.nameController,
     this.emailController,
     this.passwordController,
     this.confirmPasswordController,
-    this.actionButtonStyle,
-    this.changeActionButtonStyle,
-    this.welcomePadding,
-    this.formPadding,
     this.backgroundImage,
     this.logo,
-    this.logoSize,
     this.signUpMode = SignUpModes.both,
     this.languageOptions = const <LanguageOption>[],
     this.changeLanguageCallback,
-    this.initialLanguage,
+    this.selectedLanguage,
     this.changeLangOnPressed,
+    this.initialMode,
+    this.onAuthModeChange,
     Key? key,
-  })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
-        assert(formElementsSpacing == null || formElementsSpacing <= 70,
-            "Spacing between the form elements cannot be more than 70."),
-        assert(socialLoginsSpacing == null || socialLoginsSpacing <= 200,
-            "Social logins spacing cannot be more than 200."),
-        assert(socialLoginsSpacing == null || socialLoginsSpacing <= 200,
-            "Social logins spacing cannot be more than 200."),
-        assert(logoSize == null || logoSize <= const Size(500, 400),
-            "Logo size cannot be more than Size(500, 400)."),
+  })  : assert(
+            (changeLanguageCallback != null &&
+                    languageOptions.length != 0 &&
+                    selectedLanguage != null) ||
+                (changeLanguageCallback == null &&
+                    languageOptions.length == 0 &&
+                    selectedLanguage == null),
+            """To use change language button, you should provide both callback and language options."""),
         super(key: key);
 
-  /// Determines all of the theme related variables on the screen.
-  /// Example: colors, text styles, button styles...
-  final LoginTheme? loginTheme;
+  /// Determines all of the theme related variables for *DESKTOP* view.
+  /// Example: colors, text styles, button styles.
+  final LoginViewTheme? loginDesktopTheme;
+
+  /// Determines all of the theme related variables for *MOBILE* view.
+  /// Example: colors, text styles, button styles.
+  final LoginViewTheme? loginMobileTheme;
 
   /// Determines all of the texts on the screen.
   final LoginTexts? loginTexts;
@@ -85,23 +98,8 @@ class AnimatedLogin extends StatefulWidget {
   /// Commonly it navigates user to a screen to reset the password.
   final ForgotPasswordCallback? onForgotPassword;
 
-  /// Custom animation curve that will be used for animations.
-  final Curve animationCurve;
-
-  /// Ratio of width of the form to the width of the screen.
-  final double formWidthRatio;
-
-  /// The duration of the animations.
-  final Duration? animationDuration;
-
   /// The optional custom form key, if not provided will be created locally.
   final GlobalKey<FormState>? formKey;
-
-  /// The spacing between the elements of form.
-  final double? formElementsSpacing;
-
-  /// The spacing between the social login options.
-  final double? socialLoginsSpacing;
 
   /// Indicates whether the login screen should handle errors,
   /// show the error messages returned from the callbacks in a dialog.
@@ -116,6 +114,24 @@ class AnimatedLogin extends StatefulWidget {
   /// Indicates whether the user can show the password text without obscuring.
   final bool showPasswordVisibility;
 
+  /// Custom input validator for name field.
+  final ValidatorModel? nameValidator;
+
+  /// Custom input validator for email field.
+  final ValidatorModel? emailValidator;
+
+  /// Custom input validator for password field.
+  final ValidatorModel? passwordValidator;
+
+  /// Indicates whether the name field should be validated.
+  final bool validateName;
+
+  /// Indicates whether the email field should be validated.
+  final bool validateEmail;
+
+  /// Indicates whether the password fields should be validated.
+  final bool validatePassword;
+
   /// Optional TextEditingController for name input field.
   final TextEditingController? nameController;
 
@@ -128,26 +144,11 @@ class AnimatedLogin extends StatefulWidget {
   /// Optional TextEditingController for confirm password input field.
   final TextEditingController? confirmPasswordController;
 
-  /// Custom button style for action button (login/signup).
-  final ButtonStyle? actionButtonStyle;
-
-  /// Custom button style for change action button that will switch auth mode.
-  final ButtonStyle? changeActionButtonStyle;
-
-  /// Padding of the welcome part widget.
-  final EdgeInsets? welcomePadding;
-
-  /// Padding of the form part widget.
-  final EdgeInsets? formPadding;
-
   /// Full asset image path for background of the welcome part.
   final String? backgroundImage;
 
   /// Full asset image path for the logo.
   final String? logo;
-
-  /// Size of the logo in the welcome part.
-  final Size? logoSize;
 
   /// Enum to determine which text form fields should be displayed in addition
   /// to the email and password fields: Name / Confirm Password / Both
@@ -159,30 +160,41 @@ class AnimatedLogin extends StatefulWidget {
   /// Callback that will be called when a language is selected.
   final ChangeLanguageCallback? changeLanguageCallback;
 
-  /// Initial language which is selected as default.
-  final LanguageOption? initialLanguage;
+  /// Selected language that is stored in your side.
+  /// It will be used as an initial language at first.
+  final LanguageOption? selectedLanguage;
 
   /// Optional function will be called on pressed to the change language button.
   /// It should prompt a dialog to select a language and return the selected.
   final ChangeLangOnPressedCallback? changeLangOnPressed;
+
+  /// If you update the state of parent widget of animated login,
+  /// you should provide the last auth mode by using [onAuthModeChange].
+  final AuthMode? initialMode;
+
+  /// It is called on auth mode changes, you can store the current mode.
+  final AuthModeChangeCallback? onAuthModeChange;
 
   @override
   State<AnimatedLogin> createState() => _AnimatedLoginState();
 }
 
 class _AnimatedLoginState extends State<AnimatedLogin> {
-  /// Background color of whole screen for mobile view,
-  /// of welcome part for web view.
-  late Color backgroundColor;
-
   @override
   Widget build(BuildContext context) {
-    backgroundColor = widget.loginTheme?.backgroundColor ??
-        Theme.of(context).primaryColor.withOpacity(.8);
-    final LoginTheme loginTheme = widget.loginTheme ?? LoginTheme()
-      ..isLandscape = ViewTypeHelper(context).isLandscape;
+    final bool isLandscape = ViewTypeHelper(context).isLandscape;
+
+    final LoginViewTheme? initialTheme =
+        isLandscape ? widget.loginDesktopTheme : widget.loginMobileTheme;
+
+    /// Background color of whole screen for mobile view,
+    /// of welcome part for web view.
+    final LoginTheme loginTheme =
+        LoginTheme(initialTheme: initialTheme ?? LoginViewTheme())
+          ..isLandscape = isLandscape
+          ..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
     final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
-      ..language = widget.initialLanguage;
+      ..language = widget.selectedLanguage;
     return MultiProvider(
       providers: <ChangeNotifierProvider<dynamic>>[
         ChangeNotifierProvider<LoginTexts>.value(value: loginTexts),
@@ -193,11 +205,13 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
             onLogin: widget.onLogin,
             onSignup: widget.onSignup,
             socialLogins: widget.socialLogins,
+            initialMode: widget.initialMode,
+            onAuthModeChange: widget.onAuthModeChange,
           ),
         ),
       ],
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: loginTheme.backgroundColor,
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
           WidgetsBinding.instance!.addPostFrameCallback((_) => context
@@ -205,13 +219,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
               .setIsLandscape(ViewTypeHelper(context).isLandscape));
           return SafeArea(
             child: _View(
-              backgroundColor: backgroundColor,
-              animationCurve: widget.animationCurve,
-              formWidthRatio: widget.formWidthRatio,
-              animationDuration: widget.animationDuration,
               formKey: widget.formKey,
-              formElementsSpacing: widget.formElementsSpacing,
-              socialLoginsSpacing: widget.socialLoginsSpacing,
               checkError: widget.checkError,
               showForgotPassword: widget.showForgotPassword,
               showChangeActionTitle: widget.showChangeActionTitle,
@@ -220,17 +228,18 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
               emailController: widget.emailController,
               passwordController: widget.passwordController,
               confirmPasswordController: widget.confirmPasswordController,
-              actionButtonStyle: widget.actionButtonStyle,
-              changeActionButtonStyle: widget.changeActionButtonStyle,
-              welcomePadding: widget.welcomePadding,
-              formPadding: widget.formPadding,
               backgroundImage: widget.backgroundImage,
               logo: widget.logo,
-              logoSize: widget.logoSize,
               signUpMode: widget.signUpMode,
               languageOptions: widget.languageOptions,
               changeLanguageCallback: widget.changeLanguageCallback,
               changeLangOnPressed: widget.changeLangOnPressed,
+              nameValidator: widget.nameValidator,
+              emailValidator: widget.emailValidator,
+              passwordValidator: widget.passwordValidator,
+              validateName: widget.validateName,
+              validateEmail: widget.validateEmail,
+              validatePassword: widget.validatePassword,
             ),
           );
         }),
@@ -240,16 +249,10 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
 }
 
 /// Draws the main view of the screen by using
-/// [FormPart], [LogoAndTexts], [ChangeActionTitle] and [ChangeActionButton]
+/// [_FormPart], [_LogoAndTexts], [_ChangeActionTitle] and [_ChangeActionButton]
 class _View extends StatefulWidget {
   const _View({
-    required this.backgroundColor,
-    required this.animationCurve,
-    this.formWidthRatio = 60,
-    this.animationDuration,
     this.formKey,
-    this.formElementsSpacing,
-    this.socialLoginsSpacing,
     this.checkError = true,
     this.showForgotPassword = true,
     this.showChangeActionTitle = true,
@@ -258,26 +261,22 @@ class _View extends StatefulWidget {
     this.emailController,
     this.passwordController,
     this.confirmPasswordController,
-    this.actionButtonStyle,
-    this.changeActionButtonStyle,
-    this.welcomePadding,
-    this.formPadding,
     this.backgroundImage,
     this.logo,
-    this.logoSize,
     this.signUpMode = SignUpModes.both,
     this.languageOptions = const <LanguageOption>[],
     this.changeLanguageCallback,
     this.changeLangOnPressed,
+    this.nameValidator,
+    this.emailValidator,
+    this.passwordValidator,
+    this.validateName = true,
+    this.validateEmail = true,
+    this.validatePassword = true,
     Key? key,
   }) : super(key: key);
 
-  final Curve animationCurve;
-  final double formWidthRatio;
-  final Duration? animationDuration;
   final GlobalKey<FormState>? formKey;
-  final double? formElementsSpacing;
-  final double? socialLoginsSpacing;
   final bool checkError;
   final bool showForgotPassword;
   final bool showChangeActionTitle;
@@ -286,18 +285,18 @@ class _View extends StatefulWidget {
   final TextEditingController? emailController;
   final TextEditingController? passwordController;
   final TextEditingController? confirmPasswordController;
-  final ButtonStyle? actionButtonStyle;
-  final ButtonStyle? changeActionButtonStyle;
-  final EdgeInsets? welcomePadding;
-  final EdgeInsets? formPadding;
   final String? backgroundImage;
   final String? logo;
-  final Size? logoSize;
   final SignUpModes signUpMode;
-  final Color backgroundColor;
   final List<LanguageOption> languageOptions;
   final ChangeLanguageCallback? changeLanguageCallback;
   final ChangeLangOnPressedCallback? changeLangOnPressed;
+  final ValidatorModel? nameValidator;
+  final ValidatorModel? emailValidator;
+  final ValidatorModel? passwordValidator;
+  final bool validateName;
+  final bool validateEmail;
+  final bool validatePassword;
 
   @override
   __ViewState createState() => __ViewState();
@@ -322,6 +321,13 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   /// Custom LoginTexts data, texts on the screen.
   late LoginTexts loginTexts;
 
+  /// Auth data provider.
+  late Auth auth;
+
+  /// The optional custom form key, if not provided will be created locally.
+  late final GlobalKey<FormState> formKey =
+      widget.formKey ?? GlobalKey<FormState>();
+
   bool isLandscape = true;
 
   @override
@@ -329,7 +335,8 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: widget.animationDuration ?? const Duration(milliseconds: 600),
+      duration: context.read<LoginTheme>().animationDuration ??
+          const Duration(milliseconds: 600),
     );
   }
 
@@ -343,6 +350,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     loginTexts = context.read<LoginTexts>();
     loginTheme = context.read<LoginTheme>();
+    auth = context.read<Auth>();
     isLandscape = context.watch<LoginTheme>().isLandscape;
     dynamicSize = DynamicSize(context);
     _initializeAnimations();
@@ -354,7 +362,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
   Widget get _webView => Stack(
         children: <Widget>[
-          Container(color: widget.backgroundColor),
+          Container(color: loginTheme.backgroundColor),
           _animatedWebWelcome,
           _formPart,
           if (widget.changeLanguageCallback != null &&
@@ -373,19 +381,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
                 vertical: dynamicSize.height * 2.5,
                 horizontal: dynamicSize.width * 7,
               ),
-              children: <Widget>[
-                _welcomeAnimationWrapper(_logoAndTexts),
-                _formPart,
-                SizedBox(height: dynamicSize.height * 2.5),
-                if (widget.showChangeActionTitle)
-                  _welcomeAnimationWrapper(
-                    ChangeActionTitle(
-                      isReverse: loginTheme.isReverse,
-                      showButtonText: true,
-                      animate: () => animate(context),
-                    ),
-                  ),
-              ],
+              children: _mobileChildren,
             ),
           ),
           if (widget.changeLanguageCallback != null &&
@@ -394,6 +390,16 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             _changeLanguage,
         ],
       );
+  List<Widget> get _mobileChildren => <Widget>[
+        _welcomeAnimationWrapper(_LogoAndTexts(logo: widget.logo)),
+        _formPart,
+        SizedBox(height: dynamicSize.height * 2.5),
+        if (widget.showChangeActionTitle)
+          _welcomeAnimationWrapper(
+            _ChangeActionTitle(
+                showButtonText: true, animate: () => animate(context)),
+          ),
+      ];
 
   Widget _welcomeAnimationWrapper(Widget child) => Transform.translate(
         offset: Offset(dynamicSize.width * welcomeTransitionAnimation.value, 0),
@@ -404,7 +410,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         offset: Offset(dynamicSize.width * welcomeTransitionAnimation.value, 0),
         child: Container(
           decoration: BoxDecoration(
-            color: widget.backgroundColor,
+            color: loginTheme.backgroundColor,
             image: widget.backgroundImage == null
                 ? null
                 : DecorationImage(
@@ -412,24 +418,24 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
                     fit: BoxFit.cover,
                   ),
           ),
-          width: dynamicSize.width * (100 - widget.formWidthRatio),
+          width: dynamicSize.width *
+              (100 - context.read<LoginTheme>().formWidthRatio),
           height: dynamicSize.height * 100,
           child: _webWelcomeComponents(context),
         ),
       );
 
   Widget _webWelcomeComponents(BuildContext context) => Padding(
-        padding: widget.welcomePadding ??
+        padding: context.read<LoginTheme>().welcomePadding ??
             DynamicSize(context).medHighHorizontalPadding,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _logoAndTexts,
+            _LogoAndTexts(logo: widget.logo),
             SizedBox(height: DynamicSize(context).height * 7),
-            if (widget.showChangeActionTitle)
-              ChangeActionTitle(isReverse: loginTheme.isReverse),
+            if (widget.showChangeActionTitle) const _ChangeActionTitle(),
             SizedBox(height: DynamicSize(context).height * 2),
-            _changeActionButton,
+            _ChangeActionButton(animate: () => animate(context)),
           ],
         ),
       );
@@ -437,7 +443,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   Widget get _changeLanguage => Positioned(
         top: dynamicSize.responsiveSize * 6,
         right: dynamicSize.responsiveSize * 8,
-        child: ChangeLanguage(
+        child: _ChangeLanguage(
           chooseLanguageCallback: widget.changeLanguageCallback!,
           languageOptions: widget.languageOptions,
           colorTween: colorTween,
@@ -445,39 +451,29 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         ),
       );
 
-  Widget get _logoAndTexts => LogoAndTexts(
-        logo: widget.logo,
-        logoSize: widget.logoSize,
-        isReverse: loginTheme.isReverse,
-      );
-
-  Widget get _changeActionButton => ChangeActionButton(
-        isReverse: loginTheme.isReverse,
-        animate: () => animate(context),
-        changeActionButtonStyle: widget.changeActionButtonStyle,
-      );
-
-  Widget get _formPart => FormPart(
-        backgroundColor: widget.backgroundColor,
+  Widget get _formPart => _FormPart(
         animationController: animationController,
-        formWidthRatio: widget.formWidthRatio,
-        animationCurve: widget.animationCurve,
-        formKey: widget.formKey,
-        formElementsSpacing: widget.formElementsSpacing,
-        socialLoginsSpacing: widget.socialLoginsSpacing,
+        formKey: formKey,
         checkError: widget.checkError,
         showForgotPassword: widget.showForgotPassword,
-        actionButtonStyle: widget.actionButtonStyle,
-        formPadding: widget.formPadding,
         showPasswordVisibility: widget.showPasswordVisibility,
         nameController: widget.nameController,
         emailController: widget.emailController,
         passwordController: widget.passwordController,
         confirmPasswordController: widget.confirmPasswordController,
         signUpMode: widget.signUpMode,
+        nameValidator: widget.nameValidator,
+        emailValidator: widget.emailValidator,
+        passwordValidator: widget.passwordValidator,
+        validateName: widget.validateName,
+        validateEmail: widget.validateEmail,
+        validatePassword: widget.validatePassword,
       );
 
   void animate(BuildContext context) {
+    if (formKey.currentState != null) {
+      formKey.currentState!.reset();
+    }
     animationController.isCompleted
         ? animationController.reverse()
         : animationController.forward();
@@ -488,41 +484,42 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     /// Initializes the transition animation from 0 to form part's width ratio
     /// with custom animation curve and animation controller.
     welcomeTransitionAnimation = isLandscape
-        ? Tween<double>(begin: 0, end: widget.formWidthRatio).animate(
+        ? Tween<double>(begin: 0, end: loginTheme.formWidthRatio).animate(
             CurvedAnimation(
               parent: animationController,
-              curve: widget.animationCurve,
+              curve: loginTheme.animationCurve,
             ),
           )
         : AnimationHelper(
             animationController: animationController,
-            animationCurve: widget.animationCurve,
+            animationCurve: loginTheme.animationCurve,
           ).tweenSequenceAnimation(-110, 20);
 
     colorTween = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: animationController,
-        curve: widget.animationCurve,
+        curve: loginTheme.animationCurve,
       ),
     );
 
     welcomeTransitionAnimation.addListener(() {
       if (isLandscape) {
-        loginTheme.isReverse =
-            welcomeTransitionAnimation.value <= widget.formWidthRatio / 2;
+        auth.isReverse =
+            welcomeTransitionAnimation.value <= loginTheme.formWidthRatio / 2;
       } else if (_forwardCheck) {
-        loginTheme.isReverse = !loginTheme.isReverse;
+        auth.isReverse = !auth.isReverse;
       }
     });
   }
 
   bool get _forwardCheck => isLandscape
-      ? welcomeTransitionAnimation.value <= widget.formWidthRatio / 2
+      ? welcomeTransitionAnimation.value <=
+          context.read<LoginTheme>().formWidthRatio / 2
       : welcomeTransitionAnimation.value <= -100 && _statusCheck;
 
   bool get _statusCheck =>
       (welcomeTransitionAnimation.status == AnimationStatus.forward &&
-          loginTheme.isReverse) ||
+          auth.isReverse) ||
       (welcomeTransitionAnimation.status == AnimationStatus.reverse &&
-          !loginTheme.isReverse);
+          !auth.isReverse);
 }

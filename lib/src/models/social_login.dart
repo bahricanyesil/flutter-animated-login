@@ -5,11 +5,11 @@ import 'signup_data.dart';
 
 /// The result should be the error message.
 /// Returning null indicatest that the callback succeed.
-typedef LoginCallback = Future<String?> Function(LoginData);
+typedef LoginCallback = Future<String?> Function(LoginData loginData);
 
 /// The result should be the error message.
 /// Returning null indicatest that the callback succeed.
-typedef SignupCallback = Future<String?> Function(SignUpData);
+typedef SignupCallback = Future<String?> Function(SignUpData signUpData);
 
 /// The result should be the error message.
 /// Returning null indicatest that the callback succeed.

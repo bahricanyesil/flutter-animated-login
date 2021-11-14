@@ -18,7 +18,6 @@ class RoundedButton extends StatelessWidget {
     this.borderColor,
     this.borderRadius,
     this.borderWidth = 1.4,
-    this.textStyle,
     this.width,
     this.height,
     this.buttonStyle,
@@ -31,7 +30,6 @@ class RoundedButton extends StatelessWidget {
   final Color? borderColor;
   final BorderRadius? borderRadius;
   final double borderWidth;
-  final TextStyle? textStyle;
   final double? width;
   final double? height;
   final ButtonStyle? buttonStyle;
@@ -44,16 +42,7 @@ class RoundedButton extends StatelessWidget {
           ? buttonStyle!.merge(_defaultButtonStyle(context, isLandscape))
           : _defaultButtonStyle(context, isLandscape),
       onPressed: onPressed,
-      child: BaseText(
-        buttonText,
-        style: TextStyles(context)
-            .bodyStyle(
-              color:
-                  isLandscape ? Colors.white : Theme.of(context).primaryColor,
-              fontWeight: FontWeight.w600,
-            )
-            .merge(textStyle),
-      ),
+      child: BaseText(buttonText, forceDefaultStyle: true),
     );
   }
 
@@ -68,5 +57,11 @@ class RoundedButton extends StatelessWidget {
           width ?? DynamicSize(context).width * (isLandscape ? 14 : 30),
           height ?? DynamicSize(context).height * (isLandscape ? 9 : 7.3),
         ),
+        textStyle: TextStyles(context).bodyStyle(
+          color: isLandscape ? Colors.white : Theme.of(context).primaryColor,
+          fontWeight: FontWeight.w500,
+        ),
+        foregroundColor:
+            isLandscape ? Colors.white : Theme.of(context).primaryColor,
       );
 }

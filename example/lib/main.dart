@@ -40,13 +40,19 @@ class MyApp extends StatelessWidget {
   };
 }
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   /// Simulates the multilanguage, you will implement your own logic.
   /// According to the current language, you can display a text message
   /// with the help of [LoginTexts] class.
-  final String langCode = 'en';
+  LanguageOption language = _languageOptions[1];
+  AuthMode currentMode = AuthMode.login;
 
   @override
   Widget build(BuildContext context) {
@@ -54,45 +60,65 @@ class LoginScreen extends StatelessWidget {
       onLogin: LoginFunctions(context).onLogin,
       onSignup: LoginFunctions(context).onSignup,
       onForgotPassword: LoginFunctions(context).onForgotPassword,
-      formWidthRatio: 60,
       logo: 'images/logo.gif',
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
       socialLogins: _socialLogins(context),
-      loginTheme: _loginTheme,
+      loginDesktopTheme: _desktopTheme,
+      loginMobileTheme: _mobileTheme,
       loginTexts: _loginTexts,
-      changeLanguageCallback: (String? val) {
-        if (val != null) {
-          DialogBuilder(context)
-              .showResultDialog('Successfully changed the language to: $val.');
+      changeLanguageCallback: (LanguageOption? _language) {
+        if (_language != null) {
+          DialogBuilder(context).showResultDialog(
+              'Successfully changed the language to: ${_language.value}.');
+          if (mounted) setState(() => language = _language);
         }
       },
       languageOptions: _languageOptions,
-      initialLanguage: _languageOptions[0],
+      selectedLanguage: language,
+      initialMode: currentMode,
+      onAuthModeChange: (AuthMode newMode) => currentMode = newMode,
     );
   }
 
-  List<LanguageOption> get _languageOptions => const <LanguageOption>[
+  static List<LanguageOption> get _languageOptions => const <LanguageOption>[
         LanguageOption(
-          languageAbbr: 'TR',
-          language: 'Turkish',
+          value: 'Turkish',
+          code: 'TR',
           iconPath: 'assets/images/tr.png',
         ),
         LanguageOption(
-          languageAbbr: 'EN',
-          language: 'English',
+          value: 'English',
+          code: 'EN',
           iconPath: 'assets/images/en.png',
         ),
       ];
 
   /// You can adjust the colors, text styles, button styles, borders
-  /// according to your design preferences.
+  /// according to your design preferences for *DESKTOP* view.
   /// You can also set some additional display options such as [showLabelTexts].
-  LoginTheme get _loginTheme => LoginTheme(
+  LoginViewTheme get _desktopTheme => _mobileTheme.copyWith(
+        // To set the color of button text, use foreground color.
+        actionButtonStyle: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all(Colors.white),
+        ),
+        dialogTheme: const AnimatedDialogTheme(
+          languageDialogTheme: LanguageDialogTheme(
+              optionMargin: EdgeInsets.symmetric(horizontal: 80)),
+        ),
+      );
+
+  /// You can adjust the colors, text styles, button styles, borders
+  /// according to your design preferences for *MOBILE* view.
+  /// You can also set some additional display options such as [showLabelTexts].
+  LoginViewTheme get _mobileTheme => LoginViewTheme(
         // showLabelTexts: false,
         backgroundColor: Colors.blue, // const Color(0xFF6666FF),
         formFieldBackgroundColor: Colors.white,
-        changeActionTextStyle: const TextStyle(color: Colors.white),
+        formWidthRatio: 60,
+        // actionButtonStyle: ButtonStyle(
+        //   foregroundColor: MaterialStateProperty.all(Colors.blue),
+        // ),
       );
 
   LoginTexts get _loginTexts => LoginTexts(
@@ -103,9 +129,11 @@ class LoginScreen extends StatelessWidget {
 
   /// You can adjust the texts in the screen according to the current language
   /// With the help of [LoginTexts], you can create a multilanguage scren.
-  String get _username => langCode == 'tr' ? 'Kullanıcı Adı' : 'Username';
-  String get _login => langCode == 'tr' ? 'Giriş Yap' : 'Login';
-  String get _signup => langCode == 'tr' ? 'Kayıt Ol' : 'Sign Up';
+  String get _username => language.code == 'TR' ? 'Kullanıcı Adı' : 'Username';
+
+  String get _login => language.code == 'TR' ? 'Giriş Yap' : 'Login';
+
+  String get _signup => language.code == 'TR' ? 'Kayıt Ol' : 'Sign Up';
 
   /// Social login options, you should provide callback function and icon path.
   /// Icon paths should be the full path in the assets

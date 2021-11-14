@@ -1,28 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+part of '../../animated_login.dart';
 
-import '../decorations/button_styles.dart';
-import '../decorations/text_styles.dart';
-import '../models/language_option.dart';
-import '../providers/providers_shelf.dart';
-import '../responsiveness/dynamic_size.dart';
-import '../utils/view_type_helper.dart';
-import '../widgets/buttons/rounded_button.dart';
-import '../widgets/texts/base_text.dart';
-import '../widgets/texts/not_fitted_text.dart';
-import 'dialogs/dialog_builder.dart';
-import 'icons/base_icon.dart';
-
-class LogoAndTexts extends StatelessWidget {
-  const LogoAndTexts({
-    required this.logo,
-    required this.logoSize,
-    required this.isReverse,
-    Key? key,
-  }) : super(key: key);
+class _LogoAndTexts extends StatelessWidget {
+  const _LogoAndTexts({required this.logo, Key? key}) : super(key: key);
   final String? logo;
-  final Size? logoSize;
-  final bool isReverse;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -39,7 +19,9 @@ class LogoAndTexts extends StatelessWidget {
   Widget _title(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return BaseText(
-      isReverse ? loginTexts.welcomeBack : loginTexts.welcome,
+      context.read<Auth>().isReverse
+          ? loginTexts.welcomeBack
+          : loginTexts.welcome,
       style: TextStyles(context)
           .titleStyle(color: Colors.white)
           .merge(context.read<LoginTheme>().welcomeTitleStyle),
@@ -49,7 +31,7 @@ class LogoAndTexts extends StatelessWidget {
   Widget _description(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return NotFittedText(
-      isReverse
+      context.read<Auth>().isReverse
           ? loginTexts.welcomeBackDescription
           : loginTexts.welcomeDescription,
       style: TextStyles(context)
@@ -60,51 +42,42 @@ class LogoAndTexts extends StatelessWidget {
 
   Widget _logo(BuildContext context) {
     final DynamicSize dynamicSize = DynamicSize(context);
-    final bool isLandscape = context.read<LoginTheme>().isLandscape;
+    final LoginTheme loginTheme = context.read<LoginTheme>();
     return Container(
-      constraints: BoxConstraints.tight(logoSize ??
+      constraints: BoxConstraints.tight(loginTheme.logoSize ??
           Size.fromHeight(
-              dynamicSize.responsiveSize * (isLandscape ? 26 : 30))),
-      padding:
-          EdgeInsets.only(bottom: dynamicSize.height * (isLandscape ? 4 : 2)),
+              dynamicSize.responsiveSize * (loginTheme.isLandscape ? 26 : 30))),
+      padding: EdgeInsets.only(
+          bottom: dynamicSize.height * (loginTheme.isLandscape ? 4 : 2)),
       child: Image.asset(logo!),
     );
   }
 }
 
-class ChangeActionButton extends StatelessWidget {
-  const ChangeActionButton({
-    required this.isReverse,
-    required this.animate,
-    required this.changeActionButtonStyle,
-    Key? key,
-  }) : super(key: key);
-  final bool isReverse;
+class _ChangeActionButton extends StatelessWidget {
+  const _ChangeActionButton({required this.animate, Key? key})
+      : super(key: key);
   final Function() animate;
-  final ButtonStyle? changeActionButtonStyle;
 
   @override
   Widget build(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
+    final LoginTheme loginTheme = context.read<LoginTheme>();
     return RoundedButton(
-      buttonText: isReverse ? loginTexts.signUp : loginTexts.login,
+      buttonText:
+          context.read<Auth>().isReverse ? loginTexts.signUp : loginTexts.login,
       onPressed: animate,
       borderColor: Colors.white,
       backgroundColor: Theme.of(context).primaryColor.withOpacity(.8),
-      buttonStyle: changeActionButtonStyle,
-      textStyle: context.read<LoginTheme>().changeActionTextStyle,
+      buttonStyle: loginTheme.changeActionButtonStyle,
     );
   }
 }
 
-class ChangeActionTitle extends StatelessWidget {
-  const ChangeActionTitle({
-    required this.isReverse,
-    this.showButtonText = false,
-    this.animate,
-    Key? key,
-  }) : super(key: key);
-  final bool isReverse;
+class _ChangeActionTitle extends StatelessWidget {
+  const _ChangeActionTitle(
+      {this.showButtonText = false, this.animate, Key? key})
+      : super(key: key);
   final bool showButtonText;
   final Function()? animate;
 
@@ -124,12 +97,12 @@ class ChangeActionTitle extends StatelessWidget {
 
   Widget _changeActionTitle(BuildContext context, LoginTexts loginTexts) =>
       BaseText(
-        isReverse
+        context.read<Auth>().isReverse
             ? loginTexts.notHaveAnAccount
             : loginTexts.alreadyHaveAnAccount,
         style: TextStyles(context)
             .subtitleTextStyle()
-            .merge(context.read<LoginTheme>().changeActionStyle),
+            .merge(context.read<LoginTheme>().changeActionTextStyle),
       );
 
   Widget _changeActionGesture(BuildContext context, Function()? animate) =>
@@ -144,24 +117,24 @@ class ChangeActionTitle extends StatelessWidget {
   Widget _changeActionText(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return BaseText(
-      isReverse ? loginTexts.signUp : loginTexts.login,
+      context.read<Auth>().isReverse ? loginTexts.signUp : loginTexts.login,
       style: TextStyles(context)
           .subtitleTextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             decoration: TextDecoration.underline,
           )
-          .merge(context.read<LoginTheme>().changeActionStyle),
+          .merge(context.read<LoginTheme>().changeActionTextStyle),
     );
   }
 }
 
-class ChangeLanguage extends StatelessWidget {
+class _ChangeLanguage extends StatelessWidget {
   final List<LanguageOption> languageOptions;
-  final Function(String?) chooseLanguageCallback;
+  final Function(LanguageOption? language) chooseLanguageCallback;
   final Animation<double> colorTween;
   final ChangeLangOnPressedCallback? onPressed;
-  const ChangeLanguage({
+  const _ChangeLanguage({
     required this.chooseLanguageCallback,
     required this.colorTween,
     this.languageOptions = const <LanguageOption>[],
@@ -212,7 +185,7 @@ class ChangeLanguage extends StatelessWidget {
         Expanded(
           flex: 3,
           child: BaseText(
-            selectedLanguage.languageAbbr,
+            selectedLanguage.code,
             style: TextStyle(
               fontSize: responsiveSize * 4.4,
               color: _contentColor(context),
@@ -241,21 +214,17 @@ class ChangeLanguage extends StatelessWidget {
         if (selectedLang != null) {
           context.read<LoginTexts>().setLanguage(selectedLang);
         }
-        chooseLanguageCallback(selectedLang?.language);
+        chooseLanguageCallback(selectedLang);
       });
 
   ButtonStyle _defaultButtonStyle(BuildContext context) {
-    final LoginTheme loginTheme = context.read<LoginTheme>();
     final double responsiveSize = DynamicSize(context).responsiveSize;
     return ButtonStyles(context).roundedStyle(
-      borderWidth: loginTheme.changeLangBorderWidth ?? 1.4,
-      backgroundColor: loginTheme.changeLangBgColor ?? _buttonBgColor(context),
-      borderColor: loginTheme.changeLangBorderColor,
-      borderRadius:
-          loginTheme.changeLangBorderRadius ?? BorderRadius.circular(8),
+      borderWidth: 1.4,
+      backgroundColor: _buttonBgColor(context),
+      borderRadius: BorderRadius.circular(8),
       padding: EdgeInsets.symmetric(horizontal: responsiveSize * 2),
-      size: loginTheme.changeLangSize ??
-          Size(responsiveSize * 20, responsiveSize * 12),
+      size: Size(responsiveSize * 20, responsiveSize * 12),
       elevation: 16,
     );
   }
