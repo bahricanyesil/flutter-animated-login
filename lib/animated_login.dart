@@ -12,16 +12,13 @@ import 'src/decorations/button_styles.dart';
 import 'src/decorations/text_styles.dart';
 import 'src/models/language_option.dart';
 import 'src/models/models_shelf.dart';
+import 'src/providers/login_theme.dart';
+import 'src/providers/login_view_theme.dart';
 import 'src/providers/providers_shelf.dart';
 import 'src/responsiveness/dynamic_size.dart';
 import 'src/utils/animation_helper.dart';
 import 'src/utils/validators.dart';
 import 'src/utils/view_type_helper.dart';
-import 'src/widgets/buttons/rounded_button.dart';
-import 'src/widgets/dialogs/dialog_builder.dart';
-import 'src/widgets/icons/base_icon.dart';
-import 'src/widgets/texts/base_text.dart';
-import 'src/widgets/texts/not_fitted_text.dart';
 import 'src/widgets/widgets_shelf.dart';
 
 export './src/constants/enums/enums_shelf.dart';
@@ -35,7 +32,8 @@ part 'src/widgets/welcome_components.dart';
 /// Wraps the main view with providers.
 class AnimatedLogin extends StatefulWidget {
   const AnimatedLogin({
-    this.loginTheme,
+    this.loginDesktopTheme,
+    this.loginMobileTheme,
     this.loginTexts,
     this.socialLogins,
     this.onLogin,
@@ -76,9 +74,13 @@ class AnimatedLogin extends StatefulWidget {
             """To use change language button, you should provide both callback and language options."""),
         super(key: key);
 
-  /// Determines all of the theme related variables on the screen.
-  /// Example: colors, text styles, button stylessrc.
-  final LoginTheme? loginTheme;
+  /// Determines all of the theme related variables for *DESKTOP* view.
+  /// Example: colors, text styles, button styles.
+  final LoginViewTheme? loginDesktopTheme;
+
+  /// Determines all of the theme related variables for *MOBILE* view.
+  /// Example: colors, text styles, button styles.
+  final LoginViewTheme? loginMobileTheme;
 
   /// Determines all of the texts on the screen.
   final LoginTexts? loginTexts;
@@ -180,14 +182,17 @@ class AnimatedLogin extends StatefulWidget {
 class _AnimatedLoginState extends State<AnimatedLogin> {
   @override
   Widget build(BuildContext context) {
+    final bool isLandscape = ViewTypeHelper(context).isLandscape;
+
+    final LoginViewTheme? initialTheme =
+        isLandscape ? widget.loginDesktopTheme : widget.loginMobileTheme;
+
     /// Background color of whole screen for mobile view,
     /// of welcome part for web view.
-    final Color backgroundColor = widget.loginTheme?.backgroundColor ??
-        Theme.of(context).primaryColor.withOpacity(.8);
-    widget.loginTheme?.backgroundColor = backgroundColor;
-    final LoginTheme loginTheme = widget.loginTheme ?? LoginTheme()
-      ..isLandscape = ViewTypeHelper(context).isLandscape
-      ..backgroundColor = backgroundColor;
+    final LoginTheme loginTheme =
+        LoginTheme(initialTheme: initialTheme ?? LoginViewTheme())
+          ..isLandscape = isLandscape
+          ..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
     final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
       ..language = widget.selectedLanguage;
     return MultiProvider(
@@ -206,7 +211,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
         ),
       ],
       child: Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: loginTheme.backgroundColor,
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
           WidgetsBinding.instance!.addPostFrameCallback((_) => context

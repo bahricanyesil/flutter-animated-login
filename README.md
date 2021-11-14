@@ -28,7 +28,7 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | onLogin                   | `LoginCallback`                           | Login callback that will be called after login button pressed.                                                                                              |
 | socialLogins              | [`List<SocialLogin>`](#SocialLogin)       | List of social login options that will be provided.                                                                                                         |
 | loginTexts                | [`LoginTexts`](#LoginTexts)               | Determines all of the texts on the screen.                                                                                                                  |
-| loginTheme                | [`LoginTheme`](#LoginTheme)               | Determines all of the theme related variables on the screen.                                                                                                |
+| loginTheme                | [`LoginViewTheme`](#LoginViewTheme)       | Determines all of the theme related variables on the screen.                                                                                                |
 | onForgotPassword          | `ForgotPasswordCallback`                  | Callback that will be called after on tap of forgot password text. Commonly it navigates user to a screen to reset the password.                            |
 | formKey                   | `GlobalKey<FormState>`                    | The optional custom form key, if not provided will be created locally.                                                                                      |
 | checkError                | `bool`                                    | Indicates whether the login screen should handle errors, show the error messages returned from the callbacks in a dialog.                                   |
@@ -78,7 +78,7 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | dialogButtonText       | `String` | The button text of error dialog.                                         |
 | chooseLanguageTitle    | `String` | The title of choose language dialog.                                     |
 
-### LoginTheme
+### LoginViewTheme
 
 | Property                  | Type              | Description                                                                          |
 | ------------------------- | ----------------- | ------------------------------------------------------------------------------------ |
@@ -207,7 +207,7 @@ class LoginScreen extends StatelessWidget {
       logo: 'images/logo.gif',
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
-      loginTheme: _loginTheme,
+      loginTheme: LoginTheme,
       loginTexts: _loginTexts,
     );
   }
@@ -215,7 +215,7 @@ class LoginScreen extends StatelessWidget {
   /// You can adjust the colors, text styles, button styles, borders
   /// according to your design preferences.
   /// You can also set some additional display options such as [showLabelTexts].
-  LoginTheme get _loginTheme => LoginTheme(
+  LoginTheme get LoginTheme => LoginTheme(
         // showLabelTexts: false,
         backgroundColor: Colors.blue, // const Color(0xFF6666FF),
         formFieldBackgroundColor: Colors.white,
@@ -282,7 +282,7 @@ class LoginScreen extends StatelessWidget {
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
       socialLogins: _socialLogins,
-      loginTheme: _loginTheme,
+      loginTheme: LoginTheme,
       loginTexts: _loginTexts,
     );
   }
@@ -290,7 +290,7 @@ class LoginScreen extends StatelessWidget {
   /// You can adjust the colors, text styles, button styles, borders
   /// according to your design preferences.
   /// You can also set some additional display options such as [showLabelTexts].
-  LoginTheme get _loginTheme => LoginTheme(
+  LoginTheme get LoginTheme => LoginTheme(
         // showLabelTexts: false,
         backgroundColor: Colors.blue, // const Color(0xFF6666FF),
         formFieldBackgroundColor: Colors.white,

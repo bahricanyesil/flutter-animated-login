@@ -17,6 +17,7 @@ class ButtonStyles {
     Size? size,
     double? elevation,
     TextStyle? textStyle,
+    Color? foregroundColor,
   }) =>
       ButtonStyle(
         padding: _all<EdgeInsets?>(padding),
@@ -37,6 +38,7 @@ class ButtonStyles {
           ),
         ),
         textStyle: _all<TextStyle>(textStyle),
+        foregroundColor: _all<Color>(foregroundColor),
       );
 
   /// Text button style to give it custom padding.

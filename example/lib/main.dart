@@ -64,7 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
       socialLogins: _socialLogins(context),
-      loginTheme: _loginTheme,
+      loginDesktopTheme: _desktopTheme,
+      loginMobileTheme: _mobileTheme,
       loginTexts: _loginTexts,
       changeLanguageCallback: (LanguageOption? _language) {
         if (_language != null) {
@@ -94,9 +95,9 @@ class _LoginScreenState extends State<LoginScreen> {
       ];
 
   /// You can adjust the colors, text styles, button styles, borders
-  /// according to your design preferences.
+  /// according to your design preferences for *DESKTOP* view.
   /// You can also set some additional display options such as [showLabelTexts].
-  LoginTheme get _loginTheme => LoginTheme(
+  LoginViewTheme get _desktopTheme => LoginViewTheme(
         // showLabelTexts: false,
         backgroundColor: Colors.blue, // const Color(0xFF6666FF),
         formFieldBackgroundColor: Colors.white,
@@ -105,16 +106,19 @@ class _LoginScreenState extends State<LoginScreen> {
         actionButtonStyle: ButtonStyle(
           foregroundColor: MaterialStateProperty.all(Colors.white),
         ),
-        formTitleStyle: TextStyle(color: Colors.blue),
-        socialLoginBorder: BorderSide(color: Colors.blue),
-        socialLoginHoverColor: Colors.blue,
-        useEmailStyle: TextStyle(color: Colors.blue),
-        formFieldHoverColor: Colors.blue,
-        formFieldShadowColor: Colors.blue,
-        textFormStyle: TextStyle(color: Colors.blue),
-        textFormFieldDeco: InputDecoration(
-          fillColor: Colors.blue,
-        ),
+      );
+
+  /// You can adjust the colors, text styles, button styles, borders
+  /// according to your design preferences for *MOBILE* view.
+  /// You can also set some additional display options such as [showLabelTexts].
+  LoginViewTheme get _mobileTheme => LoginViewTheme(
+        // showLabelTexts: false,
+        backgroundColor: Colors.blue, // const Color(0xFF6666FF),
+        formFieldBackgroundColor: Colors.white,
+        formWidthRatio: 60,
+        // actionButtonStyle: ButtonStyle(
+        //   foregroundColor: MaterialStateProperty.all(Colors.blue),
+        // ),
       );
 
   LoginTexts get _loginTexts => LoginTexts(

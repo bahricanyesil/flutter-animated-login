@@ -61,5 +61,7 @@ class RoundedButton extends StatelessWidget {
           color: isLandscape ? Colors.white : Theme.of(context).primaryColor,
           fontWeight: FontWeight.w500,
         ),
+        foregroundColor:
+            isLandscape ? Colors.white : Theme.of(context).primaryColor,
       );
 }
