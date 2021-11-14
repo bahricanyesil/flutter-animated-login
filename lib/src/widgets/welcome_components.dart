@@ -79,7 +79,6 @@ class _ChangeActionButton extends StatelessWidget {
       borderColor: Colors.white,
       backgroundColor: Theme.of(context).primaryColor.withOpacity(.8),
       buttonStyle: changeActionButtonStyle,
-      textStyle: context.read<LoginTheme>().changeActionTextStyle,
     );
   }
 }

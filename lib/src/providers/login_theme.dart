@@ -15,8 +15,6 @@ class LoginTheme with ChangeNotifier {
     this.hintTextStyle,
     this.errorTextStyle,
     this.textFormStyle,
-    this.actionTextStyle,
-    this.changeActionTextStyle,
     this.textFormFieldDeco,
     this.nameIcon,
     this.emailIcon,
@@ -70,12 +68,6 @@ class LoginTheme with ChangeNotifier {
 
   /// Text style for input texts in the text form fields.
   final TextStyle? textFormStyle;
-
-  /// Text style for action button text in the form part.
-  final TextStyle? actionTextStyle;
-
-  /// Text style for change action button text in the welcome part.
-  final TextStyle? changeActionTextStyle;
 
   /// Input decoration for the text form fields.
   final InputDecoration? textFormFieldDeco;

@@ -16,6 +16,7 @@ class ButtonStyles {
     double? borderWidth,
     Size? size,
     double? elevation,
+    TextStyle? textStyle,
   }) =>
       ButtonStyle(
         padding: _all<EdgeInsets?>(padding),
@@ -24,7 +25,7 @@ class ButtonStyles {
             size?.width ?? double.maxFinite, size?.height ?? double.maxFinite)),
         minimumSize: _all<Size>(Size.zero),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        elevation: elevation == null ? null : _all<double>(elevation),
+        elevation: _all<double>(elevation),
         shape: _all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius:
@@ -35,6 +36,7 @@ class ButtonStyles {
             ),
           ),
         ),
+        textStyle: _all<TextStyle>(textStyle),
       );
 
   /// Text button style to give it custom padding.
@@ -44,5 +46,6 @@ class ButtonStyles {
       ButtonStyle(padding: _all<EdgeInsets?>(padding));
 
   /// Returns [MaterialStateProperty] form of given [value] as [T] type.
-  MaterialStateProperty<T> _all<T>(T value) => MaterialStateProperty.all(value);
+  MaterialStateProperty<T>? _all<T>(T? value) =>
+      value == null ? null : MaterialStateProperty.all(value);
 }
