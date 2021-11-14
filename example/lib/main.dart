@@ -97,14 +97,14 @@ class _LoginScreenState extends State<LoginScreen> {
   /// You can adjust the colors, text styles, button styles, borders
   /// according to your design preferences for *DESKTOP* view.
   /// You can also set some additional display options such as [showLabelTexts].
-  LoginViewTheme get _desktopTheme => LoginViewTheme(
-        // showLabelTexts: false,
-        backgroundColor: Colors.blue, // const Color(0xFF6666FF),
-        formFieldBackgroundColor: Colors.white,
-        formWidthRatio: 60,
+  LoginViewTheme get _desktopTheme => _mobileTheme.copyWith(
         // To set the color of button text, use foreground color.
         actionButtonStyle: ButtonStyle(
           foregroundColor: MaterialStateProperty.all(Colors.white),
+        ),
+        dialogTheme: const AnimatedDialogTheme(
+          languageDialogTheme: LanguageDialogTheme(
+              optionMargin: EdgeInsets.symmetric(horizontal: 80)),
         ),
       );
 

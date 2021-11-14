@@ -87,9 +87,21 @@ class TextStyles {
   TextStyle subtitleTextStyle(
           {Color? color, FontWeight? fontWeight, TextDecoration? decoration}) =>
       TextStyle(
-        fontSize: dynamicSize.responsiveSize * 5,
+        fontSize: dynamicSize.responsiveSize * 4.8,
         color: color ?? Colors.white.withOpacity(.8),
         fontWeight: fontWeight ?? FontWeight.w400,
+        decoration: decoration,
+      );
+
+  /// Custom text style for dialog content.
+  TextStyle dialogTextStyle(
+          {Color? color, FontWeight? fontWeight, TextDecoration? decoration}) =>
+      TextStyle(
+        fontSize: dynamicSize.responsiveSize * 5.2,
+        color: color ?? Colors.black.withOpacity(.8),
+        fontWeight: fontWeight ?? FontWeight.w400,
+        letterSpacing: .8,
+        wordSpacing: 1.5,
         decoration: decoration,
       );
 }
