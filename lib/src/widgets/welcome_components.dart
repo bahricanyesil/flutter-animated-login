@@ -3,12 +3,10 @@ part of '../../animated_login.dart';
 class _LogoAndTexts extends StatelessWidget {
   const _LogoAndTexts({
     required this.logo,
-    required this.logoSize,
     required this.isReverse,
     Key? key,
   }) : super(key: key);
   final String? logo;
-  final Size? logoSize;
   final bool isReverse;
 
   @override
@@ -47,13 +45,13 @@ class _LogoAndTexts extends StatelessWidget {
 
   Widget _logo(BuildContext context) {
     final DynamicSize dynamicSize = DynamicSize(context);
-    final bool isLandscape = context.read<LoginTheme>().isLandscape;
+    final LoginTheme loginTheme = context.read<LoginTheme>();
     return Container(
-      constraints: BoxConstraints.tight(logoSize ??
+      constraints: BoxConstraints.tight(loginTheme.logoSize ??
           Size.fromHeight(
-              dynamicSize.responsiveSize * (isLandscape ? 26 : 30))),
-      padding:
-          EdgeInsets.only(bottom: dynamicSize.height * (isLandscape ? 4 : 2)),
+              dynamicSize.responsiveSize * (loginTheme.isLandscape ? 26 : 30))),
+      padding: EdgeInsets.only(
+          bottom: dynamicSize.height * (loginTheme.isLandscape ? 4 : 2)),
       child: Image.asset(logo!),
     );
   }
@@ -63,22 +61,21 @@ class _ChangeActionButton extends StatelessWidget {
   const _ChangeActionButton({
     required this.isReverse,
     required this.animate,
-    required this.changeActionButtonStyle,
     Key? key,
   }) : super(key: key);
   final bool isReverse;
   final Function() animate;
-  final ButtonStyle? changeActionButtonStyle;
 
   @override
   Widget build(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
+    final LoginTheme loginTheme = context.read<LoginTheme>();
     return RoundedButton(
       buttonText: isReverse ? loginTexts.signUp : loginTexts.login,
       onPressed: animate,
       borderColor: Colors.white,
       backgroundColor: Theme.of(context).primaryColor.withOpacity(.8),
-      buttonStyle: changeActionButtonStyle,
+      buttonStyle: loginTheme.changeActionButtonStyle,
     );
   }
 }

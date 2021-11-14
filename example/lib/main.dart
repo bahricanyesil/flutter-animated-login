@@ -59,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
       onLogin: LoginFunctions(context).onLogin,
       onSignup: LoginFunctions(context).onSignup,
       onForgotPassword: LoginFunctions(context).onForgotPassword,
-      formWidthRatio: 60,
       logo: 'images/logo.gif',
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
@@ -100,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // showLabelTexts: false,
         backgroundColor: Colors.blue, // const Color(0xFF6666FF),
         formFieldBackgroundColor: Colors.white,
-        changeActionTextStyle: const TextStyle(color: Colors.white),
+        formWidthRatio: 60,
       );
 
   LoginTexts get _loginTexts => LoginTexts(
