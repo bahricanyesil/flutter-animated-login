@@ -33,7 +33,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? backgroundColor;
   final double? widthFactor;
   final TextInputAction textInputAction;
-  final List<String> autofillHints;
+  final Iterable<String> autofillHints;
   final TextInputType? textInputType;
 
   @override
