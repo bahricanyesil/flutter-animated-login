@@ -463,7 +463,9 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       );
 
   void animate(BuildContext context) {
-    formKey.currentState?.reset();
+    if (formKey.currentState != null) {
+      formKey.currentState!.reset();
+    }
     animationController.isCompleted
         ? animationController.reverse()
         : animationController.forward();

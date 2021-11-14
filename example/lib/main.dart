@@ -69,9 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (_language != null) {
           DialogBuilder(context).showResultDialog(
               'Successfully changed the language to: ${_language.value}.');
-          setState(() {
-            language = _language;
-          });
+          if (mounted) setState(() => language = _language);
         }
       },
       languageOptions: _languageOptions,
@@ -100,6 +98,10 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.blue, // const Color(0xFF6666FF),
         formFieldBackgroundColor: Colors.white,
         formWidthRatio: 60,
+        // To set the color of button text, use foreground color.
+        actionButtonStyle: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all(Colors.white),
+        ),
       );
 
   LoginTexts get _loginTexts => LoginTexts(

@@ -10,12 +10,14 @@ class BaseText extends StatelessWidget {
   final TextAlign textAlign;
   final Color? color;
   final BoxFit? fit;
+  final bool forceDefaultStyle;
   const BaseText(
     this.text, {
     this.style,
     this.textAlign = TextAlign.center,
     this.color,
     this.fit,
+    this.forceDefaultStyle = false,
     Key? key,
   }) : super(key: key);
 
@@ -24,7 +26,9 @@ class BaseText extends StatelessWidget {
         fit: fit ?? BoxFit.scaleDown,
         child: Text(
           text,
-          style: TextStyles(context).normalStyle(color: color).merge(style),
+          style: forceDefaultStyle
+              ? style
+              : TextStyles(context).normalStyle(color: color).merge(style),
           textAlign: textAlign,
           overflow: TextOverflow.clip,
         ),

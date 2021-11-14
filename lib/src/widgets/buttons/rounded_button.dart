@@ -42,7 +42,7 @@ class RoundedButton extends StatelessWidget {
           ? buttonStyle!.merge(_defaultButtonStyle(context, isLandscape))
           : _defaultButtonStyle(context, isLandscape),
       onPressed: onPressed,
-      child: BaseText(buttonText),
+      child: BaseText(buttonText, forceDefaultStyle: true),
     );
   }
 

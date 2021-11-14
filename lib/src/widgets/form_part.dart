@@ -247,6 +247,7 @@ class __FormPartState extends State<_FormPart> {
         onPressed: _action,
         backgroundColor:
             isLandscape ? theme.primaryColor.withOpacity(.8) : Colors.white,
+        buttonStyle: loginTheme.actionButtonStyle,
       );
 
   Future<void> _action() async {
