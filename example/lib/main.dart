@@ -52,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
   /// According to the current language, you can display a text message
   /// with the help of [LoginTexts] class.
   LanguageOption language = _languageOptions[0];
+  AuthMode currentMode = AuthMode.login;
 
   @override
   Widget build(BuildContext context) {
@@ -63,19 +64,20 @@ class _LoginScreenState extends State<LoginScreen> {
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
       socialLogins: _socialLogins(context),
-      loginTheme: _loginTheme,
+      loginDesktopTheme: _desktopTheme,
+      loginMobileTheme: _mobileTheme,
       loginTexts: _loginTexts,
       changeLanguageCallback: (LanguageOption? _language) {
         if (_language != null) {
           DialogBuilder(context).showResultDialog(
               'Successfully changed the language to: ${_language.value}.');
-          setState(() {
-            language = _language;
-          });
+          if (mounted) setState(() => language = _language);
         }
       },
       languageOptions: _languageOptions,
       selectedLanguage: language,
+      initialMode: currentMode,
+      onAuthModeChange: (AuthMode newMode) => currentMode = newMode,
     );
   }
 
@@ -93,14 +95,30 @@ class _LoginScreenState extends State<LoginScreen> {
       ];
 
   /// You can adjust the colors, text styles, button styles, borders
-  /// according to your design preferences.
+  /// according to your design preferences for *DESKTOP* view.
   /// You can also set some additional display options such as [showLabelTexts].
-  LoginTheme get _loginTheme => LoginTheme(
+  LoginViewTheme get _desktopTheme => LoginViewTheme(
         // showLabelTexts: false,
         backgroundColor: Colors.blue, // const Color(0xFF6666FF),
         formFieldBackgroundColor: Colors.white,
-        changeActionTextStyle: const TextStyle(color: Colors.white),
         formWidthRatio: 60,
+        // To set the color of button text, use foreground color.
+        actionButtonStyle: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all(Colors.white),
+        ),
+      );
+
+  /// You can adjust the colors, text styles, button styles, borders
+  /// according to your design preferences for *MOBILE* view.
+  /// You can also set some additional display options such as [showLabelTexts].
+  LoginViewTheme get _mobileTheme => LoginViewTheme(
+        // showLabelTexts: false,
+        backgroundColor: Colors.blue, // const Color(0xFF6666FF),
+        formFieldBackgroundColor: Colors.white,
+        formWidthRatio: 60,
+        // actionButtonStyle: ButtonStyle(
+        //   foregroundColor: MaterialStateProperty.all(Colors.blue),
+        // ),
       );
 
   LoginTexts get _loginTexts => LoginTexts(

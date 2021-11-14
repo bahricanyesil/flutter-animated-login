@@ -1,13 +1,8 @@
 part of '../../animated_login.dart';
 
 class _LogoAndTexts extends StatelessWidget {
-  const _LogoAndTexts({
-    required this.logo,
-    required this.isReverse,
-    Key? key,
-  }) : super(key: key);
+  const _LogoAndTexts({required this.logo, Key? key}) : super(key: key);
   final String? logo;
-  final bool isReverse;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -24,7 +19,9 @@ class _LogoAndTexts extends StatelessWidget {
   Widget _title(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return BaseText(
-      isReverse ? loginTexts.welcomeBack : loginTexts.welcome,
+      context.read<Auth>().isReverse
+          ? loginTexts.welcomeBack
+          : loginTexts.welcome,
       style: TextStyles(context)
           .titleStyle(color: Colors.white)
           .merge(context.read<LoginTheme>().welcomeTitleStyle),
@@ -34,7 +31,7 @@ class _LogoAndTexts extends StatelessWidget {
   Widget _description(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return NotFittedText(
-      isReverse
+      context.read<Auth>().isReverse
           ? loginTexts.welcomeBackDescription
           : loginTexts.welcomeDescription,
       style: TextStyles(context)
@@ -58,12 +55,8 @@ class _LogoAndTexts extends StatelessWidget {
 }
 
 class _ChangeActionButton extends StatelessWidget {
-  const _ChangeActionButton({
-    required this.isReverse,
-    required this.animate,
-    Key? key,
-  }) : super(key: key);
-  final bool isReverse;
+  const _ChangeActionButton({required this.animate, Key? key})
+      : super(key: key);
   final Function() animate;
 
   @override
@@ -71,24 +64,20 @@ class _ChangeActionButton extends StatelessWidget {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     final LoginTheme loginTheme = context.read<LoginTheme>();
     return RoundedButton(
-      buttonText: isReverse ? loginTexts.signUp : loginTexts.login,
+      buttonText:
+          context.read<Auth>().isReverse ? loginTexts.signUp : loginTexts.login,
       onPressed: animate,
       borderColor: Colors.white,
       backgroundColor: Theme.of(context).primaryColor.withOpacity(.8),
       buttonStyle: loginTheme.changeActionButtonStyle,
-      textStyle: loginTheme.changeActionTextStyle,
     );
   }
 }
 
 class _ChangeActionTitle extends StatelessWidget {
-  const _ChangeActionTitle({
-    required this.isReverse,
-    this.showButtonText = false,
-    this.animate,
-    Key? key,
-  }) : super(key: key);
-  final bool isReverse;
+  const _ChangeActionTitle(
+      {this.showButtonText = false, this.animate, Key? key})
+      : super(key: key);
   final bool showButtonText;
   final Function()? animate;
 
@@ -108,12 +97,12 @@ class _ChangeActionTitle extends StatelessWidget {
 
   Widget _changeActionTitle(BuildContext context, LoginTexts loginTexts) =>
       BaseText(
-        isReverse
+        context.read<Auth>().isReverse
             ? loginTexts.notHaveAnAccount
             : loginTexts.alreadyHaveAnAccount,
         style: TextStyles(context)
             .subtitleTextStyle()
-            .merge(context.read<LoginTheme>().changeActionStyle),
+            .merge(context.read<LoginTheme>().changeActionTextStyle),
       );
 
   Widget _changeActionGesture(BuildContext context, Function()? animate) =>
@@ -128,14 +117,14 @@ class _ChangeActionTitle extends StatelessWidget {
   Widget _changeActionText(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return BaseText(
-      isReverse ? loginTexts.signUp : loginTexts.login,
+      context.read<Auth>().isReverse ? loginTexts.signUp : loginTexts.login,
       style: TextStyles(context)
           .subtitleTextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
             decoration: TextDecoration.underline,
           )
-          .merge(context.read<LoginTheme>().changeActionStyle),
+          .merge(context.read<LoginTheme>().changeActionTextStyle),
     );
   }
 }

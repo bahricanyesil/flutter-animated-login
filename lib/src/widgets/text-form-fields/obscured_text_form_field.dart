@@ -88,6 +88,6 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
 
   /// Changes the visibility of password, and reloads the widget.
   void _changeVisibility() {
-    setState(() => _isVisible = !_isVisible);
+    if (mounted) setState(() => _isVisible = !_isVisible);
   }
 }

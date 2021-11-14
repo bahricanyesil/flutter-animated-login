@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import '../constants/enums/auth_mode.dart';
 import '../models/models_shelf.dart';
 
+/// It is called on auth mode changes,
+/// triggered by [Auth.switchAuth] method.
+typedef AuthModeChangeCallback = void Function(AuthMode authMode);
+
 // if there is any error message.
 /// [Auth] is the provider for auth related data, functions.
 /// Manages the state related to the authentication modes.
 class Auth with ChangeNotifier {
   Auth({
     this.socialLogins = const <SocialLogin>[],
+    this.onAuthModeChange,
+    AuthMode? initialMode,
     LoginCallback? onLogin,
     SignupCallback? onSignup,
     ForgotPasswordCallback? onForgotPassword,
@@ -16,6 +22,7 @@ class Auth with ChangeNotifier {
     _onLogin = onLogin ?? _defaultLoginFunc;
     _onSignup = onSignup ?? _defaultSignupFunc;
     _onForgotPassword = onForgotPassword ?? _defaultForgotPassFunc;
+    _mode = initialMode ?? AuthMode.login;
   }
 
   /// Default login, signup and forgot password functions to be
@@ -23,6 +30,7 @@ class Auth with ChangeNotifier {
   Future<String?> _defaultLoginFunc(LoginData a) async => null;
   Future<String?> _defaultSignupFunc(SignUpData a) async => null;
   Future<String?> _defaultForgotPassFunc(String e) async => null;
+  final AuthModeChangeCallback? onAuthModeChange;
 
   /// Function to be called on login action.
   late final LoginCallback _onLogin;
@@ -41,9 +49,9 @@ class Auth with ChangeNotifier {
 
   /// Current authentication mode of the screen.
   /// Uses [AuthMode] enum's values.
-  AuthMode _mode = AuthMode.login;
+  late AuthMode _mode;
   AuthMode get mode => _mode;
-  set mode(AuthMode value) {
+  void notifySetMode(AuthMode value) {
     _mode = value;
     notifyListeners();
   }
@@ -55,12 +63,16 @@ class Auth with ChangeNotifier {
   /// Switches the authentication mode and notify the listeners.
   AuthMode switchAuth() {
     if (mode == AuthMode.login) {
-      mode = AuthMode.signup;
+      notifySetMode(AuthMode.signup);
     } else if (mode == AuthMode.signup) {
-      mode = AuthMode.login;
+      notifySetMode(AuthMode.login);
     }
+    if (onAuthModeChange != null) onAuthModeChange!(mode);
     return mode;
   }
+
+  /// Indicates whether the screen animation is reverse mode.
+  bool isReverse = true;
 
   /// Username in the text controller.
   String? username;
