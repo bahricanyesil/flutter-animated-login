@@ -199,7 +199,7 @@ class _ChangeLanguage extends StatelessWidget {
         Expanded(
           flex: 3,
           child: BaseText(
-            selectedLanguage.languageCode,
+            selectedLanguage.code,
             style: TextStyle(
               fontSize: responsiveSize * 4.4,
               color: _contentColor(context),
