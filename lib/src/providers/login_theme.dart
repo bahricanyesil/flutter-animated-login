@@ -9,7 +9,7 @@ class LoginTheme with ChangeNotifier {
     this.formTitleStyle,
     this.welcomeTitleStyle,
     this.welcomeDescriptionStyle,
-    this.changeActionStyle,
+    this.changeActionTextStyle,
     this.useEmailStyle,
     this.forgotPasswordStyle,
     this.hintTextStyle,
@@ -70,7 +70,7 @@ class LoginTheme with ChangeNotifier {
   final TextStyle? welcomeDescriptionStyle;
 
   /// Text style for the change action CTA of welcome part.
-  final TextStyle? changeActionStyle;
+  final TextStyle? changeActionTextStyle;
 
   /// Text style for the use email text of form part.
   final TextStyle? useEmailStyle;
@@ -199,7 +199,4 @@ class LoginTheme with ChangeNotifier {
     isLandscape = newValue;
     notifyListeners();
   }
-
-  /// Indicates whether the screen animation is reverse mode.
-  bool isReverse = true;
 }

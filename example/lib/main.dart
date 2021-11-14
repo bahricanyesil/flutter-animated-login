@@ -52,6 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
   /// According to the current language, you can display a text message
   /// with the help of [LoginTexts] class.
   LanguageOption language = _languageOptions[0];
+  AuthMode currentMode = AuthMode.login;
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +75,8 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       languageOptions: _languageOptions,
       selectedLanguage: language,
+      initialMode: currentMode,
+      onAuthModeChange: (AuthMode newMode) => currentMode = newMode,
     );
   }
 
@@ -101,6 +104,16 @@ class _LoginScreenState extends State<LoginScreen> {
         // To set the color of button text, use foreground color.
         actionButtonStyle: ButtonStyle(
           foregroundColor: MaterialStateProperty.all(Colors.white),
+        ),
+        formTitleStyle: TextStyle(color: Colors.blue),
+        socialLoginBorder: BorderSide(color: Colors.blue),
+        socialLoginHoverColor: Colors.blue,
+        useEmailStyle: TextStyle(color: Colors.blue),
+        formFieldHoverColor: Colors.blue,
+        formFieldShadowColor: Colors.blue,
+        textFormStyle: TextStyle(color: Colors.blue),
+        textFormFieldDeco: InputDecoration(
+          fillColor: Colors.blue,
         ),
       );
 

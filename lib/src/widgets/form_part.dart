@@ -147,7 +147,7 @@ class __FormPartState extends State<_FormPart> {
     isLandscape = loginTheme.isLandscape;
     loginTexts = context.read<LoginTexts>();
     theme = Theme.of(context);
-    auth = context.watch<Auth>();
+    auth = context.read<Auth>();
     _initializeAnimations();
     return isLandscape
         ? _webView
@@ -199,9 +199,7 @@ class __FormPartState extends State<_FormPart> {
       ];
 
   Widget get _formTitle => BaseText(
-        loginTheme.isReverse
-            ? loginTexts.loginFormTitle
-            : loginTexts.signUpFormTitle,
+        auth.isReverse ? loginTexts.loginFormTitle : loginTexts.signUpFormTitle,
         style: TextStyles(context)
             .titleStyle(color: isLandscape ? null : Colors.white)
             .merge(loginTheme.formTitleStyle),
@@ -215,9 +213,7 @@ class __FormPartState extends State<_FormPart> {
       );
 
   Widget get _useEmailText => BaseText(
-        loginTheme.isReverse
-            ? loginTexts.loginUseEmail
-            : loginTexts.signUpUseEmail,
+        auth.isReverse ? loginTexts.loginUseEmail : loginTexts.signUpUseEmail,
         style: TextStyles(context)
             .subtitleTextStyle(
                 color: isLandscape ? Colors.black87 : Colors.white)
@@ -243,7 +239,7 @@ class __FormPartState extends State<_FormPart> {
   }
 
   Widget get _actionButton => RoundedButton(
-        buttonText: loginTheme.isReverse ? loginTexts.login : loginTexts.signUp,
+        buttonText: auth.isReverse ? loginTexts.login : loginTexts.signUp,
         onPressed: _action,
         backgroundColor:
             isLandscape ? theme.primaryColor.withOpacity(.8) : Colors.white,
@@ -305,8 +301,7 @@ class __FormPartState extends State<_FormPart> {
       );
 
   List<Widget> get _formElements => <Widget>[
-        if (!loginTheme.isReverse &&
-            widget.signUpMode != SignUpModes.confirmPassword)
+        if (!auth.isReverse && widget.signUpMode != SignUpModes.confirmPassword)
           CustomTextFormField(
             controller: nameController,
             hintText: loginTexts.nameHint,
@@ -337,7 +332,7 @@ class __FormPartState extends State<_FormPart> {
           onChanged: auth.setPassword,
           validator: _passwordValidator,
         ),
-        if (!loginTheme.isReverse && widget.signUpMode != SignUpModes.name)
+        if (!auth.isReverse && widget.signUpMode != SignUpModes.name)
           ObscuredTextFormField(
             controller: confirmPasswordController,
             hintText: loginTexts.confirmPasswordHint,
@@ -348,7 +343,7 @@ class __FormPartState extends State<_FormPart> {
             onChanged: auth.setConfirmPassword,
             validator: _passwordValidator,
           ),
-        if (loginTheme.isReverse && widget.showForgotPassword) _forgotPassword,
+        if (auth.isReverse && widget.showForgotPassword) _forgotPassword,
       ];
 
   FormFieldValidator<String?>? get _nameValidator => widget.validateName
@@ -416,11 +411,13 @@ class __FormPartState extends State<_FormPart> {
   }
 
   void _checkReverse() {
-    if (isLandscape) {
-      loginTheme.isReverse = transitionAnimation.value >=
-          (100 - context.read<LoginTheme>().formWidthRatio) / 2;
-    } else if (_forwardCheck) {
-      loginTheme.isReverse = !loginTheme.isReverse;
+    if (mounted) {
+      if (isLandscape) {
+        auth.isReverse = transitionAnimation.value >=
+            (100 - context.read<LoginTheme>().formWidthRatio) / 2;
+      } else if (_forwardCheck) {
+        auth.isReverse = !auth.isReverse;
+      }
     }
   }
 
@@ -428,7 +425,7 @@ class __FormPartState extends State<_FormPart> {
 
   bool get _statusCheck =>
       (transitionAnimation.status == AnimationStatus.forward &&
-          loginTheme.isReverse) ||
+          auth.isReverse) ||
       (transitionAnimation.status == AnimationStatus.reverse &&
-          !loginTheme.isReverse);
+          !auth.isReverse);
 }

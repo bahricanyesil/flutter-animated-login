@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import 'src/constants/enums/auth_mode.dart';
 import 'src/constants/enums/sign_up_modes.dart';
 import 'src/decorations/button_styles.dart';
 import 'src/decorations/text_styles.dart';
@@ -23,7 +24,7 @@ import 'src/widgets/texts/base_text.dart';
 import 'src/widgets/texts/not_fitted_text.dart';
 import 'src/widgets/widgets_shelf.dart';
 
-export './src/constants/enums/sign_up_modes.dart';
+export './src/constants/enums/enums_shelf.dart';
 export './src/models/models_shelf.dart';
 export './src/providers/providers_shelf.dart';
 
@@ -62,6 +63,8 @@ class AnimatedLogin extends StatefulWidget {
     this.changeLanguageCallback,
     this.selectedLanguage,
     this.changeLangOnPressed,
+    this.initialMode,
+    this.onAuthModeChange,
     Key? key,
   })  : assert(
             (changeLanguageCallback != null &&
@@ -163,6 +166,13 @@ class AnimatedLogin extends StatefulWidget {
   /// It should prompt a dialog to select a language and return the selected.
   final ChangeLangOnPressedCallback? changeLangOnPressed;
 
+  /// If you update the state of parent widget of animated login,
+  /// you should provide the last auth mode by using [onAuthModeChange].
+  final AuthMode? initialMode;
+
+  /// It is called on auth mode changes, you can store the current mode.
+  final AuthModeChangeCallback? onAuthModeChange;
+
   @override
   State<AnimatedLogin> createState() => _AnimatedLoginState();
 }
@@ -190,6 +200,8 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
             onLogin: widget.onLogin,
             onSignup: widget.onSignup,
             socialLogins: widget.socialLogins,
+            initialMode: widget.initialMode,
+            onAuthModeChange: widget.onAuthModeChange,
           ),
         ),
       ],
@@ -304,6 +316,9 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   /// Custom LoginTexts data, texts on the screen.
   late LoginTexts loginTexts;
 
+  /// Auth data provider.
+  late Auth auth;
+
   /// The optional custom form key, if not provided will be created locally.
   late final GlobalKey<FormState> formKey =
       widget.formKey ?? GlobalKey<FormState>();
@@ -330,6 +345,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     loginTexts = context.read<LoginTexts>();
     loginTheme = context.read<LoginTheme>();
+    auth = context.read<Auth>();
     isLandscape = context.watch<LoginTheme>().isLandscape;
     dynamicSize = DynamicSize(context);
     _initializeAnimations();
@@ -360,19 +376,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
                 vertical: dynamicSize.height * 2.5,
                 horizontal: dynamicSize.width * 7,
               ),
-              children: <Widget>[
-                _welcomeAnimationWrapper(_logoAndTexts),
-                _formPart,
-                SizedBox(height: dynamicSize.height * 2.5),
-                if (widget.showChangeActionTitle)
-                  _welcomeAnimationWrapper(
-                    _ChangeActionTitle(
-                      isReverse: loginTheme.isReverse,
-                      showButtonText: true,
-                      animate: () => animate(context),
-                    ),
-                  ),
-              ],
+              children: _mobileChildren,
             ),
           ),
           if (widget.changeLanguageCallback != null &&
@@ -381,6 +385,16 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             _changeLanguage,
         ],
       );
+  List<Widget> get _mobileChildren => <Widget>[
+        _welcomeAnimationWrapper(_LogoAndTexts(logo: widget.logo)),
+        _formPart,
+        SizedBox(height: dynamicSize.height * 2.5),
+        if (widget.showChangeActionTitle)
+          _welcomeAnimationWrapper(
+            _ChangeActionTitle(
+                showButtonText: true, animate: () => animate(context)),
+          ),
+      ];
 
   Widget _welcomeAnimationWrapper(Widget child) => Transform.translate(
         offset: Offset(dynamicSize.width * welcomeTransitionAnimation.value, 0),
@@ -412,12 +426,11 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            _logoAndTexts,
+            _LogoAndTexts(logo: widget.logo),
             SizedBox(height: DynamicSize(context).height * 7),
-            if (widget.showChangeActionTitle)
-              _ChangeActionTitle(isReverse: loginTheme.isReverse),
+            if (widget.showChangeActionTitle) const _ChangeActionTitle(),
             SizedBox(height: DynamicSize(context).height * 2),
-            _changeActionButton,
+            _ChangeActionButton(animate: () => animate(context)),
           ],
         ),
       );
@@ -431,16 +444,6 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
           colorTween: colorTween,
           onPressed: widget.changeLangOnPressed,
         ),
-      );
-
-  Widget get _logoAndTexts => _LogoAndTexts(
-        logo: widget.logo,
-        isReverse: loginTheme.isReverse,
-      );
-
-  Widget get _changeActionButton => _ChangeActionButton(
-        isReverse: loginTheme.isReverse,
-        animate: () => animate(context),
       );
 
   Widget get _formPart => _FormPart(
@@ -496,10 +499,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
     welcomeTransitionAnimation.addListener(() {
       if (isLandscape) {
-        loginTheme.isReverse =
+        auth.isReverse =
             welcomeTransitionAnimation.value <= loginTheme.formWidthRatio / 2;
       } else if (_forwardCheck) {
-        loginTheme.isReverse = !loginTheme.isReverse;
+        auth.isReverse = !auth.isReverse;
       }
     });
   }
@@ -511,7 +514,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
   bool get _statusCheck =>
       (welcomeTransitionAnimation.status == AnimationStatus.forward &&
-          loginTheme.isReverse) ||
+          auth.isReverse) ||
       (welcomeTransitionAnimation.status == AnimationStatus.reverse &&
-          !loginTheme.isReverse);
+          !auth.isReverse);
 }
