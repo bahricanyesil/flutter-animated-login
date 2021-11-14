@@ -2,7 +2,7 @@
 
 ## [0.0.4] - 15.11.2021
 
-Fixed most of the issues opened by @wer-mathurin, special thanks to @wer-mathurin
+Fixed most of the issues opened by ![@wer-mathurin](https://github.com/wer-mathurin), special thanks to ![@wer-mathurin](https://github.com/wer-mathurin)
 Fixes, New Features:
 
 * Implemented AnimatedDialog with a soft animation for general dialog use
