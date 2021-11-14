@@ -1,22 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../decorations/text_styles.dart';
 import '../../models/language_option.dart';
+import '../../providers/login_theme.dart';
+import '../texts/base_text.dart';
 import 'custom_dialog.dart';
 import 'single_choose_dialog.dart';
 
+/// Dialog builder for displaying dialogs.
 class DialogBuilder {
   const DialogBuilder(this.context);
   final BuildContext context;
 
-  /// Shows error dialog
+  /// Shows error dialog.
   void showErrorDialog(String text) =>
       AnimatedDialog(contentText: text).show(context);
 
-  Future<int?> showSelectDialog(String title, List<LanguageOption> elements,
+  /// Shows multiple selection dialog.
+  Future<int?> showSelectDialog(String titleText, List<LanguageOption> elements,
           LanguageOption? initialValue) async =>
-      showDialog<int>(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) => SingleChooseDialog(
-            title: title, elements: elements, initialValue: initialValue),
+      AnimatedDialog(
+        content: SingleChooseDialog(
+          elements: elements,
+          initialValue: initialValue,
+          theme: context.read<LoginTheme>().dialogTheme?.languageDialogTheme,
+        ),
+        contentPaddingFactor: 2.5,
+        title: _getSelectTitle(titleText),
+      ).show(context);
+
+  Widget _getSelectTitle(String titleText) => BaseText(
+        titleText,
+        style: TextStyles(context).subtitleTextStyle(
+            color: Theme.of(context).primaryColor.withOpacity(.7)),
       );
 }

@@ -132,19 +132,21 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 
 ### AnimatedDialogTheme
 
-| Property              | Type             | Description                                                       |
-| --------------------- | ---------------- | ----------------------------------------------------------------- |
-| contentPadding        | `EdgeInsets`     | The padding for content of the dialogs.                           |
-| actionsPadding        | `EdgeInsets`     | The padding for actions of the dialogs.                           |
-| contentSize           | `Size`           | Size of the content widget.                                       |
-| contentTextStyle      | `TextStyle`      | Text style of the content text.                                   |
-| contentTextAlign      | `TextAlign`      | Text alignment of the content text.                               |
-| actionTextStyle       | `TextStyle`      | Text style of the action text.                                    |
-| onPressed             | `Function()`     | Action will be performed on click to action button of the dialog. |
-| contentBoxConstraints | `BoxConstraints` | Box constraints, size limitations of the content widget, if any.  |
-| shape                 | `ShapeBorder`    | Shape of the dialog.                                              |
-| elevation             | `double`         | Elevation of the dialog.                                          |
-| backgroundColor       | `Color`          | Background color of the dialog.                                   |
+| Property              | Type                  | Description                                                       |
+| --------------------- | --------------------- | ----------------------------------------------------------------- |
+| contentPadding        | `EdgeInsets`          | The padding for content of the dialogs.                           |
+| actionsPadding        | `EdgeInsets`          | The padding for actions of the dialogs.                           |
+| contentSize           | `Size`                | Size of the content widget.                                       |
+| contentTextStyle      | `TextStyle`           | Text style of the content text.                                   |
+| contentTextAlign      | `TextAlign`           | Text alignment of the content text.                               |
+| actionTextStyle       | `TextStyle`           | Text style of the action text.                                    |
+| onPressed             | `Function()`          | Action will be performed on click to action button of the dialog. |
+| contentBoxConstraints | `BoxConstraints`      | Box constraints, size limitations of the content widget, if any.  |
+| shape                 | `ShapeBorder`         | Shape of the dialog.                                              |
+| elevation             | `double`              | Elevation of the dialog.                                          |
+| backgroundColor       | `Color`               | Background color of the dialog.                                   |
+| animationDuration     | `Duration`            | Duration of display animation of the dialog.                      |
+| languageDialogTheme   | `LanguageDialogTheme` | Theme of the language dialog, determines its style.               |
 
 ### SocialLogin
 

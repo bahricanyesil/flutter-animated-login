@@ -15,27 +15,35 @@ import '../texts/base_text.dart';
 
 class AnimatedDialog {
   AnimatedDialog({
-    required this.contentText,
+    this.contentText,
     this.actionText,
     this.willPop = true,
     this.isDismissible = true,
     this.action,
+    this.content,
+    this.title,
+    this.contentPaddingFactor = 3,
   });
 
-  final String contentText;
+  final String? contentText;
   final bool willPop;
   final bool isDismissible;
+  final Widget? content;
+  final Widget? title;
   final Function()? action;
+  final double contentPaddingFactor;
   String? actionText;
+
   late final AnimatedDialogTheme dialogTheme;
 
-  Future<void> show(BuildContext context) async {
+  Future<T?> show<T>(BuildContext context) async {
     dialogTheme =
         context.read<LoginTheme>().dialogTheme ?? const AnimatedDialogTheme();
     actionText = context.read<LoginTexts>().dialogButtonText;
-    return showModal(
-      configuration: const FadeScaleTransitionConfiguration(
-        transitionDuration: Duration(milliseconds: 500),
+    return showModal<T>(
+      configuration: FadeScaleTransitionConfiguration(
+        transitionDuration:
+            dialogTheme.animationDuration ?? const Duration(milliseconds: 400),
       ),
       context: context,
       builder: (BuildContext localContext) => WillPopScope(
@@ -56,7 +64,7 @@ class AnimatedDialog {
   }
 
   Widget iosDialog(BuildContext context) => CupertinoAlertDialog(
-        // title: title,
+        title: title,
         content: _content(context),
         actions: _setDialogButton(context),
       );
@@ -66,11 +74,12 @@ class AnimatedDialog {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: dialogTheme.elevation ?? 5,
         backgroundColor:
-            dialogTheme.backgroundColor ?? Colors.white.withOpacity(.8),
-        // title: title,
+            dialogTheme.backgroundColor ?? Colors.white.withOpacity(.9),
+        title: title,
         content: Padding(
           padding: dialogTheme.contentPadding ??
-              EdgeInsets.all(DynamicSize(context).responsiveSize * 2),
+              EdgeInsets.all(
+                  DynamicSize(context).responsiveSize * contentPaddingFactor),
           child: _content(context),
         ),
         actions: _setDialogButton(context),
@@ -78,19 +87,20 @@ class AnimatedDialog {
 
   Widget _content(BuildContext context) {
     final DynamicSize dynamicSize = DynamicSize(context);
-    return ConstrainedBox(
-      constraints: dialogTheme.contentBoxConstraints ??
-          BoxConstraints.loose(
-            Size(dynamicSize.width * 50, dynamicSize.height * 60),
+    return content ??
+        ConstrainedBox(
+          constraints: dialogTheme.contentBoxConstraints ??
+              BoxConstraints.loose(
+                Size(dynamicSize.width * 50, dynamicSize.height * 60),
+              ),
+          child: Text(
+            contentText ?? 'No Content Text',
+            style: TextStyles(context)
+                .dialogTextStyle()
+                .merge(dialogTheme.contentTextStyle),
+            textAlign: dialogTheme.contentTextAlign ?? TextAlign.center,
           ),
-      child: Text(
-        contentText,
-        style: TextStyles(context)
-            .dialogTextStyle()
-            .merge(dialogTheme.contentTextStyle),
-        textAlign: dialogTheme.contentTextAlign ?? TextAlign.center,
-      ),
-    );
+        );
   }
 
   List<Widget> _setDialogButton(BuildContext context) {
@@ -133,7 +143,7 @@ class AnimatedDialog {
           .merge(dialogTheme.actionTextStyle));
 
   EdgeInsets getButtonPadding(BuildContext context) => EdgeInsets.only(
-        right: DynamicSize(context).width * .8,
-        bottom: DynamicSize(context).height * .6,
+        right: DynamicSize(context).width * 1.2,
+        bottom: DynamicSize(context).height * 1,
       );
 }

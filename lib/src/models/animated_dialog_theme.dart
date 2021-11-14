@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'language_dialog_theme.dart';
+
+/// Style related settings for "CustomDialog",
+/// that will be used on dialog displays.
 class AnimatedDialogTheme {
   /// The padding for content of the dialogs.
   final EdgeInsets? contentPadding;
@@ -35,6 +39,13 @@ class AnimatedDialogTheme {
   /// Background color of the dialog.
   final Color? backgroundColor;
 
+  /// Duration of display animation of the dialog.
+  final Duration? animationDuration;
+
+  /// Theme of language dialog. Determines its style
+  /// with the help of [LanguageDialogTheme].
+  final LanguageDialogTheme? languageDialogTheme;
+
   const AnimatedDialogTheme({
     this.contentPadding,
     this.actionsPadding,
@@ -47,5 +58,7 @@ class AnimatedDialogTheme {
     this.shape,
     this.elevation,
     this.backgroundColor,
+    this.animationDuration,
+    this.languageDialogTheme,
   });
 }

@@ -1,5 +1,6 @@
-import 'package:animated_login/src/models/animated_dialog_theme.dart';
 import 'package:flutter/material.dart';
+
+import '../models/animated_dialog_theme.dart';
 
 /// [LoginViewTheme] is the provider for all design/theme related data.
 /// You can customize the colors, text styles, elevation, borders and lots of
@@ -197,4 +198,109 @@ class LoginViewTheme {
 
   /// Theme preferences for dialogs.
   final AnimatedDialogTheme? dialogTheme;
+
+  LoginViewTheme copyWith({
+    TextStyle? formTitleStyle,
+    TextStyle? welcomeTitleStyle,
+    TextStyle? welcomeDescriptionStyle,
+    TextStyle? changeActionTextStyle,
+    TextStyle? useEmailStyle,
+    TextStyle? forgotPasswordStyle,
+    TextStyle? hintTextStyle,
+    TextStyle? errorTextStyle,
+    TextStyle? textFormStyle,
+    InputDecoration? textFormFieldDeco,
+    Widget? nameIcon,
+    Widget? emailIcon,
+    Widget? passwordIcon,
+    double? formFieldElevation,
+    Color? formFieldBackgroundColor,
+    Color? formFieldShadowColor,
+    BorderRadius? formFieldBorderRadius,
+    Size? formFieldSize,
+    Color? formFieldHoverColor,
+    Color? backgroundColor,
+    Color? errorBorderColor,
+    Color? focusedErrorBorderColor,
+    Color? enabledBorderColor,
+    Color? focusedBorderColor,
+    InputBorder? errorBorder,
+    InputBorder? enabledBorder,
+    InputBorder? focusedBorder,
+    InputBorder? focusedErrorBorder,
+    bool showLabelTexts = true,
+    Color? socialLoginHoverColor,
+    BorderSide? socialLoginBorder,
+    ButtonStyle? changeLangButtonStyle,
+    Color? changeLangContentColor,
+    TextStyle? changeLangButtonTextStyle,
+    ButtonStyle? actionButtonStyle,
+    ButtonStyle? changeActionButtonStyle,
+    Curve animationCurve = const Cubic(0.85, 0.40, 0.40, 0.85),
+    double formWidthRatio = 60,
+    Duration? animationDuration,
+    double? formElementsSpacing,
+    EdgeInsets? formPadding,
+    Size? logoSize,
+    double? socialLoginsSpacing,
+    EdgeInsets? welcomePadding,
+    AnimatedDialogTheme? dialogTheme,
+  }) =>
+      LoginViewTheme(
+        formTitleStyle: formTitleStyle ?? this.formTitleStyle,
+        welcomeTitleStyle: welcomeTitleStyle ?? this.welcomeTitleStyle,
+        welcomeDescriptionStyle:
+            welcomeDescriptionStyle ?? this.welcomeDescriptionStyle,
+        changeActionTextStyle:
+            changeActionTextStyle ?? this.changeActionTextStyle,
+        useEmailStyle: useEmailStyle ?? this.useEmailStyle,
+        forgotPasswordStyle: forgotPasswordStyle ?? this.forgotPasswordStyle,
+        hintTextStyle: hintTextStyle ?? this.hintTextStyle,
+        errorTextStyle: errorTextStyle ?? this.errorTextStyle,
+        textFormStyle: textFormStyle ?? this.textFormStyle,
+        textFormFieldDeco: textFormFieldDeco ?? this.textFormFieldDeco,
+        nameIcon: nameIcon ?? this.nameIcon,
+        emailIcon: emailIcon ?? this.emailIcon,
+        passwordIcon: passwordIcon ?? this.passwordIcon,
+        formFieldElevation: formFieldElevation ?? this.formFieldElevation,
+        formFieldBackgroundColor:
+            formFieldBackgroundColor ?? this.formFieldBackgroundColor,
+        formFieldShadowColor: formFieldShadowColor ?? this.formFieldShadowColor,
+        formFieldBorderRadius:
+            formFieldBorderRadius ?? this.formFieldBorderRadius,
+        formFieldSize: formFieldSize ?? this.formFieldSize,
+        formFieldHoverColor: formFieldHoverColor ?? this.formFieldHoverColor,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
+        errorBorderColor: errorBorderColor ?? this.errorBorderColor,
+        focusedErrorBorderColor:
+            focusedErrorBorderColor ?? this.focusedErrorBorderColor,
+        enabledBorderColor: enabledBorderColor ?? this.enabledBorderColor,
+        focusedBorderColor: focusedBorderColor ?? this.focusedBorderColor,
+        errorBorder: errorBorder ?? this.errorBorder,
+        enabledBorder: enabledBorder ?? this.enabledBorder,
+        focusedBorder: focusedBorder ?? this.focusedBorder,
+        focusedErrorBorder: focusedErrorBorder ?? this.focusedErrorBorder,
+        showLabelTexts: showLabelTexts,
+        socialLoginHoverColor:
+            socialLoginHoverColor ?? this.socialLoginHoverColor,
+        socialLoginBorder: socialLoginBorder ?? this.socialLoginBorder,
+        changeLangButtonStyle:
+            changeLangButtonStyle ?? this.changeLangButtonStyle,
+        changeLangContentColor:
+            changeLangContentColor ?? this.changeLangContentColor,
+        changeLangButtonTextStyle:
+            changeLangButtonTextStyle ?? this.changeLangButtonTextStyle,
+        actionButtonStyle: actionButtonStyle ?? this.actionButtonStyle,
+        changeActionButtonStyle:
+            changeActionButtonStyle ?? this.changeActionButtonStyle,
+        animationCurve: animationCurve,
+        formWidthRatio: formWidthRatio,
+        animationDuration: animationDuration ?? this.animationDuration,
+        formElementsSpacing: formElementsSpacing ?? this.formElementsSpacing,
+        formPadding: formPadding ?? this.formPadding,
+        logoSize: logoSize ?? this.logoSize,
+        socialLoginsSpacing: socialLoginsSpacing ?? this.socialLoginsSpacing,
+        welcomePadding: welcomePadding ?? this.welcomePadding,
+        dialogTheme: dialogTheme ?? this.dialogTheme,
+      );
 }

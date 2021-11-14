@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../models/animated_dialog_theme.dart';
 import 'login_view_theme.dart';
 
-class LoginTheme with ChangeNotifier implements LoginViewTheme {
+class LoginTheme extends LoginViewTheme with ChangeNotifier {
   LoginTheme({LoginViewTheme? initialTheme}) {
     _currentTheme = initialTheme ?? LoginViewTheme();
   }
