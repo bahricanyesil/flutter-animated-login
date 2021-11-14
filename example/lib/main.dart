@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Simulates the multilanguage, you will implement your own logic.
   /// According to the current language, you can display a text message
   /// with the help of [LoginTexts] class.
-  LanguageOption language = _languageOptions[0];
+  LanguageOption language = _languageOptions[1];
   AuthMode currentMode = AuthMode.login;
 
   @override
