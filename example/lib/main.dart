@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       },
       languageOptions: _languageOptions,
-      initialLanguage: language,
+      selectedLanguage: language,
     );
   }
 

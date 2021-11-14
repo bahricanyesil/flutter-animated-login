@@ -60,7 +60,7 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | signUpMode                | [`SignUpModes`](#SignUpModes)             | Enum to determine which text form fields should be displayed in addition to the email and password fields: Name / Confirm Password / Both.                  |
 | languageOptions           | [`List<LanguageOption>`](#LanguageOption) | List of languages that user can select.                                                                                                                     |
 | changeLanguageCallback    | `ChangeLanguageCallback`                  | Callback that will be called when a language is selected.                                                                                                   |
-| initialLanguage           | [`LanguageOption`](#LanguageOption)       | Initial language which is selected as default.                                                                                                              |
+| selectedLanguage          | [`LanguageOption`](#LanguageOption)       | Selected language that is stored in your side.                                                                                                              |
 | changeLangOnPressed       | `ChangeLangOnPressedCallback`             | Optional function will be called on pressed to the change language button. It should prompt a dialog to select a language and return the selected language. |
 
 ### LoginTexts
