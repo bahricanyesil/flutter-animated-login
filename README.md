@@ -148,6 +148,20 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | animationDuration     | `Duration`            | Duration of display animation of the dialog.                      |
 | languageDialogTheme   | `LanguageDialogTheme` | Theme of the language dialog, determines its style.               |
 
+### LanguageDialogTheme
+
+| Property                | Type               | Description                                 |
+| ----------------------- | ------------------ | ------------------------------------------- |
+| title                   | `Widget`           | Title of the choose langauge dialog.        |
+| dialogOptionSize        | `Size`             | Size of the dialog option.                  |
+| optionMargin            | `EdgeInsets`       | Margin of the dialog option.                |
+| optionPadding           | `EdgeInsets`       | Padding of the dialog option.               |
+| selectedBackgroundColor | `Color`            | Background color of the selected option.    |
+| iconColor               | `Color`            | Color of the language icon.                 |
+| languageTextStyle       | `TextStyle`        | Text style for language text.               |
+| selectedItemTextColor   | `Color`            | Text color for selected language item.      |
+| dividerThemeData        | `DividerThemeData` | Theme for divider between language options. |
+
 ### SocialLogin
 
 | Property | Type                  | Description                                                          |
