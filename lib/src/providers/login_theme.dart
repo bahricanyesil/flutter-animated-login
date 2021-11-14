@@ -42,7 +42,25 @@ class LoginTheme with ChangeNotifier {
     this.changeLangButtonStyle,
     this.changeLangContentColor,
     this.changeLangButtonTextStyle,
-  });
+    this.actionButtonStyle,
+    this.changeActionButtonStyle,
+    this.animationCurve = const Cubic(0.85, 0.40, 0.40, 0.85),
+    this.formWidthRatio = 60,
+    this.animationDuration,
+    this.formElementsSpacing,
+    this.formPadding,
+    this.logoSize,
+    this.socialLoginsSpacing,
+    this.welcomePadding,
+  })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
+        assert(formElementsSpacing == null || formElementsSpacing <= 70,
+            "Spacing between the form elements cannot be more than 70."),
+        assert(socialLoginsSpacing == null || socialLoginsSpacing <= 200,
+            "Social logins spacing cannot be more than 200."),
+        assert(socialLoginsSpacing == null || socialLoginsSpacing <= 200,
+            "Social logins spacing cannot be more than 200."),
+        assert(logoSize == null || logoSize <= const Size(500, 400),
+            "Logo size cannot be more than Size(500, 400).");
 
   /// Text style for the title of form part.
   final TextStyle? formTitleStyle;
@@ -108,7 +126,7 @@ class LoginTheme with ChangeNotifier {
   final Color? formFieldHoverColor;
 
   /// Background color of the login screen.
-  final Color? backgroundColor;
+  Color? backgroundColor;
 
   /// Error border color for text form fields.
   final Color? errorBorderColor;
@@ -152,6 +170,36 @@ class LoginTheme with ChangeNotifier {
 
   /// Custom text style for change language button text.
   final TextStyle? changeLangButtonTextStyle;
+
+  /// Custom button style for action button (login/signup).
+  final ButtonStyle? actionButtonStyle;
+
+  /// Custom button style for change action button that will switch auth mode.
+  final ButtonStyle? changeActionButtonStyle;
+
+  /// Padding of the welcome part widget.
+  final EdgeInsets? welcomePadding;
+
+  /// Padding of the form part widget.
+  final EdgeInsets? formPadding;
+
+  /// Size of the logo in the welcome part.
+  final Size? logoSize;
+
+  /// The spacing between the elements of form.
+  final double? formElementsSpacing;
+
+  /// The spacing between the social login options.
+  final double? socialLoginsSpacing;
+
+  /// Custom animation curve that will be used for animations.
+  final Curve animationCurve;
+
+  /// Ratio of width of the form to the width of the screen in percentage.
+  final double formWidthRatio;
+
+  /// The duration of the animations.
+  final Duration? animationDuration;
 
   /// Indicates whether the screen size is landscape.
   bool isLandscape = true;
