@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../responsiveness/dynamic_size.dart';
 
-/// Provides a circle button with custom stylings.
-/// Shapes the button as circle with the given height/width.
 class CircleWidget extends StatelessWidget {
+  /// Provides a circle button with custom stylings.
+  /// Shapes the button as circle with the given height/width.
   const CircleWidget({
     required this.child,
     this.widthFactor = 13,
@@ -17,7 +17,7 @@ class CircleWidget extends StatelessWidget {
   }) : super(key: key);
   final Widget child;
   final double widthFactor;
-  final Function()? onTap;
+  final VoidCallback? onTap;
   final double? borderWidthFactor;
   final Color? color;
   final Color? hoverColor;

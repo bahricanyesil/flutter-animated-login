@@ -16,9 +16,9 @@ export 'src/providers/login_view_theme.dart';
 part 'src/widgets/form_part.dart';
 part 'src/widgets/welcome_components.dart';
 
-/// Main widget creates the animated login screen
-/// Wraps the main view with providers.
 class AnimatedLogin extends StatefulWidget {
+  /// [AnimatedLogin] is the main widget creates the animated login screen
+  /// Wraps the main view with providers.
   const AnimatedLogin({
     this.loginDesktopTheme,
     this.loginMobileTheme,
@@ -236,9 +236,9 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
   }
 }
 
-/// Draws the main view of the screen by using
-/// [_FormPart], [_LogoAndTexts], [_ChangeActionTitle] and [_ChangeActionButton]
 class _View extends StatefulWidget {
+  /// Draws the main view of the screen by using [_FormPart],
+  /// [_LogoAndTexts], [_ChangeActionTitle] and [_ChangeActionButton]
   const _View({
     this.formKey,
     this.checkError = true,

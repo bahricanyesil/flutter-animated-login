@@ -7,10 +7,10 @@ import '../models/models_shelf.dart';
 /// triggered by [Auth.switchAuth] method.
 typedef AuthModeChangeCallback = void Function(AuthMode authMode);
 
-// if there is any error message.
-/// [Auth] is the provider for auth related data, functions.
-/// Manages the state related to the authentication modes.
 class Auth with ChangeNotifier {
+// if there is any error message.
+  /// [Auth] is the provider for auth related data, functions.
+  /// Manages the state related to the authentication modes.
   Auth({
     this.socialLogins = const <SocialLogin>[],
     this.onAuthModeChange,

@@ -1,6 +1,7 @@
 part of '../../animated_login.dart';
 
 class _FormPart extends StatefulWidget {
+  /// Form part of the login screen.
   const _FormPart({
     required this.animationController,
     required this.checkError,

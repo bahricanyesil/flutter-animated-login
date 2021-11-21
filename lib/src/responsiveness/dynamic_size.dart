@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 
 import '../utils/view_type_helper.dart';
 
-/// Provides dynamic size values (height/width) by using [MediaQueryData].
-/// It provides responsive [height], [width] and [responsiveSize] data
-/// that are changing when you change your window size.
-/// Also contains [EdgeInsets] values for responsive paddings/margins.
 class DynamicSize {
-  final BuildContext context;
+  /// Provides dynamic size values (height/width) by using [MediaQueryData].
+  /// It provides responsive [height], [width] and [responsiveSize] data
+  /// that are changing when you change your window size.
+  /// Also contains [EdgeInsets] values for responsive paddings/margins.
   DynamicSize(this.context) {
     _mediaQuery = MediaQuery.of(context);
   }
 
+  final BuildContext context;
   late MediaQueryData _mediaQuery;
 
   /// One percent of the screen height and width, in terms of pixels.

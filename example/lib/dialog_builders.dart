@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'loading_indicator.dart';
 
 class DialogBuilder {
+  /// Builds various dialogs with different methods.
+  /// * e.g. [showLoadingDialog], [showResultDialog]
   const DialogBuilder(this.context);
   final BuildContext context;
 

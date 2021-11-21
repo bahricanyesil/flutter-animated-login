@@ -2,9 +2,25 @@ import 'package:flutter/material.dart';
 
 import 'language_dialog_theme.dart';
 
-/// Style related settings for "CustomDialog",
-/// that will be used on dialog displays.
 class AnimatedDialogTheme {
+  /// Style related settings for "CustomDialog",
+  /// that will be used on dialog displays.
+  const AnimatedDialogTheme({
+    this.contentPadding,
+    this.actionsPadding,
+    this.contentSize,
+    this.contentTextStyle,
+    this.contentTextAlign,
+    this.actionTextStyle,
+    this.onPressed,
+    this.contentBoxConstraints,
+    this.shape,
+    this.elevation,
+    this.backgroundColor,
+    this.animationDuration,
+    this.languageDialogTheme,
+  });
+
   /// The padding for content of the dialogs.
   final EdgeInsets? contentPadding;
 
@@ -24,7 +40,7 @@ class AnimatedDialogTheme {
   final TextStyle? actionTextStyle;
 
   /// Action will be performed on click to action button of the dialog.
-  final Function()? onPressed;
+  final VoidCallback? onPressed;
 
   /// Box constraints, size limitations of the content widget, if any.
   /// Limits their size acc. to width and height.
@@ -45,20 +61,4 @@ class AnimatedDialogTheme {
   /// Theme of language dialog. Determines its style
   /// with the help of [LanguageDialogTheme].
   final LanguageDialogTheme? languageDialogTheme;
-
-  const AnimatedDialogTheme({
-    this.contentPadding,
-    this.actionsPadding,
-    this.contentSize,
-    this.contentTextStyle,
-    this.contentTextAlign,
-    this.actionTextStyle,
-    this.onPressed,
-    this.contentBoxConstraints,
-    this.shape,
-    this.elevation,
-    this.backgroundColor,
-    this.animationDuration,
-    this.languageDialogTheme,
-  });
 }

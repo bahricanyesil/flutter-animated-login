@@ -20,19 +20,19 @@ typedef SocialLoginCallback = Future<String?> Function();
 /// It takes [email] as a parameter to identify the user.
 typedef ForgotPasswordCallback = Future<String?> Function(String email);
 
-/// [SocialLogin] model is to store/transfer data of social login types.
-/// Contains [iconPath], and [callback] fields.
 @immutable
 class SocialLogin {
+  /// [SocialLogin] model is to store/transfer data of social login types.
+  /// Contains [iconPath], and [callback] fields.
+  const SocialLogin({
+    required this.iconPath,
+    required this.callback,
+  });
+
   /// Full asset path of the social platform logo.
   /// Ex: 'assets/images/google.png'
   final String iconPath;
 
   /// The callback will be called on click to logo of the social platform.
   final SocialLoginCallback callback;
-
-  const SocialLogin({
-    required this.iconPath,
-    required this.callback,
-  });
 }
