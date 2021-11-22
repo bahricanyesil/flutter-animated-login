@@ -19,7 +19,7 @@ class AnimatedDialog extends PlatformDialog {
     AsyncCallback? action,
     Widget? content,
     Widget? title,
-    double contentPaddingFactor = 3,
+    double? contentPaddingFactor,
   }) : super(
           action: action,
           contentText: contentText,
@@ -42,7 +42,7 @@ class AnimatedDialog extends PlatformDialog {
       context: context,
       builder: (BuildContext localContext) => WillPopScope(
         onWillPop: () async => isDismissible,
-        child: build(localContext),
+        child: build(context, dialogTheme),
       ),
     );
   }

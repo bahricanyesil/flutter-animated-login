@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../../../decorations/text_styles.dart';
 import '../../../models/animated_dialog_theme.dart';
 import '../../../providers/login_texts.dart';
-import '../../../providers/login_theme.dart';
 import '../../../responsiveness/dynamic_size.dart';
 import '../../texts/base_text.dart';
 
@@ -16,10 +15,9 @@ mixin BaseDialog {
     BuildContext context, {
     required Widget? content,
     required String? contentText,
+    required AnimatedDialogTheme dialogTheme,
   }) {
     final DynamicSize dynamicSize = DynamicSize(context);
-    final AnimatedDialogTheme dialogTheme =
-        context.read<LoginTheme>().dialogTheme ?? const AnimatedDialogTheme();
     return content ??
         ConstrainedBox(
           constraints: dialogTheme.contentBoxConstraints ??
@@ -41,30 +39,28 @@ mixin BaseDialog {
     required String? actionText,
     required bool willPop,
     required AsyncCallback? action,
+    required AnimatedDialogTheme dialogTheme,
     bool isIOS = false,
-  }) {
-    final AnimatedDialogTheme dialogTheme =
-        context.read<LoginTheme>().dialogTheme ?? const AnimatedDialogTheme();
-    return <Widget>[
-      if (actionText != null)
-        Padding(
-          padding: dialogTheme.actionsPadding ?? _getButtonPadding(context),
-          child: isIOS
-              ? CupertinoDialogAction(
-                  onPressed: () async =>
-                      _rightButtonAction(context, willPop, action),
-                  child: _buttonText(
-                      actionText, dialogTheme.actionTextStyle, context),
-                )
-              : InkWell(
-                  onTap: () async =>
-                      _rightButtonAction(context, willPop, action),
-                  child: _buttonText(
-                      actionText, dialogTheme.actionTextStyle, context),
-                ),
-        ),
-    ];
-  }
+  }) =>
+      <Widget>[
+        if (actionText != null)
+          Padding(
+            padding: dialogTheme.actionsPadding ?? _getButtonPadding(context),
+            child: isIOS
+                ? CupertinoDialogAction(
+                    onPressed: () async =>
+                        _rightButtonAction(context, willPop, action),
+                    child: _buttonText(
+                        actionText, dialogTheme.actionTextStyle, context),
+                  )
+                : InkWell(
+                    onTap: () async =>
+                        _rightButtonAction(context, willPop, action),
+                    child: _buttonText(
+                        actionText, dialogTheme.actionTextStyle, context),
+                  ),
+          ),
+      ];
 
   Future<void> _rightButtonAction(
       BuildContext context, bool willPop, AsyncCallback? action) async {

@@ -1,3 +1,4 @@
+import 'package:animated_login/src/widgets/texts/not_fitted_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,8 +9,8 @@ import '../texts/base_text.dart';
 import 'animated_dialog.dart';
 import 'single_choose_dialog.dart';
 
-/// Dialog builder for displaying dialogs.
 class DialogBuilder {
+  /// Dialog builder for displaying dialogs.
   const DialogBuilder(this.context);
   final BuildContext context;
 
@@ -26,13 +27,12 @@ class DialogBuilder {
           initialValue: initialValue,
           theme: context.read<LoginTheme>().dialogTheme?.languageDialogTheme,
         ),
-        contentPaddingFactor: 2.5,
         title: _getSelectTitle(titleText),
       ).show(context);
 
   Widget _getSelectTitle(String titleText) => BaseText(
         titleText,
-        style: TextStyles(context).subtitleTextStyle(
+        style: TextStyles(context).subBodyStyle(
             color: Theme.of(context).primaryColor.withOpacity(.7)),
       );
 }
