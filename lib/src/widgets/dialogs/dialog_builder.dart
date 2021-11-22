@@ -5,7 +5,7 @@ import '../../decorations/text_styles.dart';
 import '../../models/language_option.dart';
 import '../../providers/login_theme.dart';
 import '../texts/base_text.dart';
-import 'custom_dialog.dart';
+import 'animated_dialog.dart';
 import 'single_choose_dialog.dart';
 
 /// Dialog builder for displaying dialogs.
