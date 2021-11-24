@@ -5,13 +5,9 @@ import '../../decorations/text_styles.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';
 
-/// Base text button with custom parameters
-/// Wraps [TextButton] with [FittedBox], and gives some paddings.
 class BaseTextButton extends StatelessWidget {
-  final String text;
-  final Function() onPressed;
-  final TextStyle? style;
-  final EdgeInsets? padding;
+  /// Base text button with custom parameters
+  /// Wraps [TextButton] with [FittedBox], and gives some paddings.
   const BaseTextButton({
     required this.text,
     required this.onPressed,
@@ -19,6 +15,10 @@ class BaseTextButton extends StatelessWidget {
     this.padding,
     Key? key,
   }) : super(key: key);
+  final String text;
+  final VoidCallback onPressed;
+  final TextStyle? style;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {

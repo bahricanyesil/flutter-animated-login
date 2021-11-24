@@ -9,6 +9,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  /// Main app widget.
   const MyApp({Key? key}) : super(key: key);
 
   @override
@@ -41,6 +42,9 @@ class MyApp extends StatelessWidget {
 }
 
 class LoginScreen extends StatefulWidget {
+  /// Simulates the multilanguage, you will implement your own logic.
+  /// According to the current language, you can display a text message
+  /// with the help of [LoginTexts] class.
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -48,9 +52,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  /// Simulates the multilanguage, you will implement your own logic.
-  /// According to the current language, you can display a text message
-  /// with the help of [LoginTexts] class.
   LanguageOption language = _languageOptions[1];
   AuthMode currentMode = AuthMode.login;
 
@@ -153,10 +154,9 @@ class _LoginScreenState extends State<LoginScreen> {
       ];
 }
 
-/// Example forgot password screen that user is navigated to
-/// after clicked on "Forgot Password?" text.
-
 class ForgotPasswordScreen extends StatelessWidget {
+  /// Example forgot password screen that user is navigated to
+  /// after clicked on "Forgot Password?" text.
   const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override

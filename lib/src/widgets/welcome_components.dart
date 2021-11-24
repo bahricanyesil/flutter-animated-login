@@ -1,6 +1,7 @@
 part of '../../animated_login.dart';
 
 class _LogoAndTexts extends StatelessWidget {
+  /// Column of logo and welcome texts.
   const _LogoAndTexts({required this.logo, Key? key}) : super(key: key);
   final String? logo;
 
@@ -55,9 +56,11 @@ class _LogoAndTexts extends StatelessWidget {
 }
 
 class _ChangeActionButton extends StatelessWidget {
+  /// Change action button in the welcome part.
+  /// * Switches between the auth modes (login/signup).
   const _ChangeActionButton({required this.animate, Key? key})
       : super(key: key);
-  final Function() animate;
+  final VoidCallback animate;
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +78,12 @@ class _ChangeActionButton extends StatelessWidget {
 }
 
 class _ChangeActionTitle extends StatelessWidget {
+  /// Change action title in the welcome part.
   const _ChangeActionTitle(
       {this.showButtonText = false, this.animate, Key? key})
       : super(key: key);
   final bool showButtonText;
-  final Function()? animate;
+  final VoidCallback? animate;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +109,7 @@ class _ChangeActionTitle extends StatelessWidget {
             .merge(context.read<LoginTheme>().changeActionTextStyle),
       );
 
-  Widget _changeActionGesture(BuildContext context, Function()? animate) =>
+  Widget _changeActionGesture(BuildContext context, VoidCallback? animate) =>
       Padding(
         padding: DynamicSize(context).lowLeftPadding,
         child: InkWell(
@@ -130,10 +134,7 @@ class _ChangeActionTitle extends StatelessWidget {
 }
 
 class _ChangeLanguage extends StatelessWidget {
-  final List<LanguageOption> languageOptions;
-  final Function(LanguageOption? language) chooseLanguageCallback;
-  final Animation<double> colorTween;
-  final ChangeLangOnPressedCallback? onPressed;
+  /// Change language widget on top of the welcome part.
   const _ChangeLanguage({
     required this.chooseLanguageCallback,
     required this.colorTween,
@@ -141,6 +142,10 @@ class _ChangeLanguage extends StatelessWidget {
     this.onPressed,
     Key? key,
   }) : super(key: key);
+  final List<LanguageOption> languageOptions;
+  final Function(LanguageOption? language) chooseLanguageCallback;
+  final Animation<double> colorTween;
+  final ChangeLangOnPressedCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {

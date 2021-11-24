@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 
-// TODO(bahrican): DOCUMENTATION
-
-/// Style related settings for choose language dialog.
 class LanguageDialogTheme {
+  /// Style related settings for choose language dialog.
+  const LanguageDialogTheme({
+    this.title,
+    this.dialogOptionSize,
+    this.optionMargin,
+    this.optionPadding,
+    this.selectedBackgroundColor,
+    this.iconColor,
+    this.languageTextStyle,
+    this.selectedItemTextColor,
+    this.dividerThemeData,
+  });
+
   /// Title of the choose langauge dialog.
   final Widget? title;
 
@@ -30,16 +40,4 @@ class LanguageDialogTheme {
 
   /// Theme for divider between language options.
   final DividerThemeData? dividerThemeData;
-
-  const LanguageDialogTheme({
-    this.title,
-    this.dialogOptionSize,
-    this.optionMargin,
-    this.optionPadding,
-    this.selectedBackgroundColor,
-    this.iconColor,
-    this.languageTextStyle,
-    this.selectedItemTextColor,
-    this.dividerThemeData,
-  });
 }

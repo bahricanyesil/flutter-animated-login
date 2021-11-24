@@ -1,6 +1,5 @@
-class Hasher {
-  const Hasher();
-
+/// Basic utility class for hashing.
+mixin Hasher {
   static int getHashCode(List<Object> fields) {
     int hash = 0;
     for (int i = 0; i < fields.length; i++) {

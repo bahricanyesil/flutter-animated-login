@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'dialog_builders.dart';
 
 class LoginFunctions {
+  /// Collection of functions will be performed on login/signup.
+  /// * e.g. [onLogin], [onSignup], [socialLogin], and [onForgotPassword]
   const LoginFunctions(this.context);
   final BuildContext context;
 

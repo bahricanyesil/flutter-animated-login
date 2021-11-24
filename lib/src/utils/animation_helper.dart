@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AnimationHelper {
+  /// Helper class for animations.
+  /// * Cretes tween sequence animation, [tweenSequenceAnimation].
   const AnimationHelper(
       {required this.animationController, required this.animationCurve});
   final AnimationController animationController;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// [ButtonStyles] class collects all button styles in one file.
 class ButtonStyles {
+  /// [ButtonStyles] class collects all button styles in one file.
   const ButtonStyles(this.context);
   final BuildContext context;
 

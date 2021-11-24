@@ -7,15 +7,17 @@ import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';
 
 class SingleChooseDialog extends StatelessWidget {
-  final List<LanguageOption> elements;
-  final LanguageOption? initialValue;
-  final LanguageDialogTheme? theme;
+  /// Choose dialog with multiple options but single selection.
   const SingleChooseDialog({
     required this.elements,
     this.initialValue,
     this.theme,
     Key? key,
   }) : super(key: key);
+
+  final List<LanguageOption> elements;
+  final LanguageOption? initialValue;
+  final LanguageDialogTheme? theme;
 
   @override
   Widget build(BuildContext context) => Column(
