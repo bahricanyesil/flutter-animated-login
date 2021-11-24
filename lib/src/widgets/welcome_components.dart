@@ -3,7 +3,7 @@ part of '../../animated_login.dart';
 class _LogoAndTexts extends StatelessWidget {
   /// Column of logo and welcome texts.
   const _LogoAndTexts({required this.logo, Key? key}) : super(key: key);
-  final String? logo;
+  final Widget? logo;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -50,7 +50,7 @@ class _LogoAndTexts extends StatelessWidget {
               dynamicSize.responsiveSize * (loginTheme.isLandscape ? 26 : 30))),
       padding: EdgeInsets.only(
           bottom: dynamicSize.height * (loginTheme.isLandscape ? 4 : 2)),
-      child: Image.asset(logo!),
+      child: logo,
     );
   }
 }

@@ -135,8 +135,8 @@ class AnimatedLogin extends StatefulWidget {
   /// Full asset image path for background of the welcome part.
   final String? backgroundImage;
 
-  /// Full asset image path for the logo.
-  final String? logo;
+  /// Optional logo widget to display. Its size is constrained.
+  final Widget? logo;
 
   /// Enum to determine which text form fields should be displayed in addition
   /// to the email and password fields: Name / Confirm Password / Both
@@ -274,7 +274,7 @@ class _View extends StatefulWidget {
   final TextEditingController? passwordController;
   final TextEditingController? confirmPasswordController;
   final String? backgroundImage;
-  final String? logo;
+  final Widget? logo;
   final SignUpModes signUpMode;
   final List<LanguageOption> languageOptions;
   final ChangeLanguageCallback? changeLanguageCallback;
