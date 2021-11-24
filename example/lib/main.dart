@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onLogin: LoginFunctions(context).onLogin,
       onSignup: LoginFunctions(context).onSignup,
       onForgotPassword: LoginFunctions(context).onForgotPassword,
-      logo: 'assets/images/logo.gif',
+      logo: Image.asset('assets/images/logo.gif'),
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
       socialLogins: _socialLogins(context),
