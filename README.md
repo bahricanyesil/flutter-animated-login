@@ -81,72 +81,72 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 
 ### LoginViewTheme
 
-| Property                  | Type                  | Description                                                                          |
-| ------------------------- | --------------------- | ------------------------------------------------------------------------------------ |
-| formTitleStyle            | `TextStyle`           | Text style for the title of form part.                                               |
-| welcomeTitleStyle         | `TextStyle`           | Text style for the title of welcome part.                                            |
-| welcomeDescriptionStyle   | `TextStyle`           | Text style for the description of welcome part.                                      |
-| changeActionStyle         | `TextStyle`           | Text style for the change action CTA of welcome part.                                |
-| useEmailStyle             | `TextStyle`           | Text style for the use email text of form part.                                      |
-| forgotPasswordStyle       | `TextStyle`           | Text style for the forgot password CTA of form part.                                 |
-| hintTextStyle             | `TextStyle`           | Text style for hint texts in the text form fields.                                   |
-| errorTextStyle            | `TextStyle`           | Text style for error texts in the text form fields.                                  |
-| textFormStyle             | `TextStyle`           | Text style for input texts in the text form fields.                                  |
-| textFormFieldDeco         | `InputDecoration`     | Input decoration for the text form fields.                                           |
-| nameIcon                  | `Widget`              | Prefix widget for name text form field.                                              |
-| emailIcon                 | `Widget`              | Prefix widget for email text form field.                                             |
-| passwordIcon              | `Widget`              | Prefix widget for password text form field.                                          |
-| formFieldElevation        | `double`              | Elevation for text form fields.                                                      |
-| formFieldBackgroundColor  | `Color`               | Background color for text form fields.                                               |
-| formFieldShadowColor      | `Color`               | Shadow color for text form fields.                                                   |
-| formFieldBorderRadius     | `BorderRadius`        | Border radius for text form fields.                                                  |
-| formFieldSize             | `Size`                | Size of text form fields.                                                            |
-| formFieldHoverColor       | `Color`               | Hover color for text form fields.                                                    |
-| backgroundColor           | `Color`               | Background color of the login screen.                                                |
-| errorBorderColor          | `Color`               | Error border color for text form fields.                                             |
-| focusedErrorBorderColor   | `Color`               | Focused error border color for text form fields.                                     |
-| focusedBorderColor        | `Color`               | Focused border color for text form fields.                                           |
-| enabledBorderColor        | `Color`               | Enabled border color for text form fields.                                           |
-| enabledBorder             | `InputBorder`         | Enabled border for text form fields.                                                 |
-| errorBorder               | `InputBorder`         | Error border for text form fields.                                                   |
-| focusedErrorBorder        | `InputBorder`         | Focused error border for text form fields.                                           |
-| focusedBorder             | `InputBorder`         | Focused border for text form fields.                                                 |
-| showFormFieldErrors       | `bool`                | Indicates whether the error messages should be displayed below the text form fields. |
-| showLabelTexts            | `bool`                | Indicates whether the labels should be displayed above the text form fields.         |
-| socialLoginHoverColor     | `Color`               | Hover color for social login widgets.                                                |
-| socialLoginBorder         | `BorderSide`          | Border for social login widgets.                                                     |
-| changeLangButtonStyle     | `ButtonStyle`         | Custom button style for change language button.                                      |
-| changeLangContentColor    | `Color`               | Custom color for change language button text and icon.                               |
-| changeLangButtonTextStyle | `TextStyle`           | Custom text style for change language button text.                                   |
-| animationCurve            | `Curve`               | Custom animation curve that will be used for animations.                             |
-| formWidthRatio            | `double`              | Ratio of width of the form to the width of the screen.                               |
-| animationDuration         | `Duration`            | The duration of the animations.                                                      |
-| formElementsSpacing       | `double`              | The spacing between the elements of form.                                            |
-| socialLoginsSpacing       | `double`              | The spacing between the social login options.                                        |
-| actionButtonStyle         | `ButtonStyle`         | Custom button style for action button (login/signup).                                |
-| changeActionButtonStyle   | `ButtonStyle`         | Custom button style for change action button that will switch auth mode.             |
-| welcomePadding            | `EdgeInsets`          | Padding of the welcome part widget.                                                  |
-| formPadding               | `EdgeInsets`          | Padding of the form part widget.                                                     |
-| logoSize                  | `Size`                | Size of the logo in the welcome part.                                                |
-| dialogTheme               | `AnimatedDialogTheme` | Theme preferences for dialogs.                                                       |
+| Property                  | Type                                        | Description                                                                          |
+| ------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------ |
+| formTitleStyle            | `TextStyle`                                 | Text style for the title of form part.                                               |
+| welcomeTitleStyle         | `TextStyle`                                 | Text style for the title of welcome part.                                            |
+| welcomeDescriptionStyle   | `TextStyle`                                 | Text style for the description of welcome part.                                      |
+| changeActionStyle         | `TextStyle`                                 | Text style for the change action CTA of welcome part.                                |
+| useEmailStyle             | `TextStyle`                                 | Text style for the use email text of form part.                                      |
+| forgotPasswordStyle       | `TextStyle`                                 | Text style for the forgot password CTA of form part.                                 |
+| hintTextStyle             | `TextStyle`                                 | Text style for hint texts in the text form fields.                                   |
+| errorTextStyle            | `TextStyle`                                 | Text style for error texts in the text form fields.                                  |
+| textFormStyle             | `TextStyle`                                 | Text style for input texts in the text form fields.                                  |
+| textFormFieldDeco         | `InputDecoration`                           | Input decoration for the text form fields.                                           |
+| nameIcon                  | `Widget`                                    | Prefix widget for name text form field.                                              |
+| emailIcon                 | `Widget`                                    | Prefix widget for email text form field.                                             |
+| passwordIcon              | `Widget`                                    | Prefix widget for password text form field.                                          |
+| formFieldElevation        | `double`                                    | Elevation for text form fields.                                                      |
+| formFieldBackgroundColor  | `Color`                                     | Background color for text form fields.                                               |
+| formFieldShadowColor      | `Color`                                     | Shadow color for text form fields.                                                   |
+| formFieldBorderRadius     | `BorderRadius`                              | Border radius for text form fields.                                                  |
+| formFieldSize             | `Size`                                      | Size of text form fields.                                                            |
+| formFieldHoverColor       | `Color`                                     | Hover color for text form fields.                                                    |
+| backgroundColor           | `Color`                                     | Background color of the login screen.                                                |
+| errorBorderColor          | `Color`                                     | Error border color for text form fields.                                             |
+| focusedErrorBorderColor   | `Color`                                     | Focused error border color for text form fields.                                     |
+| focusedBorderColor        | `Color`                                     | Focused border color for text form fields.                                           |
+| enabledBorderColor        | `Color`                                     | Enabled border color for text form fields.                                           |
+| enabledBorder             | `InputBorder`                               | Enabled border for text form fields.                                                 |
+| errorBorder               | `InputBorder`                               | Error border for text form fields.                                                   |
+| focusedErrorBorder        | `InputBorder`                               | Focused error border for text form fields.                                           |
+| focusedBorder             | `InputBorder`                               | Focused border for text form fields.                                                 |
+| showFormFieldErrors       | `bool`                                      | Indicates whether the error messages should be displayed below the text form fields. |
+| showLabelTexts            | `bool`                                      | Indicates whether the labels should be displayed above the text form fields.         |
+| socialLoginHoverColor     | `Color`                                     | Hover color for social login widgets.                                                |
+| socialLoginBorder         | `BorderSide`                                | Border for social login widgets.                                                     |
+| changeLangButtonStyle     | `ButtonStyle`                               | Custom button style for change language button.                                      |
+| changeLangContentColor    | `Color`                                     | Custom color for change language button text and icon.                               |
+| changeLangButtonTextStyle | `TextStyle`                                 | Custom text style for change language button text.                                   |
+| animationCurve            | `Curve`                                     | Custom animation curve that will be used for animations.                             |
+| formWidthRatio            | `double`                                    | Ratio of width of the form to the width of the screen.                               |
+| animationDuration         | `Duration`                                  | The duration of the animations.                                                      |
+| formElementsSpacing       | `double`                                    | The spacing between the elements of form.                                            |
+| socialLoginsSpacing       | `double`                                    | The spacing between the social login options.                                        |
+| actionButtonStyle         | `ButtonStyle`                               | Custom button style for action button (login/signup).                                |
+| changeActionButtonStyle   | `ButtonStyle`                               | Custom button style for change action button that will switch auth mode.             |
+| welcomePadding            | `EdgeInsets`                                | Padding of the welcome part widget.                                                  |
+| formPadding               | `EdgeInsets`                                | Padding of the form part widget.                                                     |
+| logoSize                  | `Size`                                      | Size of the logo in the welcome part.                                                |
+| dialogTheme               | `AnimatedDialogTheme`(#AnimatedDialogTheme) | Theme preferences for dialogs.                                                       |
 
 ### AnimatedDialogTheme
 
-| Property              | Type                  | Description                                                       |
-| --------------------- | --------------------- | ----------------------------------------------------------------- |
-| contentPadding        | `EdgeInsets`          | The padding for content of the dialogs.                           |
-| actionsPadding        | `EdgeInsets`          | The padding for actions of the dialogs.                           |
-| contentSize           | `Size`                | Size of the content widget.                                       |
-| contentTextStyle      | `TextStyle`           | Text style of the content text.                                   |
-| contentTextAlign      | `TextAlign`           | Text alignment of the content text.                               |
-| actionTextStyle       | `TextStyle`           | Text style of the action text.                                    |
-| onPressed             | `VoidCallback`        | Action will be performed on click to action button of the dialog. |
-| contentBoxConstraints | `BoxConstraints`      | Box constraints, size limitations of the content widget, if any.  |
-| shape                 | `ShapeBorder`         | Shape of the dialog.                                              |
-| elevation             | `double`              | Elevation of the dialog.                                          |
-| backgroundColor       | `Color`               | Background color of the dialog.                                   |
-| animationDuration     | `Duration`            | Duration of display animation of the dialog.                      |
-| languageDialogTheme   | `LanguageDialogTheme` | Theme of the language dialog, determines its style.               |
+| Property              | Type                                        | Description                                                       |
+| --------------------- | ------------------------------------------- | ----------------------------------------------------------------- |
+| contentPadding        | `EdgeInsets`                                | The padding for content of the dialogs.                           |
+| actionsPadding        | `EdgeInsets`                                | The padding for actions of the dialogs.                           |
+| contentSize           | `Size`                                      | Size of the content widget.                                       |
+| contentTextStyle      | `TextStyle`                                 | Text style of the content text.                                   |
+| contentTextAlign      | `TextAlign`                                 | Text alignment of the content text.                               |
+| actionTextStyle       | `TextStyle`                                 | Text style of the action text.                                    |
+| onPressed             | `VoidCallback`                              | Action will be performed on click to action button of the dialog. |
+| contentBoxConstraints | `BoxConstraints`                            | Box constraints, size limitations of the content widget, if any.  |
+| shape                 | `ShapeBorder`                               | Shape of the dialog.                                              |
+| elevation             | `double`                                    | Elevation of the dialog.                                          |
+| backgroundColor       | `Color`                                     | Background color of the dialog.                                   |
+| animationDuration     | `Duration`                                  | Duration of display animation of the dialog.                      |
+| languageDialogTheme   | `LanguageDialogTheme`(#LanguageDialogTheme) | Theme of the language dialog, determines its style.               |
 
 ### LanguageDialogTheme
 
