@@ -1,11 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// [ValidatorModel] is to determine options for validations.
-/// You can set you own custom validator with [customValidator] or
-/// you can make some customization on the default validation.
 @immutable
 class ValidatorModel {
+  /// [ValidatorModel] is to determine options for validations.
+  /// You can set you own custom validator with [customValidator] or
+  /// you can make some customization on the default validation.
+  const ValidatorModel({
+    this.customValidator,
+    this.length,
+    this.checkUpperCase = false,
+    this.checkLowerCase = false,
+    this.checkSpace = false,
+    this.checkNumber = false,
+  });
+
   /// Custom validator for the text field. If it is provided,
   /// then all fields below will be inactivated and
   /// form will be validated to the custom validator.
@@ -26,13 +35,4 @@ class ValidatorModel {
 
   /// Indicates whether the text should contain a number.
   final bool checkNumber;
-
-  const ValidatorModel({
-    this.customValidator,
-    this.length,
-    this.checkUpperCase = false,
-    this.checkLowerCase = false,
-    this.checkSpace = false,
-    this.checkNumber = false,
-  });
 }

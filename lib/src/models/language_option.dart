@@ -9,10 +9,16 @@ typedef ChangeLanguageCallback = void Function(LanguageOption? language);
 /// Should return [LanguageOption] that user is selected.
 typedef ChangeLangOnPressedCallback = LanguageOption? Function();
 
-/// [LanguageOption] model is to store/transfer data of language options.
-/// Contains [code], [value], and [iconPath] fields.
 @immutable
 class LanguageOption {
+  /// [LanguageOption] model is to store/transfer data of language options.
+  /// * Contains [code], [value], and [iconPath] fields.
+  const LanguageOption({
+    required this.value,
+    required this.code,
+    this.iconPath,
+  });
+
   /// The complete name of the language option.
   final String value;
 
@@ -23,12 +29,6 @@ class LanguageOption {
   /// Probably it will be the flag of a country.
   /// Ex: 'assets/images/google.png'
   final String? iconPath;
-
-  const LanguageOption({
-    required this.value,
-    required this.code,
-    this.iconPath,
-  });
 
   @override
   bool operator ==(Object other) {

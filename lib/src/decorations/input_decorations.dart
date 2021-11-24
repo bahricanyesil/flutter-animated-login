@@ -6,9 +6,9 @@ import '../responsiveness/dynamic_size.dart';
 import '../widgets/icons/base_icon.dart';
 import 'text_styles.dart';
 
-/// [InputDeco] class collects all input decorations in one file.
 class InputDeco {
-  /// Initializes dynamicSize and theme fields after got the context.
+  /// [InputDeco] class collects all input decorations in one file.
+  /// * Initializes dynamicSize and theme fields after got the context.
   InputDeco(this.context) {
     dynamicSize = DynamicSize(context);
   }

@@ -4,6 +4,9 @@ import '../models/animated_dialog_theme.dart';
 import 'login_view_theme.dart';
 
 class LoginTheme extends LoginViewTheme with ChangeNotifier {
+  /// [LoginTheme] is the provider for all design/theme related data.
+  /// with the help of [LoginViewTheme]. See the details inside of it.
+  /// * Additionally tracks whether the app is in landscape mode, [isLandscape].
   LoginTheme({LoginViewTheme? initialTheme}) {
     _currentTheme = initialTheme ?? LoginViewTheme();
   }

@@ -140,7 +140,7 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | contentTextStyle      | `TextStyle`           | Text style of the content text.                                   |
 | contentTextAlign      | `TextAlign`           | Text alignment of the content text.                               |
 | actionTextStyle       | `TextStyle`           | Text style of the action text.                                    |
-| onPressed             | `Function()`          | Action will be performed on click to action button of the dialog. |
+| onPressed             | `VoidCallback`        | Action will be performed on click to action button of the dialog. |
 | contentBoxConstraints | `BoxConstraints`      | Box constraints, size limitations of the content widget, if any.  |
 | shape                 | `ShapeBorder`         | Shape of the dialog.                                              |
 | elevation             | `double`              | Elevation of the dialog.                                          |

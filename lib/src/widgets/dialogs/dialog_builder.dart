@@ -8,8 +8,8 @@ import '../texts/base_text.dart';
 import 'custom_dialog.dart';
 import 'single_choose_dialog.dart';
 
-/// Dialog builder for displaying dialogs.
 class DialogBuilder {
+  /// Dialog builder for displaying dialogs.
   const DialogBuilder(this.context);
   final BuildContext context;
 

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../responsiveness/dynamic_size.dart';
 
-/// [TextStyles] class collects all customized [TextStyle] in one file.
 class TextStyles {
-  /// Initializes [dynamicSize] since it is used to determine fontSize.
+  /// [TextStyles] class collects all customized [TextStyle] in one file.
+  /// * Initializes [dynamicSize] since it is used to determine fontSize.
   TextStyles(this.context) {
     dynamicSize = DynamicSize(context);
   }
@@ -103,21 +103,5 @@ class TextStyles {
         letterSpacing: .8,
         wordSpacing: 1.5,
         decoration: decoration,
-      );
-}
-
-/// Extension on [TextStyle] class to be able to underline texts
-/// with some custom space between the text and underline.
-extension Underline on TextStyle {
-  TextStyle underline({Color? customColor, double? offset}) => copyWith(
-        shadows: <Shadow>[
-          Shadow(
-            color: color ?? Colors.white.withOpacity(.8),
-            offset: Offset(0, offset ?? -5),
-          )
-        ],
-        color: Colors.transparent,
-        decoration: TextDecoration.underline,
-        decorationColor: customColor ?? color ?? Colors.white.withOpacity(.8),
       );
 }

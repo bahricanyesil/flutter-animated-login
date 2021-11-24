@@ -6,10 +6,10 @@ import '../../decorations/text_styles.dart';
 import '../../providers/login_theme.dart';
 import 'text_form_field_wrapper.dart';
 
-/// Base [TextFormField] wrapped with [BaseTextFormFieldWrapper].
-/// Implements login decoration as default, can be customized with parameteres.
-/// Used for implementation of name and email text form fields.
 class CustomTextFormField extends StatelessWidget {
+  /// Base [TextFormField] wrapped with [BaseTextFormFieldWrapper].
+  /// Implements login decoration as default, can be customized with params.
+  /// Used for implementation of name and email text form fields.
   const CustomTextFormField({
     required this.controller,
     required this.validator,

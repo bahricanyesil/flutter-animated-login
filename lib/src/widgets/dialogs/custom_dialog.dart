@@ -1,6 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show AsyncCallback, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:universal_io/io.dart';
@@ -13,6 +13,7 @@ import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';
 
 class AnimatedDialog {
+  /// Creates custom animated dialog specific to each platform.
   AnimatedDialog({
     this.contentText,
     this.actionText,
@@ -29,7 +30,7 @@ class AnimatedDialog {
   final bool isDismissible;
   final Widget? content;
   final Widget? title;
-  final Function()? action;
+  final AsyncCallback? action;
   final double contentPaddingFactor;
   String? actionText;
 

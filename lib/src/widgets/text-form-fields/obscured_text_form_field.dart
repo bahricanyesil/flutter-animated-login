@@ -8,11 +8,11 @@ import '../../utils/view_type_helper.dart';
 import '../buttons/base_icon_button.dart';
 import 'text_form_field_wrapper.dart';
 
-/// Base obscured [TextFormField] wrapped with [BaseTextFormFieldWrapper].
-/// It is specialized for obscured text form fields.
-/// Implements login decoration as default, can be customized with parameteres.
-/// Used for implementation of passwrod and confirm password text form fields.
 class ObscuredTextFormField extends StatefulWidget {
+  /// Base obscured [TextFormField] wrapped with [BaseTextFormFieldWrapper].
+  /// It is specialized for obscured text form fields.
+  /// Implements login decoration as default, can be customized with params.
+  /// Used for implementation of passwrod and confirm password text form fields.
   const ObscuredTextFormField({
     required this.controller,
     required this.onChanged,
