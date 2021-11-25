@@ -108,6 +108,10 @@ class __FormPartState extends State<_FormPart> {
 
   final FocusNode confirmPasswordFocus = FocusNode();
 
+  final FocusNode usernameFocus = FocusNode();
+  final FocusNode emailFocus = FocusNode();
+  final FocusNode passwordFocus = FocusNode();
+
   late bool isLandscape;
 
   @override
@@ -138,6 +142,12 @@ class __FormPartState extends State<_FormPart> {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+
+    usernameFocus.dispose();
+    emailFocus.dispose();
+    passwordFocus.dispose();
+    confirmPasswordFocus.dispose();
+
     super.dispose();
   }
 
@@ -248,7 +258,10 @@ class __FormPartState extends State<_FormPart> {
       );
 
   Future<void> _action() async {
-    FocusScope.of(context).unfocus();
+    // FocusScope.of(context).unfocus();
+    emailFocus.unfocus();
+    passwordFocus.unfocus();
+    usernameFocus.unfocus();
     if (_formKey.currentState!.validate()) {
       if (auth.isLogin) {
         await _errorCheck(_loginResult);
@@ -317,6 +330,7 @@ class __FormPartState extends State<_FormPart> {
               AutofillHints.name,
             ],
             textInputType: TextInputType.name,
+            focusNode: usernameFocus,
           ),
         CustomTextFormField(
           controller: emailController,
@@ -328,6 +342,7 @@ class __FormPartState extends State<_FormPart> {
           onChanged: auth.setEmail,
           autofillHints: const <String>[AutofillHints.email],
           textInputType: TextInputType.emailAddress,
+          focusNode: emailFocus,
         ),
         ObscuredTextFormField(
           controller: passwordController,
@@ -340,6 +355,7 @@ class __FormPartState extends State<_FormPart> {
               auth.isSignup ? confirmPasswordFocus.requestFocus() : _action(),
           onChanged: auth.setPassword,
           validator: _passwordValidator,
+          focusNode: passwordFocus,
         ),
         if (!auth.isReverse && widget.signUpMode != SignUpModes.name)
           ObscuredTextFormField(

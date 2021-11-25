@@ -22,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
     this.textInputAction = TextInputAction.done,
     this.autofillHints = const <String>[],
     this.textInputType,
+    this.focusNode,
     Key? key,
   }) : super(key: key);
   final TextEditingController controller;
@@ -35,12 +36,14 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputAction textInputAction;
   final Iterable<String> autofillHints;
   final TextInputType? textInputType;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
     final LoginTheme theme = context.read<LoginTheme>();
     return BaseTextFormFieldWrapper(
       formField: TextFormField(
+        focusNode: focusNode,
         controller: controller,
         textInputAction: textInputAction,
         validator: validator,
