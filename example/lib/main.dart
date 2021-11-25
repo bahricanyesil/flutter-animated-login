@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onLogin: LoginFunctions(context).onLogin,
       onSignup: LoginFunctions(context).onSignup,
       onForgotPassword: LoginFunctions(context).onForgotPassword,
-      logo: 'images/logo.gif',
+      logo: Image.asset('assets/images/logo.gif'),
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
       socialLogins: _socialLogins(context),
@@ -142,15 +142,15 @@ class _LoginScreenState extends State<LoginScreen> {
   List<SocialLogin> _socialLogins(BuildContext context) => <SocialLogin>[
         SocialLogin(
             callback: () async => LoginFunctions(context).socialLogin('Google'),
-            iconPath: 'images/google.png'),
+            iconPath: 'assets/images/google.png'),
         SocialLogin(
             callback: () async =>
                 LoginFunctions(context).socialLogin('Facebook'),
-            iconPath: 'images/facebook.png'),
+            iconPath: 'assets/images/facebook.png'),
         SocialLogin(
             callback: () async =>
                 LoginFunctions(context).socialLogin('Linkedin'),
-            iconPath: 'images/linkedin.png'),
+            iconPath: 'assets/images/linkedin.png'),
       ];
 }
 

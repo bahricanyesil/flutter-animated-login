@@ -1,5 +1,13 @@
 # Versions
 
+## [1.0.0] - 25.11.2021
+
+* Removed universal io package dependency and used conditional import for animated dialogs.
+* Implemented platform specific dialogs.
+* Logo asset path string is converted to complete logo widget to provide more customizations.
+* Optimizations in the readme file.
+* The package is tested by multiple users and projects. So, version 1.0.0 can be published now, yay!
+
 ## [0.0.5] - 15.11.2021
 
 * Replaced "io" package with [universal_io](https://pub.dev/packages/universal_io/example) because of web support.
