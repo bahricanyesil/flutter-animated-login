@@ -1,4 +1,3 @@
-import 'package:animated_login/src/widgets/texts/not_fitted_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
