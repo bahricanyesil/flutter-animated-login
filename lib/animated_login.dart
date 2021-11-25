@@ -171,7 +171,7 @@ class AnimatedLogin extends StatefulWidget {
 class _AnimatedLoginState extends State<AnimatedLogin> {
   @override
   Widget build(BuildContext context) {
-    final bool isLandscape = ViewTypeHelper(context).isLandscape;
+    final bool isLandscape = kIsWeb && ViewTypeHelper(context).isLandscape;
 
     final LoginViewTheme? initialTheme =
         isLandscape ? widget.loginDesktopTheme : widget.loginMobileTheme;
@@ -200,48 +200,52 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
         ),
       ],
       child: kIsWeb
-          ? _scaffold(loginTheme.backgroundColor)
+          ? _webScaffold(loginTheme.backgroundColor)
           : GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-              child: _scaffold(loginTheme.backgroundColor),
+              child: Scaffold(
+                  backgroundColor: loginTheme.backgroundColor, body: _safeArea),
             ),
     );
   }
 
-  Widget _scaffold(Color? backgroundColor) => Scaffold(
+  Widget _webScaffold(Color? backgroundColor) => Scaffold(
         backgroundColor: backgroundColor,
         body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-          WidgetsBinding.instance!.addPostFrameCallback((_) => context
-              .read<LoginTheme>()
-              .setIsLandscape(ViewTypeHelper(context).isLandscape));
-          return SafeArea(
-            child: _View(
-              formKey: widget.formKey,
-              checkError: widget.checkError,
-              showForgotPassword: widget.showForgotPassword,
-              showChangeActionTitle: widget.showChangeActionTitle,
-              showPasswordVisibility: widget.showPasswordVisibility,
-              nameController: widget.nameController,
-              emailController: widget.emailController,
-              passwordController: widget.passwordController,
-              confirmPasswordController: widget.confirmPasswordController,
-              backgroundImage: widget.backgroundImage,
-              logo: widget.logo,
-              signUpMode: widget.signUpMode,
-              languageOptions: widget.languageOptions,
-              changeLanguageCallback: widget.changeLanguageCallback,
-              changeLangOnPressed: widget.changeLangOnPressed,
-              nameValidator: widget.nameValidator,
-              emailValidator: widget.emailValidator,
-              passwordValidator: widget.passwordValidator,
-              validateName: widget.validateName,
-              validateEmail: widget.validateEmail,
-              validatePassword: widget.validatePassword,
-            ),
-          );
-        }),
+          builder: (BuildContext context, BoxConstraints constraints) {
+            WidgetsBinding.instance!.addPostFrameCallback((_) => context
+                .read<LoginTheme>()
+                .setIsLandscape(ViewTypeHelper(context).isLandscape));
+            return _safeArea;
+          },
+        ),
+      );
+
+  Widget get _safeArea => SafeArea(
+        child: _View(
+          formKey: widget.formKey,
+          checkError: widget.checkError,
+          showForgotPassword: widget.showForgotPassword,
+          showChangeActionTitle: widget.showChangeActionTitle,
+          showPasswordVisibility: widget.showPasswordVisibility,
+          nameController: widget.nameController,
+          emailController: widget.emailController,
+          passwordController: widget.passwordController,
+          confirmPasswordController: widget.confirmPasswordController,
+          backgroundImage: widget.backgroundImage,
+          logo: widget.logo,
+          signUpMode: widget.signUpMode,
+          languageOptions: widget.languageOptions,
+          changeLanguageCallback: widget.changeLanguageCallback,
+          changeLangOnPressed: widget.changeLangOnPressed,
+          nameValidator: widget.nameValidator,
+          emailValidator: widget.emailValidator,
+          passwordValidator: widget.passwordValidator,
+          validateName: widget.validateName,
+          validateEmail: widget.validateEmail,
+          validatePassword: widget.validatePassword,
+        ),
       );
 }
 
