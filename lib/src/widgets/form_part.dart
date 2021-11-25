@@ -258,7 +258,6 @@ class __FormPartState extends State<_FormPart> {
       );
 
   Future<void> _action() async {
-    // FocusScope.of(context).unfocus();
     emailFocus.unfocus();
     passwordFocus.unfocus();
     usernameFocus.unfocus();
