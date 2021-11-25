@@ -261,6 +261,7 @@ class __FormPartState extends State<_FormPart> {
     emailFocus.unfocus();
     passwordFocus.unfocus();
     usernameFocus.unfocus();
+    confirmPasswordFocus.unfocus();
     if (_formKey.currentState!.validate()) {
       if (auth.isLogin) {
         await _errorCheck(_loginResult);
