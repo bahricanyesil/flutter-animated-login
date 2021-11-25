@@ -23,7 +23,7 @@ class BaseTextFormFieldWrapper extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(
         width: loginTheme.formFieldSize?.width ??
-            dynamicSize.width * (widthFactor ?? (isLandscape ? 35 : 65)),
+            dynamicSize.width * (widthFactor ?? (isLandscape ? 35 : 75)),
       ).enforce(
         BoxConstraints(
           maxHeight: loginTheme.formFieldSize?.height ??

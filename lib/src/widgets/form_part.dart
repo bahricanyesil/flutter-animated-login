@@ -138,6 +138,7 @@ class __FormPartState extends State<_FormPart> {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    confirmPasswordFocus.dispose();
     super.dispose();
   }
 
@@ -248,7 +249,7 @@ class __FormPartState extends State<_FormPart> {
       );
 
   Future<void> _action() async {
-    FocusScope.of(context).unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
     if (_formKey.currentState!.validate()) {
       if (auth.isLogin) {
         await _errorCheck(_loginResult);

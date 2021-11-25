@@ -2,6 +2,7 @@ library animated_login;
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -198,8 +199,18 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
           ),
         ),
       ],
-      child: Scaffold(
-        backgroundColor: loginTheme.backgroundColor,
+      child: kIsWeb
+          ? _scaffold(loginTheme.backgroundColor)
+          : GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              child: _scaffold(loginTheme.backgroundColor),
+            ),
+    );
+  }
+
+  Widget _scaffold(Color? backgroundColor) => Scaffold(
+        backgroundColor: backgroundColor,
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
           WidgetsBinding.instance!.addPostFrameCallback((_) => context
@@ -231,9 +242,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
             ),
           );
         }),
-      ),
-    );
-  }
+      );
 }
 
 class _View extends StatefulWidget {
