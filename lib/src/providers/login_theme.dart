@@ -7,22 +7,33 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
   /// [LoginTheme] is the provider for all design/theme related data.
   /// with the help of [LoginViewTheme]. See the details inside of it.
   /// * Additionally tracks whether the app is in landscape mode, [isLandscape].
-  LoginTheme({LoginViewTheme? initialTheme}) {
-    _currentTheme = initialTheme ?? LoginViewTheme();
+  LoginTheme({LoginViewTheme? desktopTheme, LoginViewTheme? mobileTheme}) {
+    _desktopTheme = desktopTheme;
+    _mobileTheme = mobileTheme;
+    if (_mobileTheme != null) _currentTheme = _mobileTheme!;
   }
+  late final LoginViewTheme? _desktopTheme;
+  late final LoginViewTheme? _mobileTheme;
 
-  late LoginViewTheme _currentTheme;
+  LoginViewTheme _currentTheme = LoginViewTheme();
   LoginViewTheme get currentTheme => _currentTheme;
   set currentTheme(LoginViewTheme theme) {
-    _currentTheme = theme;
-    notifyListeners();
+    if (theme != _currentTheme) _currentTheme = theme;
+  }
+
+  void setThemeAndNotify(bool isLandscape) {
+    final LoginViewTheme? newTheme = isLandscape ? _desktopTheme : _mobileTheme;
+    if (newTheme != null && _currentTheme != newTheme) {
+      _currentTheme = newTheme;
+      WidgetsBinding.instance!.addPostFrameCallback((_) => notifyListeners());
+    }
   }
 
   /// Indicates whether the screen size is landscape.
-  bool isLandscape = true;
+  bool isLandscape = false;
   void setIsLandscape(bool newValue) {
     isLandscape = newValue;
-    notifyListeners();
+    setThemeAndNotify(isLandscape);
   }
 
   @override

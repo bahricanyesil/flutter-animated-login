@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -171,17 +172,12 @@ class AnimatedLogin extends StatefulWidget {
 class _AnimatedLoginState extends State<AnimatedLogin> {
   @override
   Widget build(BuildContext context) {
-    final bool isLandscape = kIsWeb && ViewTypeHelper(context).isLandscape;
-
-    final LoginViewTheme? initialTheme =
-        isLandscape ? widget.loginDesktopTheme : widget.loginMobileTheme;
-
     /// Background color of whole screen for mobile view,
     /// of welcome part for web view.
-    final LoginTheme loginTheme =
-        LoginTheme(initialTheme: initialTheme ?? LoginViewTheme())
-          ..isLandscape = isLandscape
-          ..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
+    final LoginTheme loginTheme = LoginTheme(
+      desktopTheme: widget.loginDesktopTheme,
+      mobileTheme: widget.loginMobileTheme,
+    )..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
     final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
       ..language = widget.selectedLanguage;
     return MultiProvider(
@@ -214,9 +210,9 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
         backgroundColor: backgroundColor,
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            WidgetsBinding.instance!.addPostFrameCallback((_) => context
-                .read<LoginTheme>()
-                .setIsLandscape(ViewTypeHelper(context).isLandscape));
+            final bool isLandscape =
+                constraints.maxHeight / constraints.maxWidth < 1.05;
+            context.read<LoginTheme>().setIsLandscape(isLandscape);
             return _safeArea;
           },
         ),

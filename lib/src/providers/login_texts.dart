@@ -249,7 +249,9 @@ class LoginTexts with ChangeNotifier {
   /// Currently selected language.
   LanguageOption? language;
   void setLanguage(LanguageOption newLanguage) {
-    language = newLanguage;
-    notifyListeners();
+    if (newLanguage != language) {
+      language = newLanguage;
+      notifyListeners();
+    }
   }
 }

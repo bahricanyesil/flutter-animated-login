@@ -12,7 +12,7 @@ class _LogoAndTexts extends StatelessWidget {
           _title(context),
           SizedBox(
               height: DynamicSize(context).height *
-                  (ViewTypeHelper(context).isLandscape ? 6 : 1.8)),
+                  (context.read<LoginTheme>().isLandscape ? 6 : 1.8)),
           _description(context),
         ],
       );

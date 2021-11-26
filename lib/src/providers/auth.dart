@@ -52,8 +52,10 @@ class Auth with ChangeNotifier {
   late AuthMode _mode;
   AuthMode get mode => _mode;
   void notifySetMode(AuthMode value) {
-    _mode = value;
-    notifyListeners();
+    if (value.index != mode.index) {
+      _mode = value;
+      notifyListeners();
+    }
   }
 
   /// Returns whether the current [_mode] is login or signup mode.
