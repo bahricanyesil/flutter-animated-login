@@ -12,7 +12,9 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
   }
 
   late LoginViewTheme _currentTheme;
+  /// Gets the current theme
   LoginViewTheme get currentTheme => _currentTheme;
+  /// Sets the current theme
   set currentTheme(LoginViewTheme theme) {
     _currentTheme = theme;
     notifyListeners();
@@ -20,6 +22,7 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
 
   /// Indicates whether the screen size is landscape.
   bool isLandscape = true;
+  /// Sets the [isLanscape] option
   void setIsLandscape(bool newValue) {
     isLandscape = newValue;
     notifyListeners();

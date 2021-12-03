@@ -12,12 +12,17 @@ class LoginData {
     required this.password,
   });
 
+  /// Email of the user
   final String email;
+
+  /// Password of the user
   final String password;
 
+  /// Overrides the [toString] method.
   @override
   String toString() => 'LoginData($email, $password)';
 
+  /// Overrides the equality operator.
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

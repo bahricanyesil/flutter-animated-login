@@ -4,10 +4,12 @@ import 'package:animated_login/animated_login.dart';
 import 'dialog_builders.dart';
 import 'login_functions.dart';
 
+/// Main function.
 void main() {
   runApp(const MyApp());
 }
 
+/// Example app widget.
 class MyApp extends StatelessWidget {
   /// Main app widget.
   const MyApp({Key? key}) : super(key: key);
@@ -27,20 +29,21 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  static const Map<int, Color> color = {
-    50: Color.fromRGBO(4, 131, 184, .1),
-    100: Color.fromRGBO(4, 131, 184, .2),
-    200: Color.fromRGBO(4, 131, 184, .3),
-    300: Color.fromRGBO(4, 131, 184, .4),
-    400: Color.fromRGBO(4, 131, 184, .5),
-    500: Color.fromRGBO(4, 131, 184, .6),
-    600: Color.fromRGBO(4, 131, 184, .7),
-    700: Color.fromRGBO(4, 131, 184, .8),
-    800: Color.fromRGBO(4, 131, 184, .9),
-    900: Color.fromRGBO(4, 131, 184, 1),
-  };
+  // static const Map<int, Color> color = {
+  //   50: Color.fromRGBO(4, 131, 184, .1),
+  //   100: Color.fromRGBO(4, 131, 184, .2),
+  //   200: Color.fromRGBO(4, 131, 184, .3),
+  //   300: Color.fromRGBO(4, 131, 184, .4),
+  //   400: Color.fromRGBO(4, 131, 184, .5),
+  //   500: Color.fromRGBO(4, 131, 184, .6),
+  //   600: Color.fromRGBO(4, 131, 184, .7),
+  //   700: Color.fromRGBO(4, 131, 184, .8),
+  //   800: Color.fromRGBO(4, 131, 184, .9),
+  //   900: Color.fromRGBO(4, 131, 184, 1),
+  // };
 }
 
+/// Example login screen
 class LoginScreen extends StatefulWidget {
   /// Simulates the multilanguage, you will implement your own logic.
   /// According to the current language, you can display a text message
@@ -52,7 +55,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  /// Example selected language, default is English.
   LanguageOption language = _languageOptions[1];
+
+  /// Current auth mode, default is [AuthMode.login].
   AuthMode currentMode = AuthMode.login;
 
   @override
@@ -154,6 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ];
 }
 
+/// Example forgot password screen
 class ForgotPasswordScreen extends StatelessWidget {
   /// Example forgot password screen that user is navigated to
   /// after clicked on "Forgot Password?" text.

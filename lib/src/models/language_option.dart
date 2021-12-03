@@ -30,6 +30,7 @@ class LanguageOption {
   /// Ex: 'assets/images/google.png'
   final String? iconPath;
 
+  /// Overrides the equality operator.
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

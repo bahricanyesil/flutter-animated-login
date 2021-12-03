@@ -199,6 +199,7 @@ class LoginViewTheme {
   /// Theme preferences for dialogs.
   final AnimatedDialogTheme? dialogTheme;
 
+  /// Creates a copy login view theme with the given properties.
   LoginViewTheme copyWith({
     TextStyle? formTitleStyle,
     TextStyle? welcomeTitleStyle,

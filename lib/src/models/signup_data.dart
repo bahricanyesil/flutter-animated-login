@@ -14,14 +14,23 @@ class SignUpData {
     required this.confirmPassword,
   });
 
+  /// Name of the user
   final String name;
+
+  /// Email of the user
   final String email;
+
+  /// Password of the user
   final String password;
+
+  /// Confirm password user entered
   final String confirmPassword;
 
+  /// Overrides the [toString] method.
   @override
   String toString() => 'SignUpData($name, $email, $password, $confirmPassword)';
 
+  /// Overrides the equality operator.
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

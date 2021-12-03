@@ -316,7 +316,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   late final GlobalKey<FormState> formKey =
       widget.formKey ?? GlobalKey<FormState>();
 
-  bool isLandscape = true;
+  bool _isLandscape = true;
 
   @override
   void initState() {
@@ -339,12 +339,12 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     loginTexts = context.read<LoginTexts>();
     loginTheme = context.read<LoginTheme>();
     auth = context.read<Auth>();
-    isLandscape = context.watch<LoginTheme>().isLandscape;
+    _isLandscape = context.watch<LoginTheme>().isLandscape;
     dynamicSize = DynamicSize(context);
     _initializeAnimations();
     return AnimatedBuilder(
       animation: animationController,
-      builder: (_, __) => isLandscape ? _webView : _mobileView,
+      builder: (_, __) => _isLandscape ? _webView : _mobileView,
     );
   }
 
@@ -385,7 +385,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         if (widget.showChangeActionTitle)
           _welcomeAnimationWrapper(
             _ChangeActionTitle(
-                showButtonText: true, animate: () => animate(context)),
+                showButtonText: true, animate: () => _animate(context)),
           ),
       ];
 
@@ -423,7 +423,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             SizedBox(height: DynamicSize(context).height * 7),
             if (widget.showChangeActionTitle) const _ChangeActionTitle(),
             SizedBox(height: DynamicSize(context).height * 2),
-            _ChangeActionButton(animate: () => animate(context)),
+            _ChangeActionButton(animate: () => _animate(context)),
           ],
         ),
       );
@@ -458,7 +458,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         validatePassword: widget.validatePassword,
       );
 
-  void animate(BuildContext context) {
+  void _animate(BuildContext context) {
     if (formKey.currentState != null) {
       formKey.currentState!.reset();
     }
@@ -471,7 +471,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   void _initializeAnimations() {
     /// Initializes the transition animation from 0 to form part's width ratio
     /// with custom animation curve and animation controller.
-    welcomeTransitionAnimation = isLandscape
+    welcomeTransitionAnimation = _isLandscape
         ? Tween<double>(begin: 0, end: loginTheme.formWidthRatio).animate(
             CurvedAnimation(
               parent: animationController,
@@ -491,7 +491,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     );
 
     welcomeTransitionAnimation.addListener(() {
-      if (isLandscape) {
+      if (_isLandscape) {
         auth.isReverse =
             welcomeTransitionAnimation.value <= loginTheme.formWidthRatio / 2;
       } else if (_forwardCheck) {
@@ -500,7 +500,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     });
   }
 
-  bool get _forwardCheck => isLandscape
+  bool get _forwardCheck => _isLandscape
       ? welcomeTransitionAnimation.value <=
           context.read<LoginTheme>().formWidthRatio / 2
       : welcomeTransitionAnimation.value <= -100 && _statusCheck;
