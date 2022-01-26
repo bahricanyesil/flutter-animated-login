@@ -58,8 +58,10 @@ class Auth extends ChangeNotifier {
 
   /// Uses [AuthMode] enum's values.
   void notifySetMode(AuthMode value) {
-    _mode = value;
-    notifyListeners();
+    if (value.index != mode.index) {
+      _mode = value;
+      notifyListeners();
+    }
   }
 
   /// Returns whether the current [_mode] is login or signup mode.

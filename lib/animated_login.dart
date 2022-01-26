@@ -2,6 +2,7 @@ library animated_login;
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -170,17 +171,12 @@ class AnimatedLogin extends StatefulWidget {
 class _AnimatedLoginState extends State<AnimatedLogin> {
   @override
   Widget build(BuildContext context) {
-    final bool isLandscape = ViewTypeHelper(context).isLandscape;
-
-    final LoginViewTheme? initialTheme =
-        isLandscape ? widget.loginDesktopTheme : widget.loginMobileTheme;
-
     /// Background color of whole screen for mobile view,
     /// of welcome part for web view.
-    final LoginTheme loginTheme =
-        LoginTheme(initialTheme: initialTheme ?? LoginViewTheme())
-          ..isLandscape = isLandscape
-          ..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
+    final LoginTheme loginTheme = LoginTheme(
+      desktopTheme: widget.loginDesktopTheme,
+      mobileTheme: widget.loginMobileTheme,
+    )..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
     final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
       ..language = widget.selectedLanguage;
     return MultiProvider(
@@ -198,42 +194,54 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
           ),
         ),
       ],
-      child: Scaffold(
-        backgroundColor: loginTheme.backgroundColor,
-        body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-          WidgetsBinding.instance!.addPostFrameCallback((_) => context
-              .read<LoginTheme>()
-              .setIsLandscape(ViewTypeHelper(context).isLandscape));
-          return SafeArea(
-            child: _View(
-              formKey: widget.formKey,
-              checkError: widget.checkError,
-              showForgotPassword: widget.showForgotPassword,
-              showChangeActionTitle: widget.showChangeActionTitle,
-              showPasswordVisibility: widget.showPasswordVisibility,
-              nameController: widget.nameController,
-              emailController: widget.emailController,
-              passwordController: widget.passwordController,
-              confirmPasswordController: widget.confirmPasswordController,
-              backgroundImage: widget.backgroundImage,
-              logo: widget.logo,
-              signUpMode: widget.signUpMode,
-              languageOptions: widget.languageOptions,
-              changeLanguageCallback: widget.changeLanguageCallback,
-              changeLangOnPressed: widget.changeLangOnPressed,
-              nameValidator: widget.nameValidator,
-              emailValidator: widget.emailValidator,
-              passwordValidator: widget.passwordValidator,
-              validateName: widget.validateName,
-              validateEmail: widget.validateEmail,
-              validatePassword: widget.validatePassword,
+      child: kIsWeb
+          ? _webScaffold(loginTheme.backgroundColor)
+          : GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              child: Scaffold(
+                  backgroundColor: loginTheme.backgroundColor, body: _safeArea),
             ),
-          );
-        }),
-      ),
     );
   }
+
+  Widget _webScaffold(Color? backgroundColor) => Scaffold(
+        backgroundColor: backgroundColor,
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final bool isLandscape =
+                constraints.maxHeight / constraints.maxWidth < 1.05;
+            context.read<LoginTheme>().setIsLandscape(isLandscape);
+            return _safeArea;
+          },
+        ),
+      );
+
+  Widget get _safeArea => SafeArea(
+        child: _View(
+          formKey: widget.formKey,
+          checkError: widget.checkError,
+          showForgotPassword: widget.showForgotPassword,
+          showChangeActionTitle: widget.showChangeActionTitle,
+          showPasswordVisibility: widget.showPasswordVisibility,
+          nameController: widget.nameController,
+          emailController: widget.emailController,
+          passwordController: widget.passwordController,
+          confirmPasswordController: widget.confirmPasswordController,
+          backgroundImage: widget.backgroundImage,
+          logo: widget.logo,
+          signUpMode: widget.signUpMode,
+          languageOptions: widget.languageOptions,
+          changeLanguageCallback: widget.changeLanguageCallback,
+          changeLangOnPressed: widget.changeLangOnPressed,
+          nameValidator: widget.nameValidator,
+          emailValidator: widget.emailValidator,
+          passwordValidator: widget.passwordValidator,
+          validateName: widget.validateName,
+          validateEmail: widget.validateEmail,
+          validatePassword: widget.validatePassword,
+        ),
+      );
 }
 
 class _View extends StatefulWidget {

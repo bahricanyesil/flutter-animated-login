@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../decorations/input_decorations.dart';
 import '../../decorations/text_styles.dart';
 import '../../providers/login_theme.dart';
-import '../../utils/view_type_helper.dart';
 import '../buttons/base_icon_button.dart';
 import 'text_form_field_wrapper.dart';
 
@@ -102,7 +101,7 @@ class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
         hintText: widget.hintText,
         prefixIcon: widget.prefixIcon,
         prefixWidget: context.read<LoginTheme>().passwordIcon,
-        paddingFactor: ViewTypeHelper(context).isLandscape ? .7 : 0.2,
+        paddingFactor: context.read<LoginTheme>().isLandscape ? .7 : 0.2,
       );
 
   /// Suffix icon to change the visibility of password.

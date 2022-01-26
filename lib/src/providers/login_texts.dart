@@ -251,7 +251,9 @@ class LoginTexts extends ChangeNotifier {
 
   /// Sets the language
   void setLanguage(LanguageOption newLanguage) {
-    language = newLanguage;
-    notifyListeners();
+    if (newLanguage != language) {
+      language = newLanguage;
+      notifyListeners();
+    }
   }
 }
