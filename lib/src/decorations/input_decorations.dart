@@ -29,13 +29,14 @@ class InputDeco {
   }) {
     final LoginTheme loginTheme = context.read<LoginTheme>();
     return InputDecoration(
-      contentPadding: EdgeInsets.symmetric(
-        vertical: _dynamicSize.height * (loginTheme.isLandscape ? 3.3 : 3),
-      ).copyWith(
-        right: _dynamicSize.width *
-            (paddingFactor ?? (loginTheme.isLandscape ? 1 : 3)),
-        left: _dynamicSize.width * (loginTheme.isLandscape ? 1 : 2.5),
-      ),
+      contentPadding: loginTheme.inputPadding ??
+          EdgeInsets.symmetric(
+            vertical: _dynamicSize.height * (loginTheme.isLandscape ? 3.3 : 3),
+          ).copyWith(
+            right: _dynamicSize.width *
+                (paddingFactor ?? (loginTheme.isLandscape ? 1 : 3)),
+            left: _dynamicSize.width * (loginTheme.isLandscape ? 1 : 2.5),
+          ),
       fillColor: loginTheme.formFieldBackgroundColor ??
           loginTheme.backgroundColor?.withOpacity(.8) ??
           Colors.white54,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 
 /// Provides a circle button with custom stylings.
@@ -46,6 +48,9 @@ class CircleWidget extends StatelessWidget {
       child: RawMaterialButton(
         onPressed: onTap,
         hoverColor: hoverColor ??
+            (color?.withOpacity(.7) ??
+                Theme.of(context).primaryColorLight.withOpacity(.7)),
+        highlightColor: context.read<LoginTheme>().socialHighlightColor ??
             (color?.withOpacity(.7) ??
                 Theme.of(context).primaryColorLight.withOpacity(.7)),
         shape: _buttonShape(context),

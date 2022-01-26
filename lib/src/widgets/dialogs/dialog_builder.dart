@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../animated_login.dart';
 import '../../decorations/text_styles.dart';
-import '../../models/language_option.dart';
 import '../../providers/login_theme.dart';
 import '../texts/base_text.dart';
 import 'animated_dialog.dart';
@@ -34,7 +34,8 @@ class DialogBuilder {
 
   Widget _getSelectTitle(String titleText) => BaseText(
         titleText,
-        style: TextStyles(context).subBodyStyle(
-            color: Theme.of(context).primaryColor.withOpacity(.7)),
+        style: context.read<LoginTheme>().dialogTheme?.titleStyle ??
+            TextStyles(context).subBodyStyle(
+                color: Theme.of(context).primaryColor.withOpacity(.7)),
       );
 }

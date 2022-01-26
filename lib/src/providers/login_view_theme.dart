@@ -53,6 +53,14 @@ class LoginViewTheme {
     this.socialLoginsSpacing,
     this.welcomePadding,
     this.dialogTheme,
+    this.titleDescriptionSpace,
+    this.spacingWithoutSocial,
+    this.spacingFormAndAction,
+    this.forgotPasswordPadding,
+    this.actionAndChangeActionSpacing,
+    this.logoPadding,
+    this.socialHighlightColor,
+    this.inputPadding,
   })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
         assert(formElementsSpacing == null || formElementsSpacing <= 70,
             "Spacing between the form elements cannot be more than 70."),
@@ -199,6 +207,30 @@ class LoginViewTheme {
   /// Theme preferences for dialogs.
   final AnimatedDialogTheme? dialogTheme;
 
+  /// Spacing between the title and description.
+  final double? titleDescriptionSpace;
+
+  /// Spacing between the form and titles without social login.
+  final double? spacingWithoutSocial;
+
+  /// Spacing between the form and action button.
+  final double? spacingFormAndAction;
+
+  /// Padding for the forgot password text.
+  final EdgeInsets? forgotPasswordPadding;
+
+  /// Spacing between action button and change action CTA.
+  final double? actionAndChangeActionSpacing;
+
+  /// Padding for the logo.
+  final EdgeInsets? logoPadding;
+
+  /// Highlight color for the social login options.
+  final Color? socialHighlightColor;
+
+  /// Custom input padding for the text form fields.
+  final EdgeInsets? inputPadding;
+
   /// Creates a copy login view theme with the given properties.
   LoginViewTheme copyWith({
     TextStyle? formTitleStyle,
@@ -246,6 +278,14 @@ class LoginViewTheme {
     double? socialLoginsSpacing,
     EdgeInsets? welcomePadding,
     AnimatedDialogTheme? dialogTheme,
+    double? titleDescriptionSpace,
+    double? spacingWithoutSocial,
+    double? spacingFormAndAction,
+    EdgeInsets? forgotPasswordPadding,
+    double? actionAndChangeActionSpacing,
+    EdgeInsets? logoPadding,
+    Color? socialHighlightColor,
+    EdgeInsets? inputPadding,
   }) =>
       LoginViewTheme(
         formTitleStyle: formTitleStyle ?? this.formTitleStyle,
@@ -303,5 +343,16 @@ class LoginViewTheme {
         socialLoginsSpacing: socialLoginsSpacing ?? this.socialLoginsSpacing,
         welcomePadding: welcomePadding ?? this.welcomePadding,
         dialogTheme: dialogTheme ?? this.dialogTheme,
+        titleDescriptionSpace:
+            titleDescriptionSpace ?? this.titleDescriptionSpace,
+        spacingFormAndAction: spacingFormAndAction ?? this.spacingFormAndAction,
+        spacingWithoutSocial: spacingWithoutSocial ?? this.spacingWithoutSocial,
+        forgotPasswordPadding:
+            forgotPasswordPadding ?? this.forgotPasswordPadding,
+        actionAndChangeActionSpacing:
+            actionAndChangeActionSpacing ?? this.actionAndChangeActionSpacing,
+        logoPadding: logoPadding ?? this.logoPadding,
+        socialHighlightColor: socialHighlightColor ?? this.socialHighlightColor,
+        inputPadding: inputPadding ?? this.inputPadding,
       );
 }

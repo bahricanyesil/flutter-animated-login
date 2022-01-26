@@ -185,4 +185,29 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
 
   @override
   AnimatedDialogTheme? get dialogTheme => currentTheme.dialogTheme;
+
+  @override
+  double? get titleDescriptionSpace => currentTheme.titleDescriptionSpace;
+
+  @override
+  double? get spacingWithoutSocial => currentTheme.spacingWithoutSocial;
+
+  @override
+  double? get spacingFormAndAction => currentTheme.spacingFormAndAction;
+
+  @override
+  EdgeInsets? get forgotPasswordPadding => currentTheme.forgotPasswordPadding;
+
+  @override
+  double? get actionAndChangeActionSpacing =>
+      currentTheme.actionAndChangeActionSpacing;
+
+  @override
+  EdgeInsets? get logoPadding => currentTheme.logoPadding;
+
+  @override
+  Color? get socialHighlightColor => currentTheme.socialHighlightColor;
+
+  @override
+  EdgeInsets? get inputPadding => currentTheme.inputPadding;
 }

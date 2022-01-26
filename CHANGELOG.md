@@ -1,4 +1,12 @@
 # Versions
+
+## [1.2.0] - 27.01.2022
+
+* Optimized the use of AnimatedBuilder to avoid unnecessary rebuilds.
+* Optimized the management of the state.
+* Added additional style parameters to allow users to further customize.
+* Performed optimization tests.
+
 ## [1.1.0] - 26.01.2022
 
 * Completed all of the documentation.

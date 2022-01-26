@@ -108,4 +108,12 @@ class Auth extends ChangeNotifier {
   /// Sets the confirm password.
   void setConfirmPassword(String? newConfirmPassword) =>
       confirmPassword = newConfirmPassword;
+
+  /// Sets the confirm password.
+  void setIsReverse(bool newValue) {
+    if (newValue != isReverse) {
+      isReverse = newValue;
+      notifyListeners();
+    }
+  }
 }

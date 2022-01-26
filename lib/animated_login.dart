@@ -325,6 +325,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       widget.formKey ?? GlobalKey<FormState>();
 
   bool _isLandscape = true;
+  bool _isReverse = false;
 
   @override
   void initState() {
@@ -348,12 +349,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     loginTheme = context.read<LoginTheme>();
     auth = context.read<Auth>();
     _isLandscape = context.watch<LoginTheme>().isLandscape;
+    _isReverse = context.select<Auth, bool>((Auth auth) => auth.isReverse);
     dynamicSize = DynamicSize(context);
     _initializeAnimations();
-    return AnimatedBuilder(
-      animation: animationController,
-      builder: (_, __) => _isLandscape ? _webView : _mobileView,
-    );
+    return _isLandscape ? _webView : _mobileView;
   }
 
   Widget get _webView => Stack(
@@ -389,7 +388,9 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   List<Widget> get _mobileChildren => <Widget>[
         _welcomeAnimationWrapper(_LogoAndTexts(logo: widget.logo)),
         _formPart,
-        SizedBox(height: dynamicSize.height * 2.5),
+        SizedBox(
+            height: loginTheme.actionAndChangeActionSpacing ??
+                dynamicSize.height * 2.5),
         if (widget.showChangeActionTitle)
           _welcomeAnimationWrapper(
             _ChangeActionTitle(
@@ -397,28 +398,40 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
           ),
       ];
 
-  Widget _welcomeAnimationWrapper(Widget child) => Transform.translate(
-        offset: Offset(dynamicSize.width * welcomeTransitionAnimation.value, 0),
-        child: child,
+  Widget _welcomeAnimationWrapper(Widget extChild) => AnimatedBuilder(
+        animation: welcomeTransitionAnimation,
+        child: extChild,
+        builder: (BuildContext context, Widget? child) => Transform.translate(
+          offset:
+              Offset(dynamicSize.width * welcomeTransitionAnimation.value, 0),
+          child: child,
+        ),
       );
 
-  Widget get _animatedWebWelcome => Transform.translate(
-        offset: Offset(dynamicSize.width * welcomeTransitionAnimation.value, 0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: loginTheme.backgroundColor,
-            image: widget.backgroundImage == null
-                ? null
-                : DecorationImage(
-                    image: AssetImage(widget.backgroundImage!),
-                    fit: BoxFit.cover,
-                  ),
-          ),
-          width: dynamicSize.width *
-              (100 - context.read<LoginTheme>().formWidthRatio),
-          height: dynamicSize.height * 100,
-          child: _webWelcomeComponents(context),
+  Widget get _animatedWebWelcome => AnimatedBuilder(
+        animation: animationController,
+        child: _webWelcomeChild,
+        builder: (BuildContext context, Widget? child) => Transform.translate(
+          offset:
+              Offset(dynamicSize.width * welcomeTransitionAnimation.value, 0),
+          child: child,
         ),
+      );
+
+  Widget get _webWelcomeChild => Container(
+        decoration: BoxDecoration(
+          color: loginTheme.backgroundColor,
+          image: widget.backgroundImage == null
+              ? null
+              : DecorationImage(
+                  image: AssetImage(widget.backgroundImage!),
+                  fit: BoxFit.cover,
+                ),
+        ),
+        width: dynamicSize.width *
+            (100 - context.read<LoginTheme>().formWidthRatio),
+        height: dynamicSize.height * 100,
+        child: _webWelcomeComponents(context),
       );
 
   Widget _webWelcomeComponents(BuildContext context) => Padding(
@@ -429,7 +442,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
           children: <Widget>[
             _LogoAndTexts(logo: widget.logo),
             SizedBox(height: DynamicSize(context).height * 7),
-            if (widget.showChangeActionTitle) const _ChangeActionTitle(),
+            if (widget.showChangeActionTitle) _ChangeActionTitle(),
             SizedBox(height: DynamicSize(context).height * 2),
             _ChangeActionButton(animate: () => _animate(context)),
           ],
@@ -499,11 +512,13 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     );
 
     welcomeTransitionAnimation.addListener(() {
-      if (_isLandscape) {
-        auth.isReverse =
-            welcomeTransitionAnimation.value <= loginTheme.formWidthRatio / 2;
-      } else if (_forwardCheck) {
-        auth.isReverse = !auth.isReverse;
+      if (mounted) {
+        if (_isLandscape) {
+          auth.setIsReverse(welcomeTransitionAnimation.value <=
+              context.read<LoginTheme>().formWidthRatio / 2);
+        } else if (_forwardCheck) {
+          auth.setIsReverse(!auth.isReverse);
+        }
       }
     });
   }
@@ -515,7 +530,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
 
   bool get _statusCheck =>
       (welcomeTransitionAnimation.status == AnimationStatus.forward &&
-          auth.isReverse) ||
+          _isReverse) ||
       (welcomeTransitionAnimation.status == AnimationStatus.reverse &&
-          !auth.isReverse);
+          !_isReverse);
 }

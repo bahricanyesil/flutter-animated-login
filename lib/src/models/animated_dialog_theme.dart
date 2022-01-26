@@ -20,6 +20,7 @@ class AnimatedDialogTheme {
     this.backgroundColor,
     this.animationDuration,
     this.languageDialogTheme,
+    this.titleStyle,
   });
 
   /// The padding for content of the dialogs.
@@ -62,4 +63,7 @@ class AnimatedDialogTheme {
   /// Theme of language dialog. Determines its style
   /// with the help of [LanguageDialogTheme].
   final LanguageDialogTheme? languageDialogTheme;
+
+  /// Text style of the title.
+  final TextStyle? titleStyle;
 }

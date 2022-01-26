@@ -13,8 +13,9 @@ class _LogoAndTexts extends StatelessWidget {
           if (logo != null) _logo(context),
           _title(context),
           SizedBox(
-              height: DynamicSize(context).height *
-                  (context.read<LoginTheme>().isLandscape ? 6 : 1.8)),
+              height: context.read<LoginTheme>().titleDescriptionSpace ??
+                  DynamicSize(context).height *
+                      (context.read<LoginTheme>().isLandscape ? 6 : 1.8)),
           _description(context),
         ],
       );
@@ -22,7 +23,7 @@ class _LogoAndTexts extends StatelessWidget {
   Widget _title(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return BaseText(
-      context.read<Auth>().isReverse
+      context.select<Auth, bool>((Auth auth) => auth.isReverse)
           ? loginTexts.welcomeBack
           : loginTexts.welcome,
       style: TextStyles(context)
@@ -34,7 +35,7 @@ class _LogoAndTexts extends StatelessWidget {
   Widget _description(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return NotFittedText(
-      context.read<Auth>().isReverse
+      context.select<Auth, bool>((Auth auth) => auth.isReverse)
           ? loginTexts.welcomeBackDescription
           : loginTexts.welcomeDescription,
       style: TextStyles(context)
@@ -50,8 +51,9 @@ class _LogoAndTexts extends StatelessWidget {
       constraints: BoxConstraints.tight(loginTheme.logoSize ??
           Size.fromHeight(
               dynamicSize.responsiveSize * (loginTheme.isLandscape ? 26 : 30))),
-      padding: EdgeInsets.only(
-          bottom: dynamicSize.height * (loginTheme.isLandscape ? 4 : 2)),
+      padding: loginTheme.logoPadding ??
+          EdgeInsets.only(
+              bottom: dynamicSize.height * (loginTheme.isLandscape ? 4 : 2)),
       child: logo,
     );
   }
@@ -71,8 +73,9 @@ class _ChangeActionButton extends StatelessWidget {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     final LoginTheme loginTheme = context.read<LoginTheme>();
     return RoundedButton(
-      buttonText:
-          context.read<Auth>().isReverse ? loginTexts.signUp : loginTexts.login,
+      buttonText: context.select<Auth, bool>((Auth auth) => auth.isReverse)
+          ? loginTexts.signUp
+          : loginTexts.login,
       onPressed: animate,
       borderColor: Colors.white,
       backgroundColor: Theme.of(context).primaryColor.withOpacity(.8),
@@ -83,8 +86,8 @@ class _ChangeActionButton extends StatelessWidget {
 
 class _ChangeActionTitle extends StatelessWidget {
   /// Change action title in the welcome part.
-  const _ChangeActionTitle(
-      {this.showButtonText = false, this.animate, Key? key})
+  // ignore: prefer_const_constructors_in_immutables
+  _ChangeActionTitle({this.showButtonText = false, this.animate, Key? key})
       : super(key: key);
 
   /// Determines whether to show button text or not
@@ -109,7 +112,7 @@ class _ChangeActionTitle extends StatelessWidget {
 
   Widget _changeActionTitle(BuildContext context, LoginTexts loginTexts) =>
       BaseText(
-        context.read<Auth>().isReverse
+        context.select<Auth, bool>((Auth auth) => auth.isReverse)
             ? loginTexts.notHaveAnAccount
             : loginTexts.alreadyHaveAnAccount,
         style: TextStyles(context)
@@ -129,7 +132,9 @@ class _ChangeActionTitle extends StatelessWidget {
   Widget _changeActionText(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return BaseText(
-      context.read<Auth>().isReverse ? loginTexts.signUp : loginTexts.login,
+      context.select<Auth, bool>((Auth auth) => auth.isReverse)
+          ? loginTexts.signUp
+          : loginTexts.login,
       style: TextStyles(context)
           .subtitleTextStyle(
             color: Colors.white,
