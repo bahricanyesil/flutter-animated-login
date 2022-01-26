@@ -50,15 +50,17 @@ class SingleChooseDialog extends StatelessWidget {
         padding: theme?.optionPadding ??
             EdgeInsets.symmetric(
                 vertical: DynamicSize(context).responsiveSize * .5),
-        color: initialValue == elements[index]
-            ? (theme?.selectedBackgroundColor ??
-                Theme.of(context).primaryColor.withOpacity(.7))
-            : null,
-        child: SimpleDialogOption(
-          onPressed: () => Navigator.of(context).pop(index),
-          child: elements[index].iconPath == null
-              ? _languageText(context, index)
-              : _buttonChild(context, index),
+        child: Material(
+          color: initialValue == elements[index]
+              ? (theme?.selectedBackgroundColor ??
+                  Theme.of(context).primaryColor.withOpacity(.7))
+              : Colors.transparent,
+          child: SimpleDialogOption(
+            onPressed: () => Navigator.of(context).pop(index),
+            child: elements[index].iconPath == null
+                ? _languageText(context, index)
+                : _buttonChild(context, index),
+          ),
         ),
       );
 
