@@ -5,8 +5,8 @@ import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../icons/base_icon.dart';
 
+/// Base icon button with custom parameters
 class BaseIconButton extends StatelessWidget {
-  /// Base icon button with custom parameters
   /// Wraps [IconButton] with [FittedBox], and gives some paddings.
   const BaseIconButton({
     required this.icon,
@@ -14,8 +14,14 @@ class BaseIconButton extends StatelessWidget {
     this.size,
     Key? key,
   }) : super(key: key);
+
+  /// Icon of the button.
   final IconData icon;
+
+  /// Callback to call on pressed.
   final VoidCallback onPressed;
+
+  /// Size of the button.
   final double? size;
 
   @override

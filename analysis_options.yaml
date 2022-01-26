@@ -16,7 +16,7 @@ linter:
     - avoid_double_and_int_checks
     - avoid_dynamic_calls
     - avoid_empty_else
-    - avoid_equals_and_hash_code_on_mutable_classes
+    # - avoid_equals_and_hash_code_on_mutable_classes
     - avoid_escaping_inner_quotes
     - avoid_field_initializers_in_const_classes
     - avoid_function_literals_in_foreach_calls
@@ -42,7 +42,6 @@ linter:
     - avoid_slow_async_io
     - avoid_type_to_string
     - avoid_types_as_parameter_names
-    # - avoid_types_on_closure_parameters
     - avoid_unnecessary_containers
     - avoid_unused_constructor_parameters
     - avoid_void_async
@@ -66,14 +65,14 @@ linter:
     - empty_constructor_bodies
     - empty_statements
     - exhaustive_cases
-    # - file_names
+    - file_names
     - flutter_style_todos
     - hash_and_equals
     - implementation_imports
     - invariant_booleans
     - iterable_contains_unrelated_type
     - join_return_with_assignment
-    - leading_newlines_in_multiline_strings
+    # - leading_newlines_in_multiline_strings
     - library_names
     - library_prefixes
     - lines_longer_than_80_chars
@@ -126,24 +125,24 @@ linter:
     - prefer_is_not_empty
     - prefer_is_not_operator
     - prefer_iterable_whereType
-    # - prefer_mixin
+    - prefer_mixin
     - prefer_null_aware_operators
     - prefer_relative_imports
     - prefer_spread_collections
     - prefer_typing_uninitialized_variables
     - prefer_void_to_null
     - provide_deprecation_message
-    # - public_member_api_docs
+    - public_member_api_docs
     - recursive_getters
     - sized_box_for_whitespace
     - slash_for_doc_comments
     - sort_child_properties_last
-    # - sort_constructors_first
+    - sort_constructors_first
     - sort_unnamed_constructors_first
     - test_types_in_equals
     - throw_in_finally
     - tighten_type_of_initializing_formals
-    # - type_annotate_public_apis
+    - type_annotate_public_apis
     - type_init_formals
     - unawaited_futures
     - unnecessary_await_in_return
@@ -165,7 +164,7 @@ linter:
     - unnecessary_this
     - unrelated_type_equality_checks
     - unsafe_html
-    # - use_build_context_synchronously
+    - use_build_context_synchronously
     - use_full_hex_values_for_flutter_colors
     - use_function_type_syntax_for_parameters
     - use_if_null_to_convert_nulls_to_bools

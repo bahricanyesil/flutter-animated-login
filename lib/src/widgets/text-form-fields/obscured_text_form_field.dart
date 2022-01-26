@@ -8,8 +8,8 @@ import '../../utils/view_type_helper.dart';
 import '../buttons/base_icon_button.dart';
 import 'text_form_field_wrapper.dart';
 
+/// Base obscured [TextFormField] wrapped with [BaseTextFormFieldWrapper].
 class ObscuredTextFormField extends StatefulWidget {
-  /// Base obscured [TextFormField] wrapped with [BaseTextFormFieldWrapper].
   /// It is specialized for obscured text form fields.
   /// Implements login decoration as default, can be customized with params.
   /// Used for implementation of passwrod and confirm password text form fields.
@@ -27,17 +27,39 @@ class ObscuredTextFormField extends StatefulWidget {
     this.validator,
     Key? key,
   }) : super(key: key);
+
+  /// Controller for the text form field.
   final TextEditingController controller;
-  final bool showPasswordVisibility;
-  final String? hintText;
-  final IconData? prefixIcon;
-  final Color? backgroundColor;
-  final double? widthFactor;
-  final TextInputAction textInputAction;
-  final Function(String text)? onFieldSubmitted;
-  final void Function(String? text) onChanged;
-  final FocusNode? focusNode;
+
+  /// Validator of the text field.
   final FormFieldValidator<String?>? validator;
+
+  /// Callback to call on text change.
+  final void Function(String? text) onChanged;
+
+  /// Hint text of the field.
+  final String? hintText;
+
+  /// Prefix icon.
+  final IconData? prefixIcon;
+
+  /// Background color of the field.
+  final Color? backgroundColor;
+
+  /// Width factor.
+  final double? widthFactor;
+
+  /// Custom text input action.
+  final TextInputAction textInputAction;
+
+  /// Bool represents whether to show password.
+  final bool showPasswordVisibility;
+
+  /// Callback to call when the input is submitted.
+  final Function(String text)? onFieldSubmitted;
+
+  /// Focus node to control the focus on the field.
+  final FocusNode? focusNode;
 
   @override
   _ObscuredTextFormFieldState createState() => _ObscuredTextFormFieldState();

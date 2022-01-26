@@ -1,10 +1,12 @@
 import '../models/validator_model.dart';
 
+/// [Validators] gather all validation functions, regexes in one file.
 class Validators {
-  /// [Validators] gather all validation functions, regexes in one file.
   /// Provides specific validations by also using common functions
   /// such as [_lengthCheck], [_upperCaseCheck] and so on.
   const Validators({this.validator});
+
+  /// Validator.
   final ValidatorModel? validator;
 
   /// Regex for name input, also considers internation chars.

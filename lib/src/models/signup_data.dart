@@ -3,8 +3,9 @@ import 'package:flutter/foundation.dart';
 import '../utils/hasher.dart';
 
 @immutable
+
+/// [SignUpData] model is to store/transfer signup mode data.
 class SignUpData {
-  /// [String] model is to store/transfer signup mode data.
   /// Contains [name], [email], [password] and [confirmPassword] fields.
   /// Overrides [toString], [hashCode] methods and [==] operator.
   const SignUpData({

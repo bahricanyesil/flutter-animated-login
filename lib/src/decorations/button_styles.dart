@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+/// [ButtonStyles] class collects all button styles in one file.
 class ButtonStyles {
-  /// [ButtonStyles] class collects all button styles in one file.
+  ///  Default constructor for [ButtonStyles].
   const ButtonStyles(this.context);
+
+  /// Context to give responsive sizes.
   final BuildContext context;
 
   /// Gives rounded style to the button with the optional [borderRadius].

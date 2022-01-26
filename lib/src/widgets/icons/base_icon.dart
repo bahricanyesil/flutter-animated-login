@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../responsiveness/dynamic_size.dart';
 
+/// Base icon with custom parameters
 class BaseIcon extends StatelessWidget {
-  /// Base icon with custom parameters
   /// Wraps [Icon] with [FittedBox], and gives some paddings.
   const BaseIcon(
     this.iconData, {
@@ -12,9 +12,17 @@ class BaseIcon extends StatelessWidget {
     this.padding,
     Key? key,
   }) : super(key: key);
+
+  /// Icon to display.
   final IconData iconData;
+
+  /// Size factor for the icon.
   final double? sizeFactor;
+
+  /// Color of the icon.
   final Color? color;
+
+  /// Padding of the icon.
   final EdgeInsets? padding;
 
   @override

@@ -8,13 +8,16 @@ import '../texts/base_text.dart';
 import 'animated_dialog.dart';
 import 'single_choose_dialog.dart';
 
+/// Dialog builder for displaying dialogs.
 class DialogBuilder {
   /// Dialog builder for displaying dialogs.
   const DialogBuilder(this.context);
+
+  /// Context to customize sizes.
   final BuildContext context;
 
   /// Shows error dialog.
-  void showErrorDialog(String text) =>
+  Future<void> showErrorDialog(String text) async =>
       AnimatedDialog(contentText: text).show(context);
 
   /// Shows multiple selection dialog.

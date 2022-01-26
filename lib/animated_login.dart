@@ -3,7 +3,6 @@ library animated_login;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'src/src_shelf.dart';
@@ -16,9 +15,10 @@ export 'src/providers/login_view_theme.dart';
 part 'src/widgets/form_part.dart';
 part 'src/widgets/welcome_components.dart';
 
+/// [AnimatedLogin] is the main widget creates the animated login screen
+/// Wraps the main view with providers.
 class AnimatedLogin extends StatefulWidget {
-  /// [AnimatedLogin] is the main widget creates the animated login screen
-  /// Wraps the main view with providers.
+  /// Default constructor for [AnimatedLogin].
   const AnimatedLogin({
     this.loginDesktopTheme,
     this.loginMobileTheme,

@@ -10,8 +10,9 @@ typedef ChangeLanguageCallback = void Function(LanguageOption? language);
 typedef ChangeLangOnPressedCallback = LanguageOption? Function();
 
 @immutable
+
+/// [LanguageOption] model is to store/transfer data of language options.
 class LanguageOption {
-  /// [LanguageOption] model is to store/transfer data of language options.
   /// * Contains [code], [value], and [iconPath] fields.
   const LanguageOption({
     required this.value,

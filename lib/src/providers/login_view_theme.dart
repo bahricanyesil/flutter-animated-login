@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../models/animated_dialog_theme.dart';
 
+/// [LoginViewTheme] is the provider for all design/theme related data.
 class LoginViewTheme {
-  /// [LoginViewTheme] is the provider for all design/theme related data.
   /// You can customize the colors, text styles, elevation, borders and lots of
   /// other customizable fields implemented in this package. For the values that
   /// are indirectly used from theme, you should customize your theme.

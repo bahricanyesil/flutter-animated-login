@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import '../models/animated_dialog_theme.dart';
 import 'login_view_theme.dart';
 
+/// [LoginTheme] is the provider for all design/theme related data.
+// ignore: prefer_mixin
 class LoginTheme extends LoginViewTheme with ChangeNotifier {
-  /// [LoginTheme] is the provider for all design/theme related data.
   /// with the help of [LoginViewTheme]. See the details inside of it.
   /// * Additionally tracks whether the app is in landscape mode, [isLandscape].
   LoginTheme({LoginViewTheme? initialTheme}) {
@@ -12,8 +13,10 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
   }
 
   late LoginViewTheme _currentTheme;
+
   /// Gets the current theme
   LoginViewTheme get currentTheme => _currentTheme;
+
   /// Sets the current theme
   set currentTheme(LoginViewTheme theme) {
     _currentTheme = theme;
@@ -22,7 +25,8 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
 
   /// Indicates whether the screen size is landscape.
   bool isLandscape = true;
-  /// Sets the [isLanscape] option
+
+  /// Sets the [isLandscape] option
   void setIsLandscape(bool newValue) {
     isLandscape = newValue;
     notifyListeners();

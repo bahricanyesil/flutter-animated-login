@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../models/language_option.dart';
 
-class LoginTexts with ChangeNotifier {
-  /// [LoginTexts] is the provider for all texts in the login screen.
+/// [LoginTexts] is the provider for all texts in the login screen.
+class LoginTexts extends ChangeNotifier {
   /// Provides default texts for those aren't provided in the constructor.
   LoginTexts({
     String? welcome,
@@ -248,6 +248,7 @@ class LoginTexts with ChangeNotifier {
 
   /// Currently selected language.
   LanguageOption? language;
+
   /// Sets the language
   void setLanguage(LanguageOption newLanguage) {
     language = newLanguage;

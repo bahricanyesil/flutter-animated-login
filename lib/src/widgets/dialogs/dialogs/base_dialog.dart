@@ -11,6 +11,7 @@ import '../../texts/base_text.dart';
 
 /// Base dialog widget for platform specific dialogs.
 mixin BaseDialog {
+  /// Gets the content of the dialog.
   Widget getContent(
     BuildContext context, {
     required Widget? content,
@@ -34,6 +35,7 @@ mixin BaseDialog {
         );
   }
 
+  /// Gets the buttons of the dialogs.
   List<Widget> getButtons(
     BuildContext context, {
     required String? actionText,

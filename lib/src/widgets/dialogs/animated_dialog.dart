@@ -9,6 +9,7 @@ import '../../providers/login_theme.dart';
 import 'dialogs/mobile_dialog.dart'
     if (dart.library.html) 'dialogs/web_dialog.dart';
 
+/// Creates custom animated dialog specific to each platform.
 class AnimatedDialog extends PlatformDialog {
   /// Creates custom animated dialog specific to each platform.
   const AnimatedDialog({
@@ -31,6 +32,7 @@ class AnimatedDialog extends PlatformDialog {
           contentPaddingFactor: contentPaddingFactor,
         );
 
+  /// Displays the dialog on the screen.
   Future<T?> show<T>(BuildContext context) async {
     final AnimatedDialogTheme dialogTheme =
         context.read<LoginTheme>().dialogTheme ?? const AnimatedDialogTheme();

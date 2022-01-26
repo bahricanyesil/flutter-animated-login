@@ -7,9 +7,8 @@ import '../models/models_shelf.dart';
 /// triggered by [Auth.switchAuth] method.
 typedef AuthModeChangeCallback = void Function(AuthMode authMode);
 
-class Auth with ChangeNotifier {
-// if there is any error message.
-  /// [Auth] is the provider for auth related data, functions.
+/// [Auth] is the provider for auth related data, functions.
+class Auth extends ChangeNotifier {
   /// Manages the state related to the authentication modes.
   Auth({
     this.socialLogins = const <SocialLogin>[],
@@ -30,27 +29,34 @@ class Auth with ChangeNotifier {
   Future<String?> _defaultLoginFunc(LoginData a) async => null;
   Future<String?> _defaultSignupFunc(SignUpData a) async => null;
   Future<String?> _defaultForgotPassFunc(String e) async => null;
+
+  /// Callback to use auth mode changes.
   final AuthModeChangeCallback? onAuthModeChange;
 
-  /// Function to be called on login action.
   late final LoginCallback _onLogin;
+
+  /// Function to be called on login action.
   LoginCallback get onLogin => _onLogin;
 
-  /// Function to be called on signup action.
   late final SignupCallback _onSignup;
+
+  /// Function to be called on signup action.
   SignupCallback get onSignup => _onSignup;
 
-  /// Function to be called on click to forgot password text.
   late final ForgotPasswordCallback _onForgotPassword;
+
+  /// Function to be called on click to forgot password text.
   ForgotPasswordCallback get onForgotPassword => _onForgotPassword;
 
   /// List of social login options.
   final List<SocialLogin>? socialLogins;
 
-  /// Current authentication mode of the screen.
-  /// Uses [AuthMode] enum's values.
   late AuthMode _mode;
+
+  /// Current authentication mode of the screen.
   AuthMode get mode => _mode;
+
+  /// Uses [AuthMode] enum's values.
   void notifySetMode(AuthMode value) {
     _mode = value;
     notifyListeners();
@@ -58,6 +64,8 @@ class Auth with ChangeNotifier {
 
   /// Returns whether the current [_mode] is login or signup mode.
   bool get isLogin => _mode == AuthMode.login;
+
+  /// Returns whether the current [_mode] is login or signup mode.
   bool get isSignup => _mode == AuthMode.signup;
 
   /// Switches the authentication mode and notify the listeners.
@@ -86,12 +94,16 @@ class Auth with ChangeNotifier {
   /// Confirm password text in the text controller.
   String? confirmPassword;
 
+  /// Sets the username.
   void setUsername(String? newUsername) => username = newUsername;
 
+  /// Sets the email.
   void setEmail(String? newEmail) => email = newEmail;
 
+  /// Sets the password.
   void setPassword(String? newPassword) => password = newPassword;
 
+  /// Sets the confirm password.
   void setConfirmPassword(String? newConfirmPassword) =>
       confirmPassword = newConfirmPassword;
 }

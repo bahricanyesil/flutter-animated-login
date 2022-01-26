@@ -3,8 +3,9 @@ import 'package:flutter/foundation.dart';
 import '../utils/hasher.dart';
 
 @immutable
+
+/// [LoginData] model is to store/transfer login mode data.
 class LoginData {
-  /// [LoginData] model is to store/transfer login mode data.
   /// Contains [email] and [password] fields.
   /// Overrides [toString], [hashCode] methods and [==] operator.
   const LoginData({

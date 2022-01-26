@@ -7,8 +7,8 @@ import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';
 
+/// An [ElevatedButton] with rounded corners.
 class RoundedButton extends StatelessWidget {
-  /// An [ElevatedButton] with rounded corners.
   /// Takes some parameters to customize the design,
   /// and uses "ButtonStyles(context).roundedStyle" to give roundness.
   const RoundedButton({
@@ -24,14 +24,31 @@ class RoundedButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
+  /// Text on the button.
   final String buttonText;
+
+  /// Callback to call on pressed.
   final VoidCallback onPressed;
+
+  /// Background color of the button.
   final Color? backgroundColor;
+
+  /// Border color of the button.
   final Color? borderColor;
+
+  /// Radius of the borders.
   final BorderRadius? borderRadius;
+
+  /// Width of the border.
   final double borderWidth;
+
+  /// Width of the button.
   final double? width;
+
+  /// Height of the button.
   final double? height;
+
+  /// Style of the button.
   final ButtonStyle? buttonStyle;
 
   @override
