@@ -138,6 +138,7 @@ class __FormPartState extends State<_FormPart> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _confirmPasswordFocus.dispose();
     super.dispose();
   }
 
