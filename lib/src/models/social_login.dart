@@ -21,8 +21,9 @@ typedef SocialLoginCallback = Future<String?> Function();
 typedef ForgotPasswordCallback = Future<String?> Function(String email);
 
 @immutable
+
+/// [SocialLogin] model is to store/transfer data of social login types.
 class SocialLogin {
-  /// [SocialLogin] model is to store/transfer data of social login types.
   /// Contains [iconPath], and [callback] fields.
   const SocialLogin({
     required this.iconPath,

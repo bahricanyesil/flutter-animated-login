@@ -2,8 +2,8 @@ library animated_login;
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import 'src/src_shelf.dart';
@@ -16,9 +16,10 @@ export 'src/providers/login_view_theme.dart';
 part 'src/widgets/form_part.dart';
 part 'src/widgets/welcome_components.dart';
 
+/// [AnimatedLogin] is the main widget creates the animated login screen
+/// Wraps the main view with providers.
 class AnimatedLogin extends StatefulWidget {
-  /// [AnimatedLogin] is the main widget creates the animated login screen
-  /// Wraps the main view with providers.
+  /// Default constructor for [AnimatedLogin].
   const AnimatedLogin({
     this.loginDesktopTheme,
     this.loginMobileTheme,
@@ -170,17 +171,12 @@ class AnimatedLogin extends StatefulWidget {
 class _AnimatedLoginState extends State<AnimatedLogin> {
   @override
   Widget build(BuildContext context) {
-    final bool isLandscape = ViewTypeHelper(context).isLandscape;
-
-    final LoginViewTheme? initialTheme =
-        isLandscape ? widget.loginDesktopTheme : widget.loginMobileTheme;
-
     /// Background color of whole screen for mobile view,
     /// of welcome part for web view.
-    final LoginTheme loginTheme =
-        LoginTheme(initialTheme: initialTheme ?? LoginViewTheme())
-          ..isLandscape = isLandscape
-          ..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
+    final LoginTheme loginTheme = LoginTheme(
+      desktopTheme: widget.loginDesktopTheme,
+      mobileTheme: widget.loginMobileTheme,
+    )..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
     final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
       ..language = widget.selectedLanguage;
     return MultiProvider(
@@ -198,42 +194,54 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
           ),
         ),
       ],
-      child: Scaffold(
-        backgroundColor: loginTheme.backgroundColor,
-        body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-          WidgetsBinding.instance!.addPostFrameCallback((_) => context
-              .read<LoginTheme>()
-              .setIsLandscape(ViewTypeHelper(context).isLandscape));
-          return SafeArea(
-            child: _View(
-              formKey: widget.formKey,
-              checkError: widget.checkError,
-              showForgotPassword: widget.showForgotPassword,
-              showChangeActionTitle: widget.showChangeActionTitle,
-              showPasswordVisibility: widget.showPasswordVisibility,
-              nameController: widget.nameController,
-              emailController: widget.emailController,
-              passwordController: widget.passwordController,
-              confirmPasswordController: widget.confirmPasswordController,
-              backgroundImage: widget.backgroundImage,
-              logo: widget.logo,
-              signUpMode: widget.signUpMode,
-              languageOptions: widget.languageOptions,
-              changeLanguageCallback: widget.changeLanguageCallback,
-              changeLangOnPressed: widget.changeLangOnPressed,
-              nameValidator: widget.nameValidator,
-              emailValidator: widget.emailValidator,
-              passwordValidator: widget.passwordValidator,
-              validateName: widget.validateName,
-              validateEmail: widget.validateEmail,
-              validatePassword: widget.validatePassword,
+      child: kIsWeb
+          ? _webScaffold(loginTheme.backgroundColor)
+          : GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              child: Scaffold(
+                  backgroundColor: loginTheme.backgroundColor, body: _safeArea),
             ),
-          );
-        }),
-      ),
     );
   }
+
+  Widget _webScaffold(Color? backgroundColor) => Scaffold(
+        backgroundColor: backgroundColor,
+        body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final bool isLandscape =
+                constraints.maxHeight / constraints.maxWidth < 1.05;
+            context.read<LoginTheme>().setIsLandscape(isLandscape);
+            return _safeArea;
+          },
+        ),
+      );
+
+  Widget get _safeArea => SafeArea(
+        child: _View(
+          formKey: widget.formKey,
+          checkError: widget.checkError,
+          showForgotPassword: widget.showForgotPassword,
+          showChangeActionTitle: widget.showChangeActionTitle,
+          showPasswordVisibility: widget.showPasswordVisibility,
+          nameController: widget.nameController,
+          emailController: widget.emailController,
+          passwordController: widget.passwordController,
+          confirmPasswordController: widget.confirmPasswordController,
+          backgroundImage: widget.backgroundImage,
+          logo: widget.logo,
+          signUpMode: widget.signUpMode,
+          languageOptions: widget.languageOptions,
+          changeLanguageCallback: widget.changeLanguageCallback,
+          changeLangOnPressed: widget.changeLangOnPressed,
+          nameValidator: widget.nameValidator,
+          emailValidator: widget.emailValidator,
+          passwordValidator: widget.passwordValidator,
+          validateName: widget.validateName,
+          validateEmail: widget.validateEmail,
+          validatePassword: widget.validatePassword,
+        ),
+      );
 }
 
 class _View extends StatefulWidget {
@@ -316,7 +324,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   late final GlobalKey<FormState> formKey =
       widget.formKey ?? GlobalKey<FormState>();
 
-  bool isLandscape = true;
+  bool _isLandscape = true;
 
   @override
   void initState() {
@@ -339,12 +347,12 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     loginTexts = context.read<LoginTexts>();
     loginTheme = context.read<LoginTheme>();
     auth = context.read<Auth>();
-    isLandscape = context.watch<LoginTheme>().isLandscape;
+    _isLandscape = context.watch<LoginTheme>().isLandscape;
     dynamicSize = DynamicSize(context);
     _initializeAnimations();
     return AnimatedBuilder(
       animation: animationController,
-      builder: (_, __) => isLandscape ? _webView : _mobileView,
+      builder: (_, __) => _isLandscape ? _webView : _mobileView,
     );
   }
 
@@ -385,7 +393,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         if (widget.showChangeActionTitle)
           _welcomeAnimationWrapper(
             _ChangeActionTitle(
-                showButtonText: true, animate: () => animate(context)),
+                showButtonText: true, animate: () => _animate(context)),
           ),
       ];
 
@@ -423,7 +431,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             SizedBox(height: DynamicSize(context).height * 7),
             if (widget.showChangeActionTitle) const _ChangeActionTitle(),
             SizedBox(height: DynamicSize(context).height * 2),
-            _ChangeActionButton(animate: () => animate(context)),
+            _ChangeActionButton(animate: () => _animate(context)),
           ],
         ),
       );
@@ -458,7 +466,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         validatePassword: widget.validatePassword,
       );
 
-  void animate(BuildContext context) {
+  void _animate(BuildContext context) {
     if (formKey.currentState != null) {
       formKey.currentState!.reset();
     }
@@ -471,7 +479,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   void _initializeAnimations() {
     /// Initializes the transition animation from 0 to form part's width ratio
     /// with custom animation curve and animation controller.
-    welcomeTransitionAnimation = isLandscape
+    welcomeTransitionAnimation = _isLandscape
         ? Tween<double>(begin: 0, end: loginTheme.formWidthRatio).animate(
             CurvedAnimation(
               parent: animationController,
@@ -491,7 +499,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     );
 
     welcomeTransitionAnimation.addListener(() {
-      if (isLandscape) {
+      if (_isLandscape) {
         auth.isReverse =
             welcomeTransitionAnimation.value <= loginTheme.formWidthRatio / 2;
       } else if (_forwardCheck) {
@@ -500,7 +508,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     });
   }
 
-  bool get _forwardCheck => isLandscape
+  bool get _forwardCheck => _isLandscape
       ? welcomeTransitionAnimation.value <=
           context.read<LoginTheme>().formWidthRatio / 2
       : welcomeTransitionAnimation.value <= -100 && _statusCheck;

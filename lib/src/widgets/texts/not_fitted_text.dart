@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../decorations/text_styles.dart';
 
+/// Base text with custom parameters but not wrapped with [FittedBox].
 class NotFittedText extends StatelessWidget {
-  /// Base text with custom parameters but not wrapped with [FittedBox].
   /// This is the difference from the "BaseText", it also allows multline texts.
   /// Implements some further customizations.
   const NotFittedText(
@@ -13,9 +13,17 @@ class NotFittedText extends StatelessWidget {
     this.maxLines,
     Key? key,
   }) : super(key: key);
+
+  /// Text itself.
   final String text;
+
+  /// Style of the [text].
   final TextStyle? style;
+
+  /// Alignment of the [text].
   final TextAlign textAlign;
+
+  /// Int
   final int? maxLines;
 
   @override

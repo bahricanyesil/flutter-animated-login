@@ -10,8 +10,9 @@ typedef ChangeLanguageCallback = void Function(LanguageOption? language);
 typedef ChangeLangOnPressedCallback = LanguageOption? Function();
 
 @immutable
+
+/// [LanguageOption] model is to store/transfer data of language options.
 class LanguageOption {
-  /// [LanguageOption] model is to store/transfer data of language options.
   /// * Contains [code], [value], and [iconPath] fields.
   const LanguageOption({
     required this.value,
@@ -30,6 +31,7 @@ class LanguageOption {
   /// Ex: 'assets/images/google.png'
   final String? iconPath;
 
+  /// Overrides the equality operator.
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

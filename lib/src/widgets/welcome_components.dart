@@ -3,6 +3,8 @@ part of '../../animated_login.dart';
 class _LogoAndTexts extends StatelessWidget {
   /// Column of logo and welcome texts.
   const _LogoAndTexts({required this.logo, Key? key}) : super(key: key);
+
+  /// Logo widget.
   final Widget? logo;
 
   @override
@@ -12,7 +14,7 @@ class _LogoAndTexts extends StatelessWidget {
           _title(context),
           SizedBox(
               height: DynamicSize(context).height *
-                  (ViewTypeHelper(context).isLandscape ? 6 : 1.8)),
+                  (context.read<LoginTheme>().isLandscape ? 6 : 1.8)),
           _description(context),
         ],
       );
@@ -60,6 +62,8 @@ class _ChangeActionButton extends StatelessWidget {
   /// * Switches between the auth modes (login/signup).
   const _ChangeActionButton({required this.animate, Key? key})
       : super(key: key);
+
+  /// Animate callback
   final VoidCallback animate;
 
   @override
@@ -82,7 +86,11 @@ class _ChangeActionTitle extends StatelessWidget {
   const _ChangeActionTitle(
       {this.showButtonText = false, this.animate, Key? key})
       : super(key: key);
+
+  /// Determines whether to show button text or not
   final bool showButtonText;
+
+  /// Animate callback
   final VoidCallback? animate;
 
   @override
@@ -142,9 +150,17 @@ class _ChangeLanguage extends StatelessWidget {
     this.onPressed,
     Key? key,
   }) : super(key: key);
+
+  /// List of language options consisting of [LanguageOption].
   final List<LanguageOption> languageOptions;
+
+  /// Callback will be called after a language is chosen.
   final Function(LanguageOption? language) chooseLanguageCallback;
+
+  /// Animation for color change.
   final Animation<double> colorTween;
+
+  /// Callback to call on change language button press.
   final ChangeLangOnPressedCallback? onPressed;
 
   @override

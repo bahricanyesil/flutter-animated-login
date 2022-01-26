@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'language_dialog_theme.dart';
 
+/// Style related settings for "CustomDialog",
+/// that will be used on dialog displays.
 class AnimatedDialogTheme {
-  /// Style related settings for "CustomDialog",
-  /// that will be used on dialog displays.
+  /// Default constructor for the [AnimatedDialogTheme].
   const AnimatedDialogTheme({
     this.contentPadding,
     this.actionsPadding,

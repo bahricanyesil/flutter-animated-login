@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 @immutable
+
+/// [ValidatorModel] is to determine options for validations.
 class ValidatorModel {
-  /// [ValidatorModel] is to determine options for validations.
   /// You can set you own custom validator with [customValidator] or
   /// you can make some customization on the default validation.
   const ValidatorModel({

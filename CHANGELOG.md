@@ -1,4 +1,11 @@
 # Versions
+## [1.1.0] - 26.01.2022
+
+* Completed all of the documentation.
+* Fixed material dependency of the simple dialog option widget (InkWell).
+* Changed the logic behind the theming and responsiveness.
+* Layout builder and isLandscape variable used just for web.
+* Focus changes on the input fields.
 
 ## [1.0.0] - 25.11.2021
 

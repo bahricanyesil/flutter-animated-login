@@ -3,26 +3,45 @@ import 'package:flutter/material.dart';
 import '../models/animated_dialog_theme.dart';
 import 'login_view_theme.dart';
 
+/// [LoginTheme] is the provider for all design/theme related data.
+// ignore: prefer_mixin
 class LoginTheme extends LoginViewTheme with ChangeNotifier {
-  /// [LoginTheme] is the provider for all design/theme related data.
   /// with the help of [LoginViewTheme]. See the details inside of it.
   /// * Additionally tracks whether the app is in landscape mode, [isLandscape].
-  LoginTheme({LoginViewTheme? initialTheme}) {
-    _currentTheme = initialTheme ?? LoginViewTheme();
+  LoginTheme({LoginViewTheme? desktopTheme, LoginViewTheme? mobileTheme}) {
+    _desktopTheme = desktopTheme;
+    _mobileTheme = mobileTheme;
+    if (_mobileTheme != null) _currentTheme = _mobileTheme!;
+  }
+  late final LoginViewTheme? _desktopTheme;
+  late final LoginViewTheme? _mobileTheme;
+
+  LoginViewTheme _currentTheme = LoginViewTheme();
+
+  /// Gets the current theme
+  LoginViewTheme get currentTheme => _currentTheme;
+
+  /// Sets the current theme
+  set currentTheme(LoginViewTheme theme) {
+    if (theme != _currentTheme) _currentTheme = theme;
   }
 
-  late LoginViewTheme _currentTheme;
-  LoginViewTheme get currentTheme => _currentTheme;
-  set currentTheme(LoginViewTheme theme) {
-    _currentTheme = theme;
-    notifyListeners();
+  /// Sets the current theme and notify.
+  void setThemeAndNotify(bool isLandscape) {
+    final LoginViewTheme? newTheme = isLandscape ? _desktopTheme : _mobileTheme;
+    if (newTheme != null && _currentTheme != newTheme) {
+      _currentTheme = newTheme;
+      WidgetsBinding.instance!.addPostFrameCallback((_) => notifyListeners());
+    }
   }
 
   /// Indicates whether the screen size is landscape.
-  bool isLandscape = true;
+  bool isLandscape = false;
+
+  /// Sets the isLandscape variable.
   void setIsLandscape(bool newValue) {
     isLandscape = newValue;
-    notifyListeners();
+    setThemeAndNotify(isLandscape);
   }
 
   @override

@@ -6,6 +6,8 @@ class DialogBuilder {
   /// Builds various dialogs with different methods.
   /// * e.g. [showLoadingDialog], [showResultDialog]
   const DialogBuilder(this.context);
+
+  /// Takes [context] as parameter.
   final BuildContext context;
 
   /// Example loading dialog

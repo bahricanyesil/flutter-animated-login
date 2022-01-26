@@ -6,14 +6,17 @@ import '../responsiveness/dynamic_size.dart';
 import '../widgets/icons/base_icon.dart';
 import 'text_styles.dart';
 
+/// [InputDeco] class collects all input decorations in one file.
 class InputDeco {
-  /// [InputDeco] class collects all input decorations in one file.
-  /// * Initializes dynamicSize and theme fields after got the context.
+  /// * Initializes dynamicSize and theme fields after received the context.
   InputDeco(this.context) {
-    dynamicSize = DynamicSize(context);
+    _dynamicSize = DynamicSize(context);
   }
+
+  /// Context to customize design.
   final BuildContext context;
-  late final DynamicSize dynamicSize;
+
+  late final DynamicSize _dynamicSize;
 
   /// [InputDecoration] for the text form fields in the login screen.
   /// Both "CustomTextFormField" and "ObscuredTextFormField" uses this deco.
@@ -27,11 +30,11 @@ class InputDeco {
     final LoginTheme loginTheme = context.read<LoginTheme>();
     return InputDecoration(
       contentPadding: EdgeInsets.symmetric(
-        vertical: dynamicSize.height * (loginTheme.isLandscape ? 3.3 : 3),
+        vertical: _dynamicSize.height * (loginTheme.isLandscape ? 3.3 : 3),
       ).copyWith(
-        right: dynamicSize.width *
+        right: _dynamicSize.width *
             (paddingFactor ?? (loginTheme.isLandscape ? 1 : 3)),
-        left: dynamicSize.width * (loginTheme.isLandscape ? 1 : 2.5),
+        left: _dynamicSize.width * (loginTheme.isLandscape ? 1 : 2.5),
       ),
       fillColor: loginTheme.formFieldBackgroundColor ??
           loginTheme.backgroundColor?.withOpacity(.8) ??
@@ -78,8 +81,8 @@ class InputDeco {
         ? null
         : Padding(
             padding: EdgeInsets.only(
-              left: dynamicSize.width * (isLandscape ? .6 : 2.6),
-              right: isLandscape ? 0 : dynamicSize.width * 1.1,
+              left: _dynamicSize.width * (isLandscape ? .6 : 2.6),
+              right: isLandscape ? 0 : _dynamicSize.width * 1.1,
             ),
             child: BaseIcon(prefixIcon, sizeFactor: isLandscape ? 7 : 8.5),
           );

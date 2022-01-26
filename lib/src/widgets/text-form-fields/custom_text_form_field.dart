@@ -6,8 +6,8 @@ import '../../decorations/text_styles.dart';
 import '../../providers/login_theme.dart';
 import 'text_form_field_wrapper.dart';
 
+/// Base [TextFormField] wrapped with [BaseTextFormFieldWrapper].
 class CustomTextFormField extends StatelessWidget {
-  /// Base [TextFormField] wrapped with [BaseTextFormFieldWrapper].
   /// Implements login decoration as default, can be customized with params.
   /// Used for implementation of name and email text form fields.
   const CustomTextFormField({
@@ -24,16 +24,38 @@ class CustomTextFormField extends StatelessWidget {
     this.textInputType,
     Key? key,
   }) : super(key: key);
+
+  /// Controller for the text form field.
   final TextEditingController controller;
+
+  /// Validator of the text field.
   final FormFieldValidator<String?>? validator;
+
+  /// Callback to call on text change.
   final void Function(String? text) onChanged;
+
+  /// Hint text of the field.
   final String? hintText;
+
+  /// Prefix icon.
   final IconData? prefixIcon;
+
+  /// Custom prefix widget.
   final Widget? prefixWidget;
+
+  /// Background color of the field.
   final Color? backgroundColor;
+
+  /// Width factor.
   final double? widthFactor;
+
+  /// Custom text input action.
   final TextInputAction textInputAction;
+
+  /// Custom list of auto fill hints.
   final Iterable<String> autofillHints;
+
+  /// Custom text input type.
   final TextInputType? textInputType;
 
   @override

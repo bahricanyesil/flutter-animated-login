@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Style related settings for choose language dialog.
 class LanguageDialogTheme {
   /// Style related settings for choose language dialog.
   const LanguageDialogTheme({

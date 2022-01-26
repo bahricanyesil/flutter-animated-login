@@ -3,8 +3,9 @@ import 'package:flutter/foundation.dart';
 import '../utils/hasher.dart';
 
 @immutable
+
+/// [SignUpData] model is to store/transfer signup mode data.
 class SignUpData {
-  /// [String] model is to store/transfer signup mode data.
   /// Contains [name], [email], [password] and [confirmPassword] fields.
   /// Overrides [toString], [hashCode] methods and [==] operator.
   const SignUpData({
@@ -14,14 +15,23 @@ class SignUpData {
     required this.confirmPassword,
   });
 
+  /// Name of the user
   final String name;
+
+  /// Email of the user
   final String email;
+
+  /// Password of the user
   final String password;
+
+  /// Confirm password user entered
   final String confirmPassword;
 
+  /// Overrides the [toString] method.
   @override
   String toString() => 'SignUpData($name, $email, $password, $confirmPassword)';
 
+  /// Overrides the equality operator.
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
