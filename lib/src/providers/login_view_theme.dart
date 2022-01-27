@@ -61,6 +61,11 @@ class LoginViewTheme {
     this.logoPadding,
     this.socialHighlightColor,
     this.inputPadding,
+    this.loadingButtonSize,
+    this.showLoadingButton = true,
+    this.showLoadingSocialButton = true,
+    this.loadingButtonColor,
+    this.loadingSocialButtonColor,
   })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
         assert(formElementsSpacing == null || formElementsSpacing <= 70,
             "Spacing between the form elements cannot be more than 70."),
@@ -231,6 +236,21 @@ class LoginViewTheme {
   /// Custom input padding for the text form fields.
   final EdgeInsets? inputPadding;
 
+  /// Size of the loading indicator inside the button.
+  final double? loadingButtonSize;
+
+  /// Determines whether to show loading indicator on buttons.
+  final bool showLoadingButton;
+
+  /// Determines whether to show loading indicator on social login buttons.
+  final bool showLoadingSocialButton;
+
+  /// Color of the loading indicator on a button.
+  final Color? loadingButtonColor;
+
+  /// Color of the loading indicator on a social login button.
+  final Color? loadingSocialButtonColor;
+
   /// Creates a copy login view theme with the given properties.
   LoginViewTheme copyWith({
     TextStyle? formTitleStyle,
@@ -286,6 +306,11 @@ class LoginViewTheme {
     EdgeInsets? logoPadding,
     Color? socialHighlightColor,
     EdgeInsets? inputPadding,
+    double? loadingButtonSize,
+    bool? showLoadingButton,
+    bool? showLoadingSocialButton,
+    Color? loadingButtonColor,
+    Color? loadingSocialButtonColor,
   }) =>
       LoginViewTheme(
         formTitleStyle: formTitleStyle ?? this.formTitleStyle,
@@ -354,5 +379,12 @@ class LoginViewTheme {
         logoPadding: logoPadding ?? this.logoPadding,
         socialHighlightColor: socialHighlightColor ?? this.socialHighlightColor,
         inputPadding: inputPadding ?? this.inputPadding,
+        loadingButtonSize: loadingButtonSize ?? this.loadingButtonSize,
+        showLoadingButton: showLoadingButton ?? this.showLoadingButton,
+        showLoadingSocialButton:
+            showLoadingSocialButton ?? this.showLoadingSocialButton,
+        loadingButtonColor: loadingButtonColor ?? this.loadingButtonColor,
+        loadingSocialButtonColor:
+            loadingSocialButtonColor ?? this.loadingSocialButtonColor,
       );
 }

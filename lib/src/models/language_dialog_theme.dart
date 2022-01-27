@@ -41,4 +41,30 @@ class LanguageDialogTheme {
 
   /// Theme for divider between language options.
   final DividerThemeData? dividerThemeData;
+
+  /// Creates a copy animated dialog theme with the given parameters.
+  LanguageDialogTheme copyWith({
+    Widget? title,
+    Size? dialogOptionSize,
+    EdgeInsets? optionMargin,
+    EdgeInsets? optionPadding,
+    Color? selectedBackgroundColor,
+    Color? iconColor,
+    TextStyle? languageTextStyle,
+    Color? selectedItemTextColor,
+    DividerThemeData? dividerThemeData,
+  }) =>
+      LanguageDialogTheme(
+        title: title ?? this.title,
+        dialogOptionSize: dialogOptionSize ?? this.dialogOptionSize,
+        optionMargin: optionMargin ?? this.optionMargin,
+        optionPadding: optionPadding ?? this.optionPadding,
+        selectedBackgroundColor:
+            selectedBackgroundColor ?? this.selectedBackgroundColor,
+        iconColor: iconColor ?? this.iconColor,
+        languageTextStyle: languageTextStyle ?? this.languageTextStyle,
+        selectedItemTextColor:
+            selectedItemTextColor ?? this.selectedItemTextColor,
+        dividerThemeData: dividerThemeData ?? this.dividerThemeData,
+      );
 }

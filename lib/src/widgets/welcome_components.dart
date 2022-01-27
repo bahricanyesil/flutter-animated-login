@@ -66,7 +66,7 @@ class _ChangeActionButton extends StatelessWidget {
       : super(key: key);
 
   /// Animate callback
-  final VoidCallback animate;
+  final AsyncCallback animate;
 
   @override
   Widget build(BuildContext context) {
@@ -146,13 +146,14 @@ class _ChangeActionTitle extends StatelessWidget {
   }
 }
 
-class _ChangeLanguage extends StatelessWidget {
+class _ChangeLanguage extends StatefulWidget {
   /// Change language widget on top of the welcome part.
   const _ChangeLanguage({
     required this.chooseLanguageCallback,
     required this.colorTween,
     this.languageOptions = const <LanguageOption>[],
     this.onPressed,
+    this.defaultOnPressed,
     Key? key,
   }) : super(key: key);
 
@@ -168,6 +169,14 @@ class _ChangeLanguage extends StatelessWidget {
   /// Callback to call on change language button press.
   final ChangeLangOnPressedCallback? onPressed;
 
+  /// Callback to call on change language button press when it is default.
+  final VoidCallback? defaultOnPressed;
+
+  @override
+  State<_ChangeLanguage> createState() => _ChangeLanguageState();
+}
+
+class _ChangeLanguageState extends State<_ChangeLanguage> {
   @override
   Widget build(BuildContext context) {
     final ButtonStyle? buttonStyle =
@@ -175,24 +184,31 @@ class _ChangeLanguage extends StatelessWidget {
     final LanguageOption selectedLanguage =
         context.watch<LoginTexts>().language!;
     return AnimatedBuilder(
-      animation: colorTween,
+      animation: widget.colorTween,
       builder: (BuildContext context, _) => ElevatedButton(
         style: buttonStyle != null
             ? buttonStyle.merge(_defaultButtonStyle(context))
             : _defaultButtonStyle(context),
-        onPressed: () async {
-          if (onPressed != null) {
-            final LanguageOption? newLanguage = onPressed!();
-            if (newLanguage != null) {
-              context.read<LoginTexts>().setLanguage(newLanguage);
-            }
-          } else {
-            await _openChooseDialog(context, selectedLanguage);
-          }
-        },
+        onPressed: () async => _onPressed(context, selectedLanguage),
         child: _buttonChild(context, selectedLanguage),
       ),
     );
+  }
+
+  Future<void> _onPressed(
+      BuildContext context, LanguageOption selectedLanguage) async {
+    if (widget.defaultOnPressed != null) widget.defaultOnPressed!();
+    await context.read<Auth>().cancelableOperation?.cancel();
+    if (widget.onPressed != null) {
+      final LanguageOption? newLanguage = await widget.onPressed!();
+      if (newLanguage != null) {
+        if (!mounted) return;
+        context.read<LoginTexts>().setLanguage(newLanguage);
+      }
+    } else {
+      if (!mounted) return;
+      await _openChooseDialog(context, selectedLanguage);
+    }
   }
 
   Widget _buttonChild(BuildContext context, LanguageOption selectedLanguage) {
@@ -233,14 +249,14 @@ class _ChangeLanguage extends StatelessWidget {
           BuildContext context, LanguageOption selectedLanguage) async =>
       DialogBuilder(context)
           .showSelectDialog(context.read<LoginTexts>().chooseLanguageTitle,
-              languageOptions, selectedLanguage)
+              widget.languageOptions, selectedLanguage)
           .then((int? index) {
         LanguageOption? selectedLang;
-        if (index != null) selectedLang = languageOptions[index];
+        if (index != null) selectedLang = widget.languageOptions[index];
         if (selectedLang != null) {
           context.read<LoginTexts>().setLanguage(selectedLang);
         }
-        chooseLanguageCallback(selectedLang);
+        widget.chooseLanguageCallback(selectedLang);
       });
 
   ButtonStyle _defaultButtonStyle(BuildContext context) {
@@ -257,9 +273,9 @@ class _ChangeLanguage extends StatelessWidget {
 
   Color? _contentColor(BuildContext context) =>
       context.read<LoginTheme>().changeLangContentColor ??
-      Color.lerp(
-          Colors.white, Theme.of(context).primaryColor, colorTween.value);
+      Color.lerp(Colors.white, Theme.of(context).primaryColor,
+          widget.colorTween.value);
 
   Color? _buttonBgColor(BuildContext context) => Color.lerp(
-      Theme.of(context).primaryColor, Colors.white, colorTween.value);
+      Theme.of(context).primaryColor, Colors.white, widget.colorTween.value);
 }

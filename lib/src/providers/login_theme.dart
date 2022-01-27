@@ -210,4 +210,18 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
 
   @override
   EdgeInsets? get inputPadding => currentTheme.inputPadding;
+
+  @override
+  double? get loadingButtonSize => currentTheme.loadingButtonSize;
+
+  @override
+  bool get showLoadingButton => currentTheme.showLoadingButton;
+
+  @override
+  bool get showLoadingSocialButton => currentTheme.showLoadingSocialButton;
+
+  @override
+  Color? get loadingButtonColor => currentTheme.loadingButtonColor;
+  @override
+  Color? get loadingSocialButtonColor => currentTheme.loadingSocialButtonColor;
 }

@@ -66,4 +66,39 @@ class AnimatedDialogTheme {
 
   /// Text style of the title.
   final TextStyle? titleStyle;
+
+  /// Creates a copy animated dialog theme with the given parameters.
+  AnimatedDialogTheme copyWith({
+    EdgeInsets? contentPadding,
+    EdgeInsets? actionsPadding,
+    Size? contentSize,
+    TextStyle? contentTextStyle,
+    TextAlign? contentTextAlign,
+    TextStyle? actionTextStyle,
+    VoidCallback? onPressed,
+    BoxConstraints? contentBoxConstraints,
+    ShapeBorder? shape,
+    double? elevation,
+    Color? backgroundColor,
+    Duration? animationDuration,
+    LanguageDialogTheme? languageDialogTheme,
+    TextStyle? titleStyle,
+  }) =>
+      AnimatedDialogTheme(
+        actionTextStyle: actionTextStyle ?? this.actionTextStyle,
+        actionsPadding: actionsPadding ?? this.actionsPadding,
+        animationDuration: animationDuration ?? this.animationDuration,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
+        contentBoxConstraints:
+            contentBoxConstraints ?? this.contentBoxConstraints,
+        contentPadding: contentPadding ?? this.contentPadding,
+        contentSize: contentSize ?? this.contentSize,
+        contentTextAlign: contentTextAlign ?? this.contentTextAlign,
+        contentTextStyle: contentTextStyle ?? this.contentTextStyle,
+        elevation: elevation ?? this.elevation,
+        languageDialogTheme: languageDialogTheme ?? this.languageDialogTheme,
+        onPressed: onPressed ?? this.onPressed,
+        shape: shape ?? this.shape,
+        titleStyle: titleStyle ?? this.titleStyle,
+      );
 }

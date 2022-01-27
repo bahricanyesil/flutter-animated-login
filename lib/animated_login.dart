@@ -52,6 +52,7 @@ class AnimatedLogin extends StatefulWidget {
     this.changeLangOnPressed,
     this.initialMode,
     this.onAuthModeChange,
+    this.changeLangDefaultOnPressed,
     Key? key,
   })  : assert(
             (changeLanguageCallback != null &&
@@ -157,6 +158,10 @@ class AnimatedLogin extends StatefulWidget {
   /// It should prompt a dialog to select a language and return the selected.
   final ChangeLangOnPressedCallback? changeLangOnPressed;
 
+  /// Optional function will be called on pressed to the change language button
+  /// when the default button is preserved.
+  final VoidCallback? changeLangDefaultOnPressed;
+
   /// If you update the state of parent widget of animated login,
   /// you should provide the last auth mode by using [onAuthModeChange].
   final AuthMode? initialMode;
@@ -240,6 +245,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
           validateName: widget.validateName,
           validateEmail: widget.validateEmail,
           validatePassword: widget.validatePassword,
+          changeLangDefaultOnPressed: widget.changeLangDefaultOnPressed,
         ),
       );
 }
@@ -269,6 +275,7 @@ class _View extends StatefulWidget {
     this.validateName = true,
     this.validateEmail = true,
     this.validatePassword = true,
+    this.changeLangDefaultOnPressed,
     Key? key,
   }) : super(key: key);
 
@@ -287,6 +294,7 @@ class _View extends StatefulWidget {
   final List<LanguageOption> languageOptions;
   final ChangeLanguageCallback? changeLanguageCallback;
   final ChangeLangOnPressedCallback? changeLangOnPressed;
+  final VoidCallback? changeLangDefaultOnPressed;
   final ValidatorModel? nameValidator;
   final ValidatorModel? emailValidator;
   final ValidatorModel? passwordValidator;
@@ -325,7 +333,6 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       widget.formKey ?? GlobalKey<FormState>();
 
   bool _isLandscape = true;
-  bool _isReverse = false;
 
   @override
   void initState() {
@@ -349,7 +356,6 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     loginTheme = context.read<LoginTheme>();
     auth = context.read<Auth>();
     _isLandscape = context.watch<LoginTheme>().isLandscape;
-    _isReverse = context.select<Auth, bool>((Auth auth) => auth.isReverse);
     dynamicSize = DynamicSize(context);
     _initializeAnimations();
     return _isLandscape ? _webView : _mobileView;
@@ -444,7 +450,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             SizedBox(height: DynamicSize(context).height * 7),
             if (widget.showChangeActionTitle) _ChangeActionTitle(),
             SizedBox(height: DynamicSize(context).height * 2),
-            _ChangeActionButton(animate: () => _animate(context)),
+            _ChangeActionButton(animate: () async => _animate(context)),
           ],
         ),
       );
@@ -457,6 +463,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
           languageOptions: widget.languageOptions,
           colorTween: colorTween,
           onPressed: widget.changeLangOnPressed,
+          defaultOnPressed: widget.changeLangDefaultOnPressed,
         ),
       );
 

@@ -7,7 +7,7 @@ typedef ChangeLanguageCallback = void Function(LanguageOption? language);
 
 /// Will be called wen user taps to change language button.
 /// Should return [LanguageOption] that user is selected.
-typedef ChangeLangOnPressedCallback = LanguageOption? Function();
+typedef ChangeLangOnPressedCallback = Future<LanguageOption?> Function();
 
 @immutable
 
