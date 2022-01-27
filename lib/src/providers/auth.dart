@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/enums/auth_mode.dart';
@@ -116,4 +117,7 @@ class Auth extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  /// Cancelable operation for auth operations.
+  CancelableOperation<dynamic>? cancelableOperation;
 }

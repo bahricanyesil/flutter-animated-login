@@ -1,9 +1,11 @@
+import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../decorations/button_styles.dart';
 import '../../decorations/text_styles.dart';
+import '../../providers/auth.dart';
 import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';
@@ -93,12 +95,20 @@ class _RoundedButtonState extends State<RoundedButton> {
   double _loadingSize(BuildContext context) =>
       loginTheme.loadingButtonSize ?? DynamicSize(context).responsiveSize * 10;
 
-  void _onPressed() {
+  Future<void> _onPressed() async {
     if (_loading) return;
     setState(() => _loading = true);
-    widget.onPressed().then((_) {
-      if (mounted) setState(() => _loading = false);
-    });
+    final Auth auth = context.read<Auth>();
+    await auth.cancelableOperation?.cancel();
+    auth.cancelableOperation = CancelableOperation<void>.fromFuture(
+      widget.onPressed(),
+      onCancel: _setLoading,
+    );
+    auth.cancelableOperation?.then((_) => _setLoading());
+  }
+
+  void _setLoading() {
+    if (mounted) setState(() => _loading = false);
   }
 
   /// Calls the rounded style from [ButtonStyles] class with custom parameters.

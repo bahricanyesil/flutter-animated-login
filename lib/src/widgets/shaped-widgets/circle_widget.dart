@@ -1,7 +1,9 @@
+import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/auth.dart';
 import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 
@@ -80,12 +82,20 @@ class _CircleWidgetState extends State<CircleWidget> {
         )
       : widget.child;
 
-  void _onPressed() {
+  Future<void> _onPressed() async {
     if (_loading || widget.onTap == null) return;
     setState(() => _loading = true);
-    widget.onTap!().then((_) {
-      if (mounted) setState(() => _loading = false);
-    });
+    final Auth auth = context.read<Auth>();
+    await auth.cancelableOperation?.cancel();
+    auth.cancelableOperation = CancelableOperation<void>.fromFuture(
+      widget.onTap!(),
+      onCancel: _setLoading,
+    );
+    auth.cancelableOperation?.then((_) => _setLoading());
+  }
+
+  void _setLoading() {
+    if (mounted) setState(() => _loading = false);
   }
 
   /// Returns the border style of the button.

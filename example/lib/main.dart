@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:animated_login/animated_login.dart';
 
+import 'package:async/async.dart';
+
 import 'dialog_builders.dart';
 import 'login_functions.dart';
 
@@ -61,12 +63,16 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Current auth mode, default is [AuthMode.login].
   AuthMode currentMode = AuthMode.login;
 
+  CancelableOperation? _operation;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedLogin(
-      onLogin: LoginFunctions(context).onLogin,
-      onSignup: LoginFunctions(context).onSignup,
-      onForgotPassword: LoginFunctions(context).onForgotPassword,
+      onLogin: (LoginData data) async =>
+          _authOperation(LoginFunctions(context).onLogin(data)),
+      onSignup: (SignUpData data) async =>
+          _authOperation(LoginFunctions(context).onSignup(data)),
+      onForgotPassword: _onForgotPassword,
       logo: Image.asset('assets/images/logo.gif'),
       // backgroundImage: 'images/background_image.jpg',
       signUpMode: SignUpModes.both,
@@ -81,11 +87,26 @@ class _LoginScreenState extends State<LoginScreen> {
           if (mounted) setState(() => language = _language);
         }
       },
+      changeLangDefaultOnPressed: () async => _operation?.cancel(),
       languageOptions: _languageOptions,
       selectedLanguage: language,
       initialMode: currentMode,
       onAuthModeChange: (AuthMode newMode) => currentMode = newMode,
     );
+  }
+
+  Future<String?> _authOperation(Future<String?> func) async {
+    _operation = CancelableOperation.fromFuture(func);
+    final String? res = await _operation?.valueOrCancellation();
+    if (_operation?.isCompleted == true && res == null) {
+      DialogBuilder(context).showResultDialog('Successful.');
+    }
+    return res;
+  }
+
+  Future<String?> _onForgotPassword(String email) async {
+    await _operation?.cancel();
+    return await LoginFunctions(context).onForgotPassword(email);
   }
 
   static List<LanguageOption> get _languageOptions => const <LanguageOption>[
@@ -147,17 +168,26 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Don't forget to also add the icon folder to the "pubspec.yaml" file.
   List<SocialLogin> _socialLogins(BuildContext context) => <SocialLogin>[
         SocialLogin(
-            callback: () async => LoginFunctions(context).socialLogin('Google'),
+            callback: () async => _socialCallback('Google'),
             iconPath: 'assets/images/google.png'),
         SocialLogin(
-            callback: () async =>
-                LoginFunctions(context).socialLogin('Facebook'),
+            callback: () async => _socialCallback('Facebook'),
             iconPath: 'assets/images/facebook.png'),
         SocialLogin(
-            callback: () async =>
-                LoginFunctions(context).socialLogin('Linkedin'),
+            callback: () async => _socialCallback('LinkedIn'),
             iconPath: 'assets/images/linkedin.png'),
       ];
+
+  Future<String?> _socialCallback(String type) async {
+    _operation = CancelableOperation.fromFuture(
+        LoginFunctions(context).socialLogin(type));
+    final String? res = await _operation?.valueOrCancellation();
+    if (_operation?.isCompleted == true && res == null) {
+      DialogBuilder(context)
+          .showResultDialog('Successfully logged in with $type.');
+    }
+    return res;
+  }
 }
 
 /// Example forgot password screen
