@@ -11,27 +11,21 @@ class LoginFunctions {
 
   /// Login action that will be performed on click to action button in login mode.
   Future<String?> onLogin(LoginData loginData) async {
-    DialogBuilder(context).showLoadingDialog();
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.of(context).pop();
     DialogBuilder(context).showResultDialog('Successful login.');
     return null;
   }
 
   /// Sign up action that will be performed on click to action button in sign up mode.
   Future<String?> onSignup(SignUpData signupData) async {
-    DialogBuilder(context).showLoadingDialog();
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.of(context).pop();
     DialogBuilder(context).showResultDialog('Successful sign up.');
     return null;
   }
 
   /// Social login callback example.
   Future<String?> socialLogin(String type) async {
-    DialogBuilder(context).showLoadingDialog();
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.of(context).pop();
     DialogBuilder(context)
         .showResultDialog('Successful social login with $type.');
     return null;

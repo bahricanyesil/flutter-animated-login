@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +9,7 @@ import '../../responsiveness/dynamic_size.dart';
 import '../texts/base_text.dart';
 
 /// An [ElevatedButton] with rounded corners.
-class RoundedButton extends StatelessWidget {
+class RoundedButton extends StatefulWidget {
   /// Takes some parameters to customize the design,
   /// and uses "ButtonStyles(context).roundedStyle" to give roundness.
   const RoundedButton({
@@ -28,7 +29,7 @@ class RoundedButton extends StatelessWidget {
   final String buttonText;
 
   /// Callback to call on pressed.
-  final VoidCallback onPressed;
+  final AsyncCallback onPressed;
 
   /// Background color of the button.
   final Color? backgroundColor;
@@ -52,28 +53,62 @@ class RoundedButton extends StatelessWidget {
   final ButtonStyle? buttonStyle;
 
   @override
+  State<RoundedButton> createState() => _RoundedButtonState();
+}
+
+class _RoundedButtonState extends State<RoundedButton> {
+  bool _loading = false;
+  late LoginTheme loginTheme;
+
+  @override
   Widget build(BuildContext context) {
-    final bool isLandscape = context.read<LoginTheme>().isLandscape;
-    return ElevatedButton(
-      style: buttonStyle != null
-          ? buttonStyle!.merge(_defaultButtonStyle(context, isLandscape))
-          : _defaultButtonStyle(context, isLandscape),
-      onPressed: onPressed,
-      child: BaseText(buttonText, forceDefaultStyle: true),
-    );
+    loginTheme = context.read<LoginTheme>();
+    return loginTheme.showLoadingButton
+        ? AnimatedContainer(
+            width: _buttonWidth,
+            height: _buttonHeight,
+            duration: const Duration(milliseconds: 300),
+            child: _button)
+        : _button;
+  }
+
+  Widget get _button => ElevatedButton(
+        style: widget.buttonStyle != null
+            ? widget.buttonStyle!
+                .merge(_defaultButtonStyle(context, loginTheme.isLandscape))
+            : _defaultButtonStyle(context, loginTheme.isLandscape),
+        onPressed: _onPressed,
+        child: _buttonChild,
+      );
+
+  Widget get _buttonChild => _loading && loginTheme.showLoadingButton
+      ? SizedBox(
+          height: _loadingSize(context),
+          width: _loadingSize(context),
+          child:
+              CircularProgressIndicator(color: loginTheme.loadingButtonColor),
+        )
+      : BaseText(widget.buttonText, forceDefaultStyle: true);
+
+  double _loadingSize(BuildContext context) =>
+      loginTheme.loadingButtonSize ?? DynamicSize(context).responsiveSize * 10;
+
+  void _onPressed() {
+    if (_loading) return;
+    setState(() => _loading = true);
+    widget.onPressed().then((_) {
+      if (mounted) setState(() => _loading = false);
+    });
   }
 
   /// Calls the rounded style from [ButtonStyles] class with custom parameters.
   ButtonStyle _defaultButtonStyle(BuildContext context, bool isLandscape) =>
       ButtonStyles(context).roundedStyle(
-        borderWidth: borderWidth,
-        backgroundColor: backgroundColor,
-        borderColor: borderColor ?? (isLandscape ? null : Colors.white),
-        borderRadius: borderRadius,
-        size: Size(
-          width ?? DynamicSize(context).width * (isLandscape ? 14 : 38),
-          height ?? DynamicSize(context).height * (isLandscape ? 9 : 7.3),
-        ),
+        borderWidth: widget.borderWidth,
+        backgroundColor: widget.backgroundColor,
+        borderColor: widget.borderColor ?? (isLandscape ? null : Colors.white),
+        borderRadius: widget.borderRadius,
+        size: Size(_buttonWidth, _buttonHeight),
         textStyle: TextStyles(context).bodyStyle(
           color: isLandscape ? Colors.white : Theme.of(context).primaryColor,
           fontWeight: FontWeight.w500,
@@ -81,4 +116,13 @@ class RoundedButton extends StatelessWidget {
         foregroundColor:
             isLandscape ? Colors.white : Theme.of(context).primaryColor,
       );
+
+  double get _buttonWidth => _loading && loginTheme.showLoadingButton
+      ? _loadingSize(context) * 3.3
+      : widget.width ??
+          DynamicSize(context).width * (loginTheme.isLandscape ? 14 : 38);
+
+  double get _buttonHeight =>
+      widget.height ??
+      DynamicSize(context).height * (loginTheme.isLandscape ? 9 : 7.3);
 }

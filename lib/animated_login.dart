@@ -444,7 +444,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             SizedBox(height: DynamicSize(context).height * 7),
             if (widget.showChangeActionTitle) _ChangeActionTitle(),
             SizedBox(height: DynamicSize(context).height * 2),
-            _ChangeActionButton(animate: () => _animate(context)),
+            _ChangeActionButton(animate: () async => _animate(context)),
           ],
         ),
       );

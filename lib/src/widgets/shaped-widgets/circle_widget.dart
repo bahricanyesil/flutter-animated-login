@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -5,7 +6,7 @@ import '../../providers/login_theme.dart';
 import '../../responsiveness/dynamic_size.dart';
 
 /// Provides a circle button with custom stylings.
-class CircleWidget extends StatelessWidget {
+class CircleWidget extends StatefulWidget {
   /// Shapes the button as circle with the given height/width.
   const CircleWidget({
     required this.child,
@@ -24,8 +25,8 @@ class CircleWidget extends StatelessWidget {
   /// Width factor.
   final double widthFactor;
 
-  /// VoidCallback to call on tap.
-  final VoidCallback? onTap;
+  /// AsyncCallback to call on tap.
+  final AsyncCallback? onTap;
 
   /// Width factor for the borders.
   final double? borderWidthFactor;
@@ -40,33 +41,59 @@ class CircleWidget extends StatelessWidget {
   final BorderSide? border;
 
   @override
+  State<CircleWidget> createState() => _CircleWidgetState();
+}
+
+class _CircleWidgetState extends State<CircleWidget> {
+  bool _loading = false;
+  late DynamicSize dynamicSize;
+  late LoginTheme loginTheme;
+
+  @override
   Widget build(BuildContext context) {
-    final DynamicSize dynamicSize = DynamicSize(context);
+    dynamicSize = DynamicSize(context);
+    loginTheme = context.read<LoginTheme>();
     return SizedBox(
-      width: dynamicSize.responsiveSize * widthFactor,
-      height: dynamicSize.responsiveSize * widthFactor,
+      width: dynamicSize.responsiveSize * widget.widthFactor,
+      height: dynamicSize.responsiveSize * widget.widthFactor,
       child: RawMaterialButton(
-        onPressed: onTap,
-        hoverColor: hoverColor ??
-            (color?.withOpacity(.7) ??
+        onPressed: _onPressed,
+        hoverColor: widget.hoverColor ??
+            (widget.color?.withOpacity(.7) ??
                 Theme.of(context).primaryColorLight.withOpacity(.7)),
-        highlightColor: context.read<LoginTheme>().socialHighlightColor ??
-            (color?.withOpacity(.7) ??
+        highlightColor: loginTheme.socialHighlightColor ??
+            (widget.color?.withOpacity(.7) ??
                 Theme.of(context).primaryColorLight.withOpacity(.7)),
         shape: _buttonShape(context),
-        padding: EdgeInsets.all(dynamicSize.responsiveSize * widthFactor / 4),
+        padding:
+            EdgeInsets.all(dynamicSize.responsiveSize * widget.widthFactor / 4),
         elevation: 3,
-        child: child,
+        child: _buttonChild,
       ),
     );
   }
 
+  Widget get _buttonChild => _loading && loginTheme.showLoadingSocialButton
+      ? CircularProgressIndicator(
+          color: loginTheme.loadingSocialButtonColor ??
+              Colors.white.withOpacity(.9),
+        )
+      : widget.child;
+
+  void _onPressed() {
+    if (_loading || widget.onTap == null) return;
+    setState(() => _loading = true);
+    widget.onTap!().then((_) {
+      if (mounted) setState(() => _loading = false);
+    });
+  }
+
   /// Returns the border style of the button.
   ShapeBorder _buttonShape(BuildContext context) => CircleBorder(
-        side: border ??
+        side: widget.border ??
             BorderSide(
-              color: color ?? Colors.black54,
-              width: DynamicSize(context).width * (borderWidthFactor ?? .2),
+              color: widget.color ?? Colors.black54,
+              width: dynamicSize.width * (widget.borderWidthFactor ?? .2),
             ),
       );
 }

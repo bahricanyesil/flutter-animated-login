@@ -66,7 +66,7 @@ class _ChangeActionButton extends StatelessWidget {
       : super(key: key);
 
   /// Animate callback
-  final VoidCallback animate;
+  final AsyncCallback animate;
 
   @override
   Widget build(BuildContext context) {
