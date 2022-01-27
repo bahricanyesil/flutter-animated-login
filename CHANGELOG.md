@@ -1,5 +1,10 @@
 # Versions
 
+## [1.2.1] - 27.01.2022
+
+* Fixed the auth mode change behavior on mobile.
+* Optimized the spaces/paddings between form and action button for mobile.
+
 ## [1.2.0] - 27.01.2022
 
 * Optimized the use of AnimatedBuilder to avoid unnecessary rebuilds.

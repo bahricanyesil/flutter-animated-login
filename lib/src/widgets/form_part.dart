@@ -214,13 +214,21 @@ class __FormPartState extends State<_FormPart> {
                     loginTheme.spacingWithoutSocial ?? dynamicSize.height * 6,
               ),
             _form,
-            SizedBox(
-                height: loginTheme.spacingFormAndAction ??
-                    dynamicSize.height * (_isLandscape ? 4 : 3)),
+            SizedBox(height: loginTheme.spacingFormAndAction ?? _customSpace),
             _actionButton,
           ],
         ),
       );
+
+  double get _customSpace {
+    double factor = 3;
+    if (_isLandscape) {
+      factor = 4;
+    } else if (_isReverse) {
+      factor = 0.5;
+    }
+    return dynamicSize.height * factor;
+  }
 
   List<Widget> get _socialLoginPart => <Widget>[
         SizedBox(height: dynamicSize.height * 2.5),

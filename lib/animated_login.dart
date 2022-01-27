@@ -517,20 +517,19 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
           auth.setIsReverse(welcomeTransitionAnimation.value <=
               context.read<LoginTheme>().formWidthRatio / 2);
         } else if (_forwardCheck) {
-          auth.setIsReverse(!auth.isReverse);
+          auth.setIsReverse(false);
+        } else if (_reverseCheck) {
+          auth.setIsReverse(true);
         }
       }
     });
   }
 
-  bool get _forwardCheck => _isLandscape
-      ? welcomeTransitionAnimation.value <=
-          context.read<LoginTheme>().formWidthRatio / 2
-      : welcomeTransitionAnimation.value <= -100 && _statusCheck;
+  bool get _forwardCheck =>
+      welcomeTransitionAnimation.value > 0 &&
+      welcomeTransitionAnimation.status == AnimationStatus.forward;
 
-  bool get _statusCheck =>
-      (welcomeTransitionAnimation.status == AnimationStatus.forward &&
-          _isReverse) ||
-      (welcomeTransitionAnimation.status == AnimationStatus.reverse &&
-          !_isReverse);
+  bool get _reverseCheck =>
+      welcomeTransitionAnimation.value < 0 &&
+      welcomeTransitionAnimation.status == AnimationStatus.reverse;
 }
