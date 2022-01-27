@@ -17,7 +17,7 @@ class DialogBuilder {
   final BuildContext context;
 
   /// Shows error dialog.
-  Future<void> showErrorDialog(String text) async =>
+  void showErrorDialog(String text) =>
       AnimatedDialog(contentText: text).show(context);
 
   /// Shows multiple selection dialog.

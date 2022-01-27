@@ -301,7 +301,7 @@ class __FormPartState extends State<_FormPart> {
     final String? errorMessage = await action();
     if (errorMessage != null && widget.checkError) {
       // ignore: use_build_context_synchronously
-      await DialogBuilder(context).showErrorDialog(errorMessage);
+      DialogBuilder(context).showErrorDialog(errorMessage);
     }
   }
 
