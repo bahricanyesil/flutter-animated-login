@@ -1,4 +1,10 @@
 # Versions
+## [1.3.0] - 28.01.2022
+
+* Loading indicators are integrated to the buttons instead of dialogs.
+* Integrated cancelable operations for auth functions.
+* CopyWith method is added to the AnimatedDialogTheme and LanguageDialogTheme.
+* Small optimizations and bug fixes.
 
 ## [1.2.1] - 27.01.2022
 
