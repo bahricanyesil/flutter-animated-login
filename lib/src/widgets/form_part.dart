@@ -211,7 +211,8 @@ class __FormPartState extends State<_FormPart> {
             else
               SizedBox(
                 height:
-                    loginTheme.spacingWithoutSocial ?? dynamicSize.height * 6,
+                  (loginTheme.spacingWithoutSocial!.compareTo(0) > 0
+                         ? loginTheme.spacingWithoutSocial : dynamicSize.height * 2),
               ),
             _form,
             SizedBox(height: loginTheme.spacingFormAndAction ?? _customSpace),
