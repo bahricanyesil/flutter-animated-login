@@ -1,7 +1,7 @@
 # Versions
 ## [1.3.1] - 05.02.2022
 
-* Updated form_part.dat to fix Bug #45, SixedBox height when spacingWithoutSocial is null or zero.
+* Updated form_part.dat to fix Bug #46, SixedBox height when spacingWithoutSocial is null or zero.
 
 ## [1.3.0] - 28.01.2022
 
