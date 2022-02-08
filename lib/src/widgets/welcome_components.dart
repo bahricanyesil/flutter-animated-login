@@ -1,59 +1,66 @@
 part of '../../animated_login.dart';
 
-class _LogoAndTexts extends StatelessWidget {
+class _Title extends StatelessWidget {
   /// Column of logo and welcome texts.
-  const _LogoAndTexts({required this.logo, Key? key}) : super(key: key);
+  const _Title({Key? key}) : super(key: key);
 
-  /// Logo widget.
+  @override
+  Widget build(BuildContext context) {
+    final LoginTexts loginTexts = context.read<LoginTexts>();
+    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    return Padding(
+      padding: loginTheme.titlePadding ??
+          EdgeInsets.symmetric(vertical: DynamicSize(context).height * 2),
+      child: BaseText(
+        context.select<Auth, bool>((Auth auth) => auth.isReverse)
+            ? loginTexts.welcomeBack
+            : loginTexts.welcome,
+        style: TextStyles(context)
+            .titleStyle(color: Colors.white)
+            .merge(context.read<LoginTheme>().welcomeTitleStyle),
+      ),
+    );
+  }
+}
+
+class _Description extends StatelessWidget {
+  const _Description({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final LoginTexts loginTexts = context.read<LoginTexts>();
+    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    return Padding(
+      padding: loginTheme.descriptionPadding ??
+          EdgeInsets.symmetric(vertical: DynamicSize(context).height),
+      child: NotFittedText(
+        context.select<Auth, bool>((Auth auth) => auth.isReverse)
+            ? loginTexts.welcomeBackDescription
+            : loginTexts.welcomeDescription,
+        style: TextStyles(context)
+            .bodyStyle()
+            .merge(context.read<LoginTheme>().welcomeDescriptionStyle),
+      ),
+    );
+  }
+}
+
+class _Logo extends StatelessWidget {
+  const _Logo({required this.logo, Key? key}) : super(key: key);
   final Widget? logo;
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: <Widget>[
-          if (logo != null) _logo(context),
-          _title(context),
-          SizedBox(
-              height: context.read<LoginTheme>().titleDescriptionSpace ??
-                  DynamicSize(context).height *
-                      (context.read<LoginTheme>().isLandscape ? 6 : 1.8)),
-          _description(context),
-        ],
-      );
-
-  Widget _title(BuildContext context) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
-    return BaseText(
-      context.select<Auth, bool>((Auth auth) => auth.isReverse)
-          ? loginTexts.welcomeBack
-          : loginTexts.welcome,
-      style: TextStyles(context)
-          .titleStyle(color: Colors.white)
-          .merge(context.read<LoginTheme>().welcomeTitleStyle),
-    );
-  }
-
-  Widget _description(BuildContext context) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
-    return NotFittedText(
-      context.select<Auth, bool>((Auth auth) => auth.isReverse)
-          ? loginTexts.welcomeBackDescription
-          : loginTexts.welcomeDescription,
-      style: TextStyles(context)
-          .bodyStyle()
-          .merge(context.read<LoginTheme>().welcomeDescriptionStyle),
-    );
-  }
-
-  Widget _logo(BuildContext context) {
+  Widget build(BuildContext context) {
     final DynamicSize dynamicSize = DynamicSize(context);
     final LoginTheme loginTheme = context.read<LoginTheme>();
     return Container(
       constraints: BoxConstraints.tight(loginTheme.logoSize ??
           Size.fromHeight(
-              dynamicSize.responsiveSize * (loginTheme.isLandscape ? 26 : 30))),
+              dynamicSize.responsiveSize * (loginTheme.isLandscape ? 32 : 30))),
       padding: loginTheme.logoPadding ??
-          EdgeInsets.only(
-              bottom: dynamicSize.height * (loginTheme.isLandscape ? 4 : 2)),
+          EdgeInsets.symmetric(
+              vertical:
+                  dynamicSize.height * (loginTheme.isLandscape ? 2.8 : 1)),
       child: logo,
     );
   }
@@ -99,15 +106,22 @@ class _ChangeActionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
-    return showButtonText
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _changeActionTitle(context, loginTexts),
-              _changeActionGesture(context, animate)
-            ],
-          )
-        : _changeActionTitle(context, loginTexts);
+    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    return Padding(
+      padding: loginTheme.changeActionPadding ??
+          EdgeInsets.symmetric(
+              vertical: DynamicSize(context).height *
+                  (loginTheme.isLandscape ? 1 : 0)),
+      child: showButtonText
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                _changeActionTitle(context, loginTexts),
+                _changeActionGesture(context, animate)
+              ],
+            )
+          : _changeActionTitle(context, loginTexts),
+    );
   }
 
   Widget _changeActionTitle(BuildContext context, LoginTexts loginTexts) =>

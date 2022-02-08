@@ -66,6 +66,14 @@ class LoginViewTheme {
     this.showLoadingSocialButton = true,
     this.loadingButtonColor,
     this.loadingSocialButtonColor,
+    this.titlePadding,
+    this.descriptionPadding,
+    this.changeActionPadding,
+    this.changeActionButtonPadding,
+    this.useEmailPadding,
+    this.socialLoginPadding,
+    this.formTitlePadding,
+    this.actionButtonPadding,
   })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
         assert(formElementsSpacing == null || formElementsSpacing <= 70,
             "Spacing between the form elements cannot be more than 70."),
@@ -188,7 +196,7 @@ class LoginViewTheme {
   /// Padding of the welcome part widget.
   final EdgeInsets? welcomePadding;
 
-  /// Padding of the form part widget.
+  /// Padding around the form elements.
   final EdgeInsets? formPadding;
 
   /// Size of the logo in the welcome part.
@@ -251,6 +259,30 @@ class LoginViewTheme {
   /// Color of the loading indicator on a social login button.
   final Color? loadingSocialButtonColor;
 
+  /// Custom padding around the title.
+  final EdgeInsets? titlePadding;
+
+  /// Custom padding around the description.
+  final EdgeInsets? descriptionPadding;
+
+  /// Padding around the change action CTA.
+  final EdgeInsets? changeActionPadding;
+
+  /// Padding around the change action button.
+  final EdgeInsets? changeActionButtonPadding;
+
+  /// Padding around the use email text.
+  final EdgeInsets? useEmailPadding;
+
+  /// Padding around the social login options.
+  final EdgeInsets? socialLoginPadding;
+
+  /// Padding around the form title.
+  final EdgeInsets? formTitlePadding;
+
+  /// Padding around the action button.
+  final EdgeInsets? actionButtonPadding;
+
   /// Creates a copy login view theme with the given properties.
   LoginViewTheme copyWith({
     TextStyle? formTitleStyle,
@@ -311,6 +343,14 @@ class LoginViewTheme {
     bool? showLoadingSocialButton,
     Color? loadingButtonColor,
     Color? loadingSocialButtonColor,
+    EdgeInsets? titlePadding,
+    EdgeInsets? descriptionPadding,
+    EdgeInsets? changeActionPadding,
+    EdgeInsets? changeActionButtonPadding,
+    EdgeInsets? useEmailPadding,
+    EdgeInsets? socialLoginPadding,
+    EdgeInsets? formTitlePadding,
+    EdgeInsets? actionButtonPadding,
   }) =>
       LoginViewTheme(
         formTitleStyle: formTitleStyle ?? this.formTitleStyle,
@@ -386,5 +426,14 @@ class LoginViewTheme {
         loadingButtonColor: loadingButtonColor ?? this.loadingButtonColor,
         loadingSocialButtonColor:
             loadingSocialButtonColor ?? this.loadingSocialButtonColor,
+        titlePadding: titlePadding ?? this.titlePadding,
+        descriptionPadding: descriptionPadding ?? this.descriptionPadding,
+        changeActionPadding: changeActionPadding ?? this.changeActionPadding,
+        changeActionButtonPadding:
+            changeActionButtonPadding ?? this.changeActionButtonPadding,
+        useEmailPadding: useEmailPadding ?? this.useEmailPadding,
+        socialLoginPadding: socialLoginPadding ?? this.socialLoginPadding,
+        formTitlePadding: formTitlePadding ?? this.formTitlePadding,
+        actionButtonPadding: actionButtonPadding ?? this.actionButtonPadding,
       );
 }

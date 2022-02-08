@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:animated_login/animated_login.dart';
-
 import 'package:async/async.dart';
+import 'package:flutter/material.dart';
 
 import 'dialog_builders.dart';
 import 'login_functions.dart';
@@ -87,15 +86,32 @@ class _LoginScreenState extends State<LoginScreen> {
           if (mounted) setState(() => language = _language);
         }
       },
+      componentOrder: const <AnimatedLoginComponents>[
+        AnimatedLoginComponents.logo,
+        AnimatedLoginComponents.title,
+        AnimatedLoginComponents.description,
+        AnimatedLoginComponents.formTitle,
+        AnimatedLoginComponents.socialLogins,
+        AnimatedLoginComponents.useEmail,
+        AnimatedLoginComponents.form,
+        AnimatedLoginComponents.forgotPassword,
+        AnimatedLoginComponents.actionButton,
+        AnimatedLoginComponents.notHaveAnAccount,
+        AnimatedLoginComponents.changeActionButton,
+      ],
       changeLangDefaultOnPressed: () async => _operation?.cancel(),
       languageOptions: _languageOptions,
       selectedLanguage: language,
       initialMode: currentMode,
-      onAuthModeChange: (AuthMode newMode) => currentMode = newMode,
+      onAuthModeChange: (AuthMode newMode) async {
+        currentMode = newMode;
+        await _operation?.cancel();
+      },
     );
   }
 
   Future<String?> _authOperation(Future<String?> func) async {
+    await _operation?.cancel();
     _operation = CancelableOperation.fromFuture(func);
     final String? res = await _operation?.valueOrCancellation();
     if (_operation?.isCompleted == true && res == null) {
@@ -134,6 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
           languageDialogTheme: LanguageDialogTheme(
               optionMargin: EdgeInsets.symmetric(horizontal: 80)),
         ),
+        loadingSocialButtonColor: Colors.blue,
+        loadingButtonColor: Colors.white,
       );
 
   /// You can adjust the colors, text styles, button styles, borders
@@ -179,6 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ];
 
   Future<String?> _socialCallback(String type) async {
+    await _operation?.cancel();
     _operation = CancelableOperation.fromFuture(
         LoginFunctions(context).socialLogin(type));
     final String? res = await _operation?.valueOrCancellation();
