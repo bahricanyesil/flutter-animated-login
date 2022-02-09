@@ -76,17 +76,29 @@ class LoginViewTheme {
     this.formTitlePadding,
     this.actionButtonPadding,
     this.animatedComponentOrder = const <AnimatedComponent>[
-      AnimatedComponent(component: LoginComponents.logo, animationType: AnimationType.left),
-      AnimatedComponent(component: LoginComponents.title, animationType: AnimationType.left),
-      AnimatedComponent(component: LoginComponents.description, animationType: AnimationType.left),
-      AnimatedComponent(component: LoginComponents.formTitle, animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.logo, animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.title, animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.description,
+          animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.formTitle,
+          animationType: AnimationType.left),
       AnimatedComponent(component: LoginComponents.socialLogins),
       AnimatedComponent(component: LoginComponents.useEmail),
       AnimatedComponent(component: LoginComponents.form),
       AnimatedComponent(component: LoginComponents.notHaveAnAccount),
-      AnimatedComponent(component: LoginComponents.forgotPassword, animationType: AnimationType.left),
-      AnimatedComponent(component: LoginComponents.changeActionButton, animationType: AnimationType.left),
-      AnimatedComponent(component: LoginComponents.actionButton, animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.forgotPassword,
+          animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.changeActionButton,
+          animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.actionButton,
+          animationType: AnimationType.left),
     ],
   })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
         assert(formElementsSpacing == null || formElementsSpacing <= 70,
