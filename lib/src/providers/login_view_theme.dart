@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/animated_dialog_theme.dart';
+import '../../animated_login.dart';
+import '../constants/enums/animation_type.dart';
 
 /// [LoginViewTheme] is the provider for all design/theme related data.
 class LoginViewTheme {
@@ -66,6 +67,39 @@ class LoginViewTheme {
     this.showLoadingSocialButton = true,
     this.loadingButtonColor,
     this.loadingSocialButtonColor,
+    this.titlePadding,
+    this.descriptionPadding,
+    this.changeActionPadding,
+    this.changeActionButtonPadding,
+    this.useEmailPadding,
+    this.socialLoginPadding,
+    this.formTitlePadding,
+    this.actionButtonPadding,
+    this.animatedComponentOrder = const <AnimatedComponent>[
+      AnimatedComponent(
+          component: LoginComponents.logo, animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.title, animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.description,
+          animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.formTitle,
+          animationType: AnimationType.left),
+      AnimatedComponent(component: LoginComponents.socialLogins),
+      AnimatedComponent(component: LoginComponents.useEmail),
+      AnimatedComponent(component: LoginComponents.form),
+      AnimatedComponent(component: LoginComponents.notHaveAnAccount),
+      AnimatedComponent(
+          component: LoginComponents.forgotPassword,
+          animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.changeActionButton,
+          animationType: AnimationType.left),
+      AnimatedComponent(
+          component: LoginComponents.actionButton,
+          animationType: AnimationType.left),
+    ],
   })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
         assert(formElementsSpacing == null || formElementsSpacing <= 70,
             "Spacing between the form elements cannot be more than 70."),
@@ -188,7 +222,7 @@ class LoginViewTheme {
   /// Padding of the welcome part widget.
   final EdgeInsets? welcomePadding;
 
-  /// Padding of the form part widget.
+  /// Padding around the form elements.
   final EdgeInsets? formPadding;
 
   /// Size of the logo in the welcome part.
@@ -251,6 +285,33 @@ class LoginViewTheme {
   /// Color of the loading indicator on a social login button.
   final Color? loadingSocialButtonColor;
 
+  /// Custom padding around the title.
+  final EdgeInsets? titlePadding;
+
+  /// Custom padding around the description.
+  final EdgeInsets? descriptionPadding;
+
+  /// Padding around the change action CTA.
+  final EdgeInsets? changeActionPadding;
+
+  /// Padding around the change action button.
+  final EdgeInsets? changeActionButtonPadding;
+
+  /// Padding around the use email text.
+  final EdgeInsets? useEmailPadding;
+
+  /// Padding around the social login options.
+  final EdgeInsets? socialLoginPadding;
+
+  /// Padding around the form title.
+  final EdgeInsets? formTitlePadding;
+
+  /// Padding around the action button.
+  final EdgeInsets? actionButtonPadding;
+
+  /// Order of the screen components.
+  final List<AnimatedComponent> animatedComponentOrder;
+
   /// Creates a copy login view theme with the given properties.
   LoginViewTheme copyWith({
     TextStyle? formTitleStyle,
@@ -311,6 +372,15 @@ class LoginViewTheme {
     bool? showLoadingSocialButton,
     Color? loadingButtonColor,
     Color? loadingSocialButtonColor,
+    EdgeInsets? titlePadding,
+    EdgeInsets? descriptionPadding,
+    EdgeInsets? changeActionPadding,
+    EdgeInsets? changeActionButtonPadding,
+    EdgeInsets? useEmailPadding,
+    EdgeInsets? socialLoginPadding,
+    EdgeInsets? formTitlePadding,
+    EdgeInsets? actionButtonPadding,
+    List<AnimatedComponent>? animatedComponentOrder,
   }) =>
       LoginViewTheme(
         formTitleStyle: formTitleStyle ?? this.formTitleStyle,
@@ -386,5 +456,16 @@ class LoginViewTheme {
         loadingButtonColor: loadingButtonColor ?? this.loadingButtonColor,
         loadingSocialButtonColor:
             loadingSocialButtonColor ?? this.loadingSocialButtonColor,
+        titlePadding: titlePadding ?? this.titlePadding,
+        descriptionPadding: descriptionPadding ?? this.descriptionPadding,
+        changeActionPadding: changeActionPadding ?? this.changeActionPadding,
+        changeActionButtonPadding:
+            changeActionButtonPadding ?? this.changeActionButtonPadding,
+        useEmailPadding: useEmailPadding ?? this.useEmailPadding,
+        socialLoginPadding: socialLoginPadding ?? this.socialLoginPadding,
+        formTitlePadding: formTitlePadding ?? this.formTitlePadding,
+        actionButtonPadding: actionButtonPadding ?? this.actionButtonPadding,
+        animatedComponentOrder:
+            animatedComponentOrder ?? this.animatedComponentOrder,
       );
 }

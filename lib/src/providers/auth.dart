@@ -2,7 +2,9 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/enums/auth_mode.dart';
+import '../constants/enums/sign_up_modes.dart';
 import '../models/models_shelf.dart';
+import '../utils/validators.dart';
 
 /// It is called on auth mode changes,
 /// triggered by [Auth.switchAuth] method.
@@ -12,13 +14,36 @@ typedef AuthModeChangeCallback = void Function(AuthMode authMode);
 class Auth extends ChangeNotifier {
   /// Manages the state related to the authentication modes.
   Auth({
+    required GlobalKey<FormState> formKey,
     this.socialLogins = const <SocialLogin>[],
     this.onAuthModeChange,
+    this.validateName = true,
+    this.validateEmail = true,
+    this.validatePassword = true,
+    this.showPasswordVisibility = true,
+    ValidatorModel? nameValidator,
+    ValidatorModel? emailValidator,
+    ValidatorModel? passwordValidator,
+    TextEditingController? nameController,
+    TextEditingController? emailController,
+    TextEditingController? passwordController,
+    TextEditingController? confirmPasswordController,
     AuthMode? initialMode,
     LoginCallback? onLogin,
     SignupCallback? onSignup,
     ForgotPasswordCallback? onForgotPassword,
-  }) {
+    SignUpModes? signUpMode,
+  })  : _formKey = formKey,
+        _signUpMode = signUpMode ?? SignUpModes.both,
+        _nameController = nameController ?? TextEditingController(text: ''),
+        _emailController = emailController ?? TextEditingController(text: ''),
+        _passwordController =
+            passwordController ?? TextEditingController(text: ''),
+        _confirmPasswordController =
+            confirmPasswordController ?? TextEditingController(text: ''),
+        _nameValidator = nameValidator,
+        _emailValidator = emailValidator,
+        _passwordValidator = passwordValidator {
     _onLogin = onLogin ?? _defaultLoginFunc;
     _onSignup = onSignup ?? _defaultSignupFunc;
     _onForgotPassword = onForgotPassword ?? _defaultForgotPassFunc;
@@ -120,4 +145,121 @@ class Auth extends ChangeNotifier {
 
   /// Cancelable operation for auth operations.
   CancelableOperation<dynamic>? cancelableOperation;
+
+  final TextEditingController _nameController;
+  final TextEditingController _emailController;
+
+  final TextEditingController _passwordController;
+
+  final TextEditingController _confirmPasswordController;
+
+  /// Custom input validator for name field.
+  final ValidatorModel? _nameValidator;
+
+  /// Custom input validator for email field.
+  final ValidatorModel? _emailValidator;
+
+  /// Custom input validator for password field.
+  final ValidatorModel? _passwordValidator;
+
+  /// Indicates whether the name field should be validated.
+  final bool validateName;
+
+  /// Indicates whether the email field should be validated.
+  final bool validateEmail;
+
+  /// Indicates whether the password fields should be validated.
+  final bool validatePassword;
+
+  /// Indicates whether the user can show the password text without obscuring.
+  final bool showPasswordVisibility;
+
+  final SignUpModes _signUpMode;
+
+  /// Sets the email value.
+  void setEmailValue(String? value) =>
+      _emailController.value = TextEditingValue(text: value ?? '');
+
+  /// Optional TextEditingController for name input field.
+  TextEditingController get nameController => _nameController;
+
+  /// Optional TextEditingController for email input field.
+  TextEditingController get emailController => _emailController;
+
+  /// Optional TextEditingController for password input field.
+  TextEditingController get passwordController => _passwordController;
+
+  /// Optional TextEditingController for confirm password input field.
+  TextEditingController get confirmPasswordController =>
+      _confirmPasswordController;
+
+  /// Enum to determine which text form fields should be displayed in addition
+  /// to the email and password fields: Name / Confirm Password / Both
+  SignUpModes get signUpMode => _signUpMode;
+
+  final GlobalKey<FormState> _formKey;
+
+  /// The form key that will be assigned to the form.
+  GlobalKey<FormState> get formKey => _formKey;
+
+  /// Callback for the social login actions.
+  Future<void> socialLoginCallback(int index) async {
+    await socialLogins![index].callback();
+  }
+
+  /// Any login or signup action.
+  Future<void> action() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    if (formKey.currentState!.validate()) {
+      if (isLogin) {
+        await _loginResult();
+      } else if (isSignup) {
+        await _signupResult();
+      }
+    }
+  }
+
+  Future<String?> _loginResult() async {
+    final LoginData loginData = LoginData(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+    return onLogin(loginData);
+  }
+
+  Future<String?> _signupResult() async {
+    final SignUpData signupData = SignUpData(
+      name: _nameController.text,
+      email: _emailController.text,
+      password: _passwordController.text,
+      confirmPassword: _confirmPasswordController.text,
+    );
+    return onSignup(signupData);
+  }
+
+  /// Name validator.
+  FormFieldValidator<String?>? get nameValidator => validateName
+      ? (_nameValidator?.customValidator ??
+          Validators(validator: _nameValidator).name)
+      : null;
+
+  /// Email validator.
+  FormFieldValidator<String?>? get emailValidator => validateEmail
+      ? (_emailValidator?.customValidator ??
+          Validators(validator: _emailValidator).email)
+      : null;
+
+  /// Password validator.
+  FormFieldValidator<String?>? get passwordValidator => validatePassword
+      ? (_passwordValidator?.customValidator ??
+          Validators(
+            validator: _passwordValidator ??
+                const ValidatorModel(
+                  checkLowerCase: true,
+                  checkUpperCase: true,
+                  checkNumber: true,
+                  checkSpace: true,
+                ),
+          ).password)
+      : null;
 }
