@@ -1,3 +1,4 @@
+export 'animated_component.dart';
 export 'animated_dialog_theme.dart';
 export 'language_dialog_theme.dart';
 export 'language_option.dart';

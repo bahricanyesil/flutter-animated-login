@@ -3,7 +3,6 @@ part of '../../animated_login.dart';
 class _WebForm extends StatefulWidget {
   /// Form part of the login screen.
   const _WebForm({
-    required this.componentOrder,
     required this.animationController,
     required this.showForgotPassword,
     Key? key,
@@ -14,8 +13,6 @@ class _WebForm extends StatefulWidget {
 
   /// Indicates whether the forgot password option will be enabled.
   final bool showForgotPassword;
-
-  final List<AnimatedLoginComponents> componentOrder;
 
   @override
   __WebFormState createState() => __WebFormState();
@@ -51,7 +48,7 @@ class __WebFormState extends State<_WebForm> {
     super.initState();
 
     /// Initializes the appearance and disappearance animations
-    /// from outside to the screen for the form AnimatedLoginComponents.
+    /// from outside to the screen for the form LoginComponents.
     offsetAnimation = AnimationHelper(
       animationController: widget.animationController,
       animationCurve: context.read<LoginTheme>().animationCurve,
@@ -103,33 +100,34 @@ class __WebFormState extends State<_WebForm> {
 
   Widget get _formColumn {
     final List<Widget> items = <Widget>[];
-    for (final AnimatedLoginComponents component in widget.componentOrder) {
-      items.addAll(_orderedComponent(component));
+    for (final AnimatedComponent component
+        in loginTheme.animatedComponentOrder) {
+      items.addAll(_orderedComponent(component.component));
     }
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: items);
   }
 
-  List<Widget> _orderedComponent(AnimatedLoginComponents component) {
+  List<Widget> _orderedComponent(LoginComponents component) {
     switch (component) {
-      case AnimatedLoginComponents.formTitle:
+      case LoginComponents.formTitle:
         return <Widget>[if (_isLandscape) const _FormTitle()];
-      case AnimatedLoginComponents.socialLogins:
+      case LoginComponents.socialLogins:
         if (auth.socialLogins != null && auth.socialLogins!.isNotEmpty) {
           return <Widget>[const _SocialLoginOptions()];
         }
         return <Widget>[];
-      case AnimatedLoginComponents.useEmail:
+      case LoginComponents.useEmail:
         if (auth.socialLogins != null && auth.socialLogins!.isNotEmpty) {
           return <Widget>[const _UseEmailText()];
         }
         return <Widget>[];
-      case AnimatedLoginComponents.form:
+      case LoginComponents.form:
         return <Widget>[const _Form()];
-      case AnimatedLoginComponents.forgotPassword:
+      case LoginComponents.forgotPassword:
         return <Widget>[
           if (_isReverse && widget.showForgotPassword) const _ForgotPassword()
         ];
-      case AnimatedLoginComponents.actionButton:
+      case LoginComponents.actionButton:
         return <Widget>[const _ActionButton()];
       default:
         return <Widget>[Container()];
@@ -182,7 +180,7 @@ class _ActionButton extends StatelessWidget {
   }
 
   double _customSpace(BuildContext context, bool isReverse, bool isLandscape) {
-    double factor = 1;
+    double factor = 3;
     if (isLandscape) {
       factor = 4;
     }
@@ -220,7 +218,7 @@ class _SocialLoginOptions extends StatelessWidget {
     final DynamicSize dynamicSize = DynamicSize(context);
     return Padding(
       padding: loginTheme.socialLoginPadding ??
-          EdgeInsets.symmetric(vertical: dynamicSize.height * 2),
+          EdgeInsets.symmetric(vertical: dynamicSize.height * 1.4),
       child: Wrap(
         spacing: context.read<LoginTheme>().socialLoginsSpacing ??
             dynamicSize.responsiveSize * 10,

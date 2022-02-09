@@ -86,19 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
           if (mounted) setState(() => language = _language);
         }
       },
-      componentOrder: const <AnimatedLoginComponents>[
-        AnimatedLoginComponents.logo,
-        AnimatedLoginComponents.title,
-        AnimatedLoginComponents.description,
-        AnimatedLoginComponents.formTitle,
-        AnimatedLoginComponents.socialLogins,
-        AnimatedLoginComponents.useEmail,
-        AnimatedLoginComponents.form,
-        AnimatedLoginComponents.forgotPassword,
-        AnimatedLoginComponents.actionButton,
-        AnimatedLoginComponents.notHaveAnAccount,
-        AnimatedLoginComponents.changeActionButton,
-      ],
       changeLangDefaultOnPressed: () async => _operation?.cancel(),
       languageOptions: _languageOptions,
       selectedLanguage: language,
@@ -165,6 +152,19 @@ class _LoginScreenState extends State<LoginScreen> {
         // actionButtonStyle: ButtonStyle(
         //   foregroundColor: MaterialStateProperty.all(Colors.blue),
         // ),
+        // animatedComponentOrder: const <AnimatedComponent>[
+        //   AnimatedComponent(component: LoginComponents.logo),
+        //   AnimatedComponent(component: LoginComponents.title),
+        //   AnimatedComponent(component: LoginComponents.description),
+        //   AnimatedComponent(component: LoginComponents.formTitle),
+        //   AnimatedComponent(component: LoginComponents.socialLogins),
+        //   AnimatedComponent(component: LoginComponents.useEmail),
+        //   AnimatedComponent(component: LoginComponents.form),
+        //   AnimatedComponent(component: LoginComponents.notHaveAnAccount),
+        //   AnimatedComponent(component: LoginComponents.forgotPassword),
+        //   AnimatedComponent(component: LoginComponents.changeActionButton),
+        //   AnimatedComponent(component: LoginComponents.actionButton),
+        // ],
       );
 
   LoginTexts get _loginTexts => LoginTexts(

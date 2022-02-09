@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'src/constants/enums/animation_type.dart';
 import 'src/src_shelf.dart';
 
 export 'src/constants/enums/enums_shelf.dart';
@@ -55,19 +56,6 @@ class AnimatedLogin extends StatefulWidget {
     this.initialMode,
     this.onAuthModeChange,
     this.changeLangDefaultOnPressed,
-    this.componentOrder = const <AnimatedLoginComponents>[
-      AnimatedLoginComponents.logo,
-      AnimatedLoginComponents.title,
-      AnimatedLoginComponents.description,
-      AnimatedLoginComponents.formTitle,
-      AnimatedLoginComponents.socialLogins,
-      AnimatedLoginComponents.useEmail,
-      AnimatedLoginComponents.form,
-      AnimatedLoginComponents.notHaveAnAccount,
-      AnimatedLoginComponents.forgotPassword,
-      AnimatedLoginComponents.changeActionButton,
-      AnimatedLoginComponents.actionButton,
-    ],
     Key? key,
   })  : assert(
             (changeLanguageCallback != null &&
@@ -186,9 +174,6 @@ class AnimatedLogin extends StatefulWidget {
   /// It is called on auth mode changes, you can store the current mode.
   final AuthModeChangeCallback? onAuthModeChange;
 
-  /// Order of the screen AnimatedLoginComponents.
-  final List<AnimatedLoginComponents> componentOrder;
-
   @override
   State<AnimatedLogin> createState() => _AnimatedLoginState();
 }
@@ -268,17 +253,15 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
           languageOptions: widget.languageOptions,
           changeLanguageCallback: widget.changeLanguageCallback,
           changeLangDefaultOnPressed: widget.changeLangDefaultOnPressed,
-          componentOrder: widget.componentOrder,
         ),
       );
 }
 
 class _View extends StatefulWidget {
-  /// Draws the main view of the screen by using [_FormPart],
+  /// Draws the main view of the screen by using [_Form],
   /// [_Logo], [_Title], [_Description] [_ChangeActionTitle],
   /// and [_ChangeActionButton].
   const _View({
-    required this.componentOrder,
     required this.formKey,
     this.showForgotPassword = true,
     this.showChangeActionTitle = true,
@@ -291,7 +274,6 @@ class _View extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  final List<AnimatedLoginComponents> componentOrder;
   final GlobalKey<FormState> formKey;
   final bool showForgotPassword;
   final bool showChangeActionTitle;
@@ -415,7 +397,12 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
                 showButtonText: true, animate: () => _animate(context)),
       );
 
-  Widget _welcomeAnimationWrapper(Widget extChild) => AnimatedBuilder(
+  Widget _mobileWrapper(AnimationType animationType, Widget child) =>
+      animationType == AnimationType.left
+          ? _leftAnimation(child)
+          : _rightAnimation(child);
+
+  Widget _leftAnimation(Widget extChild) => AnimatedBuilder(
         animation: welcomeTransitionAnimation,
         child: extChild,
         builder: (BuildContext context, Widget? child) => Transform.translate(
@@ -425,7 +412,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         ),
       );
 
-  Widget _mobileFormWrapper(Widget child) => AnimatedBuilder(
+  Widget _rightAnimation(Widget child) => AnimatedBuilder(
         animation: transitionAnimation,
         child: child,
         builder: (BuildContext context, Widget? _child) => Transform.translate(
@@ -469,9 +456,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       );
 
   List<Widget> _children(
-      Widget? Function(AnimatedLoginComponents component) callback) {
+      Widget? Function(AnimatedComponent component) callback) {
     final List<Widget> items = <Widget>[];
-    for (final AnimatedLoginComponents component in widget.componentOrder) {
+    for (final AnimatedComponent component
+        in loginTheme.animatedComponentOrder) {
       final Widget? foundComponent = callback(component);
       if (foundComponent == null) continue;
       items.add(foundComponent);
@@ -479,56 +467,57 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     return items;
   }
 
-  Widget? _orderedWelcomeComponents(AnimatedLoginComponents component) {
-    switch (component) {
-      case AnimatedLoginComponents.logo:
+  Widget? _orderedWelcomeComponents(AnimatedComponent component) {
+    switch (component.component) {
+      case LoginComponents.logo:
         return _isLandscape
             ? _Logo(logo: widget.logo)
-            : _welcomeAnimationWrapper(_Logo(logo: widget.logo));
-      case AnimatedLoginComponents.title:
+            : _mobileWrapper(component.animationType, _Logo(logo: widget.logo));
+      case LoginComponents.title:
         return _isLandscape
             ? const _Title()
-            : _welcomeAnimationWrapper(const _Title());
-      case AnimatedLoginComponents.description:
+            : _mobileWrapper(component.animationType, const _Title());
+      case LoginComponents.description:
         return _isLandscape
             ? const _Description()
-            : _welcomeAnimationWrapper(const _Description());
-      case AnimatedLoginComponents.notHaveAnAccount:
+            : _mobileWrapper(component.animationType, const _Description());
+      case LoginComponents.notHaveAnAccount:
         return _isLandscape
             ? _ChangeActionTitle()
-            : _mobileFormWrapper(_ChangeActionTitle());
-      case AnimatedLoginComponents.changeActionButton:
+            : _mobileWrapper(component.animationType, _ChangeActionTitle());
+      case LoginComponents.changeActionButton:
         return _isLandscape
             ? _changeAction
-            : _welcomeAnimationWrapper(_changeAction);
+            : _mobileWrapper(component.animationType, _changeAction);
       default:
         return null;
     }
   }
 
-  Widget? _orderedMobileComponents(AnimatedLoginComponents component) {
-    switch (component) {
-      case AnimatedLoginComponents.notHaveAnAccount:
+  Widget? _orderedMobileComponents(AnimatedComponent component) {
+    switch (component.component) {
+      case LoginComponents.notHaveAnAccount:
         return null;
-      case AnimatedLoginComponents.socialLogins:
+      case LoginComponents.socialLogins:
         if (auth.socialLogins != null && auth.socialLogins!.isNotEmpty) {
-          return _mobileFormWrapper(const _SocialLoginOptions());
+          return _mobileWrapper(
+              component.animationType, const _SocialLoginOptions());
         }
         return null;
-      case AnimatedLoginComponents.useEmail:
+      case LoginComponents.useEmail:
         if (auth.socialLogins != null && auth.socialLogins!.isNotEmpty) {
-          return _mobileFormWrapper(const _UseEmailText());
+          return _mobileWrapper(component.animationType, const _UseEmailText());
         }
         return null;
-      case AnimatedLoginComponents.form:
-        return _mobileFormWrapper(const _Form());
-      case AnimatedLoginComponents.forgotPassword:
+      case LoginComponents.form:
+        return _mobileWrapper(component.animationType, const _Form());
+      case LoginComponents.forgotPassword:
         return context.select<Auth, bool>((Auth auth) => auth.isReverse) &&
                 widget.showForgotPassword
-            ? _mobileFormWrapper(const _ForgotPassword())
+            ? _mobileWrapper(component.animationType, const _ForgotPassword())
             : Container();
-      case AnimatedLoginComponents.actionButton:
-        return _mobileFormWrapper(const _ActionButton());
+      case LoginComponents.actionButton:
+        return _mobileWrapper(component.animationType, const _ActionButton());
       default:
         final Widget? foundInWelcome = _orderedWelcomeComponents(component);
         if (foundInWelcome != null) return foundInWelcome;
@@ -549,10 +538,8 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       );
 
   Widget get _formPart => _WebForm(
-        animationController: animationController,
-        showForgotPassword: widget.showForgotPassword,
-        componentOrder: widget.componentOrder,
-      );
+      animationController: animationController,
+      showForgotPassword: widget.showForgotPassword);
 
   void _animate(BuildContext context) {
     if (formKey.currentState != null) {

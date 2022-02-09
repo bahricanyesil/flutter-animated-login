@@ -1,5 +1,5 @@
 /// Components of the login screen to be able to order them customly.
-enum AnimatedLoginComponents {
+enum LoginComponents {
   /// Title of the login screen.
   title,
 

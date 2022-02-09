@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../models/animated_dialog_theme.dart';
+import '../../animated_login.dart';
+import '../constants/enums/animation_type.dart';
 
 /// [LoginViewTheme] is the provider for all design/theme related data.
 class LoginViewTheme {
@@ -74,6 +75,19 @@ class LoginViewTheme {
     this.socialLoginPadding,
     this.formTitlePadding,
     this.actionButtonPadding,
+    this.animatedComponentOrder = const <AnimatedComponent>[
+      AnimatedComponent(component: LoginComponents.logo, animationType: AnimationType.left),
+      AnimatedComponent(component: LoginComponents.title, animationType: AnimationType.left),
+      AnimatedComponent(component: LoginComponents.description, animationType: AnimationType.left),
+      AnimatedComponent(component: LoginComponents.formTitle, animationType: AnimationType.left),
+      AnimatedComponent(component: LoginComponents.socialLogins),
+      AnimatedComponent(component: LoginComponents.useEmail),
+      AnimatedComponent(component: LoginComponents.form),
+      AnimatedComponent(component: LoginComponents.notHaveAnAccount),
+      AnimatedComponent(component: LoginComponents.forgotPassword, animationType: AnimationType.left),
+      AnimatedComponent(component: LoginComponents.changeActionButton, animationType: AnimationType.left),
+      AnimatedComponent(component: LoginComponents.actionButton, animationType: AnimationType.left),
+    ],
   })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
         assert(formElementsSpacing == null || formElementsSpacing <= 70,
             "Spacing between the form elements cannot be more than 70."),
@@ -283,6 +297,9 @@ class LoginViewTheme {
   /// Padding around the action button.
   final EdgeInsets? actionButtonPadding;
 
+  /// Order of the screen components.
+  final List<AnimatedComponent> animatedComponentOrder;
+
   /// Creates a copy login view theme with the given properties.
   LoginViewTheme copyWith({
     TextStyle? formTitleStyle,
@@ -351,6 +368,7 @@ class LoginViewTheme {
     EdgeInsets? socialLoginPadding,
     EdgeInsets? formTitlePadding,
     EdgeInsets? actionButtonPadding,
+    List<AnimatedComponent>? animatedComponentOrder,
   }) =>
       LoginViewTheme(
         formTitleStyle: formTitleStyle ?? this.formTitleStyle,
@@ -435,5 +453,7 @@ class LoginViewTheme {
         socialLoginPadding: socialLoginPadding ?? this.socialLoginPadding,
         formTitlePadding: formTitlePadding ?? this.formTitlePadding,
         actionButtonPadding: actionButtonPadding ?? this.actionButtonPadding,
+        animatedComponentOrder:
+            animatedComponentOrder ?? this.animatedComponentOrder,
       );
 }

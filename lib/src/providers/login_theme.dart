@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/animated_dialog_theme.dart';
-import 'login_view_theme.dart';
+import '../../animated_login.dart';
 
 /// [LoginTheme] is the provider for all design/theme related data.
 // ignore: prefer_mixin
@@ -253,4 +252,8 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
 
   @override
   EdgeInsets? get actionButtonPadding => currentTheme.actionButtonPadding;
+
+  @override
+  List<AnimatedComponent> get animatedComponentOrder =>
+      currentTheme.animatedComponentOrder;
 }
