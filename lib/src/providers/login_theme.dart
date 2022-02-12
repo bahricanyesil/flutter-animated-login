@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/animated_dialog_theme.dart';
-import 'login_view_theme.dart';
+import '../../animated_login.dart';
 
 /// [LoginTheme] is the provider for all design/theme related data.
 // ignore: prefer_mixin
@@ -192,12 +191,15 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
   @override
   double? get spacingWithoutSocial => currentTheme.spacingWithoutSocial;
 
+  @Deprecated('Use "actionButtonPadding" instead')
   @override
   double? get spacingFormAndAction => currentTheme.spacingFormAndAction;
 
   @override
   EdgeInsets? get forgotPasswordPadding => currentTheme.forgotPasswordPadding;
 
+  @Deprecated(
+      'Use "changeActionPadding" or "changeActionButtonPadding" instead')
   @override
   double? get actionAndChangeActionSpacing =>
       currentTheme.actionAndChangeActionSpacing;
@@ -222,6 +224,36 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
 
   @override
   Color? get loadingButtonColor => currentTheme.loadingButtonColor;
+
   @override
   Color? get loadingSocialButtonColor => currentTheme.loadingSocialButtonColor;
+
+  @override
+  EdgeInsets? get titlePadding => currentTheme.titlePadding;
+
+  @override
+  EdgeInsets? get descriptionPadding => currentTheme.descriptionPadding;
+
+  @override
+  EdgeInsets? get changeActionPadding => currentTheme.changeActionPadding;
+
+  @override
+  EdgeInsets? get changeActionButtonPadding =>
+      currentTheme.changeActionButtonPadding;
+
+  @override
+  EdgeInsets? get useEmailPadding => currentTheme.useEmailPadding;
+
+  @override
+  EdgeInsets? get socialLoginPadding => currentTheme.socialLoginPadding;
+
+  @override
+  EdgeInsets? get formTitlePadding => currentTheme.formTitlePadding;
+
+  @override
+  EdgeInsets? get actionButtonPadding => currentTheme.actionButtonPadding;
+
+  @override
+  List<AnimatedComponent> get animatedComponentOrder =>
+      currentTheme.animatedComponentOrder;
 }
