@@ -164,8 +164,7 @@ class _ActionButton extends StatelessWidget {
     return Padding(
       padding: loginTheme.actionButtonPadding ??
           EdgeInsets.only(
-            top: loginTheme.spacingFormAndAction ??
-                _customSpace(context, isReverse, isLandscape),
+            top: _customSpace(context, isReverse, isLandscape),
             bottom: _customSpace(context, isReverse, isLandscape),
           ),
       child: RoundedButton(

@@ -246,8 +246,6 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
   Widget get _safeArea => SafeArea(
         child: _View(
           formKey: _formKey,
-          showForgotPassword: widget.showForgotPassword,
-          showChangeActionTitle: widget.showChangeActionTitle,
           backgroundImage: widget.backgroundImage,
           logo: widget.logo,
           languageOptions: widget.languageOptions,
@@ -386,16 +384,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         ],
       );
 
-  Widget get _changeAction => Padding(
-        padding: EdgeInsets.only(
-          top: loginTheme.actionAndChangeActionSpacing ??
-              dynamicSize.height * 2.5,
-        ),
-        child: _isLandscape
-            ? _ChangeActionButton(animate: () async => _animate(context))
-            : _ChangeActionTitle(
-                showButtonText: true, animate: () => _animate(context)),
-      );
+  Widget get _changeAction => _isLandscape
+      ? _ChangeActionButton(animate: () async => _animate(context))
+      : _ChangeActionTitle(
+          showButtonText: true, animate: () => _animate(context));
 
   Widget _mobileWrapper(AnimationType animationType, Widget child) =>
       animationType == AnimationType.left
