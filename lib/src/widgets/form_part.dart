@@ -303,7 +303,7 @@ class _FormState extends State<_Form> {
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
           spacing: context.read<LoginTheme>().formElementsSpacing ??
-              dynamicSize.height * (loginTheme.isLandscape ? 2.2 : 1.5),
+              dynamicSize.height * (loginTheme.isLandscape ? 2.2 : 1.2),
           children: _formElements(auth, loginTheme),
         ),
       ),
@@ -384,7 +384,7 @@ class _ForgotPassword extends StatelessWidget {
       padding: loginTheme.forgotPasswordPadding ??
           (isLandscape
               ? dynamicSize.lowTopPadding
-              : dynamicSize.lowMedBottomPadding),
+              : dynamicSize.lowBottomPadding),
       child: BaseTextButton(
         text: context.read<LoginTexts>().forgotPassword,
         style: _defaultStyle(context, isLandscape)

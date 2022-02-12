@@ -366,7 +366,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                vertical: dynamicSize.height * 2.5,
+                vertical: dynamicSize.height,
                 horizontal: dynamicSize.width * 7,
               ),
               child: SingleChildScrollView(

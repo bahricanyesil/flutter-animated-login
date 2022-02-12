@@ -10,7 +10,7 @@ class _Title extends StatelessWidget {
     final LoginTheme loginTheme = context.watch<LoginTheme>();
     return Padding(
       padding: loginTheme.titlePadding ??
-          EdgeInsets.symmetric(vertical: DynamicSize(context).height),
+          EdgeInsets.symmetric(vertical: DynamicSize(context).height * .8),
       child: BaseText(
         context.select<Auth, bool>((Auth auth) => auth.isReverse)
             ? loginTexts.welcomeBack
@@ -56,11 +56,11 @@ class _Logo extends StatelessWidget {
     return Container(
       constraints: BoxConstraints.tight(loginTheme.logoSize ??
           Size.fromHeight(
-              dynamicSize.responsiveSize * (loginTheme.isLandscape ? 30 : 26))),
+              dynamicSize.responsiveSize * (loginTheme.isLandscape ? 30 : 25))),
       padding: loginTheme.logoPadding ??
           EdgeInsets.symmetric(
               vertical:
-                  dynamicSize.height * (loginTheme.isLandscape ? 2.8 : 1)),
+                  dynamicSize.height * (loginTheme.isLandscape ? 2.8 : .8)),
       child: logo,
     );
   }

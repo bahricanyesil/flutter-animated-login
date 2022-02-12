@@ -31,7 +31,8 @@ class InputDeco {
     return InputDecoration(
       contentPadding: loginTheme.inputPadding ??
           EdgeInsets.symmetric(
-            vertical: _dynamicSize.height * (loginTheme.isLandscape ? 3.3 : 3),
+            vertical:
+                _dynamicSize.height * (loginTheme.isLandscape ? 3.3 : 2.6),
           ).copyWith(
             right: _dynamicSize.width *
                 (paddingFactor ?? (loginTheme.isLandscape ? 1 : 3)),
