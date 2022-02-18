@@ -148,9 +148,7 @@ class Auth extends ChangeNotifier {
 
   final TextEditingController _nameController;
   final TextEditingController _emailController;
-
   final TextEditingController _passwordController;
-
   final TextEditingController _confirmPasswordController;
 
   /// Custom input validator for name field.
@@ -179,6 +177,18 @@ class Auth extends ChangeNotifier {
   /// Sets the email value.
   void setEmailValue(String? value) =>
       _emailController.value = TextEditingValue(text: value ?? '');
+
+  /// Sets the password value.
+  void setPasswordValue(String? value) =>
+      _passwordController.value = TextEditingValue(text: value ?? '');
+
+  /// Sets the username value.
+  void setUsernameValue(String? value) =>
+      _nameController.value = TextEditingValue(text: value ?? '');
+
+  /// Sets the confirm password value.
+  void setConfirmPasswordValue(String? value) =>
+      _confirmPasswordController.value = TextEditingValue(text: value ?? '');
 
   /// Optional TextEditingController for name input field.
   TextEditingController get nameController => _nameController;

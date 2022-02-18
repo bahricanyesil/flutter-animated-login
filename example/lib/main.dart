@@ -101,8 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
     await _operation?.cancel();
     _operation = CancelableOperation.fromFuture(func);
     final String? res = await _operation?.valueOrCancellation();
-    if (_operation?.isCompleted == true && res == null) {
-      DialogBuilder(context).showResultDialog('Successful.');
+    if (_operation?.isCompleted == true) {
+      DialogBuilder(context).showResultDialog(res ?? 'Successful.');
     }
     return res;
   }

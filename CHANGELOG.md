@@ -1,6 +1,14 @@
 # Versions
 
+## [1.5.0] - 18.02.2022
+
+* Fixed small bugs
+* Resolved focus and text form value issues
+* Default padding value adjustments
+* Renewed walk through videos
+
 ## [1.4.1] - 13.02.2022
+
 * Fixed deprecated warnings
 
 ## [1.4.0] - 12.02.2022

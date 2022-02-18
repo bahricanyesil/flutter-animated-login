@@ -17,6 +17,9 @@ class LoginFunctions {
 
   /// Sign up action that will be performed on click to action button in sign up mode.
   Future<String?> onSignup(SignUpData signupData) async {
+    if (signupData.password != signupData.confirmPassword) {
+      return 'The passwords you entered do not match, check again.';
+    }
     await Future.delayed(const Duration(seconds: 2));
     return null;
   }

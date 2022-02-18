@@ -59,7 +59,11 @@ class __WebFormState extends State<_WebForm> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final Auth auth = context.read<Auth>();
-    auth.setEmailValue(auth.email);
+    auth
+      ..setEmailValue(auth.email)
+      ..setPasswordValue(auth.password)
+      ..setUsernameValue(auth.username)
+      ..setConfirmPasswordValue(auth.confirmPassword);
   }
 
   @override
@@ -163,10 +167,8 @@ class _ActionButton extends StatelessWidget {
     final bool isLandscape = loginTheme.isLandscape;
     return Padding(
       padding: loginTheme.actionButtonPadding ??
-          EdgeInsets.only(
-            top: _customSpace(context, isReverse, isLandscape),
-            bottom: _customSpace(context, isReverse, isLandscape),
-          ),
+          EdgeInsets.symmetric(
+              vertical: _customSpace(context, isReverse, isLandscape)),
       child: RoundedButton(
         buttonText: isReverse ? loginTexts.login : loginTexts.signUp,
         onPressed: context.read<Auth>().action,
@@ -179,9 +181,9 @@ class _ActionButton extends StatelessWidget {
   }
 
   double _customSpace(BuildContext context, bool isReverse, bool isLandscape) {
-    double factor = 3;
+    double factor = 2;
     if (isLandscape) {
-      factor = 4;
+      factor = 3;
     }
     return DynamicSize(context).height * factor;
   }

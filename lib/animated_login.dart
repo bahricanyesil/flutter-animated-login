@@ -534,8 +534,8 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       showForgotPassword: widget.showForgotPassword);
 
   void _animate(BuildContext context) {
-    if (formKey.currentState != null) {
-      formKey.currentState!.reset();
+    if (!context.read<LoginTheme>().isLandscape) {
+      FocusManager.instance.primaryFocus?.unfocus();
     }
     animationController.isCompleted
         ? animationController.reverse()
