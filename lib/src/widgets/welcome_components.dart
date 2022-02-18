@@ -32,7 +32,9 @@ class _Description extends StatelessWidget {
     final LoginTheme loginTheme = context.watch<LoginTheme>();
     return Padding(
       padding: loginTheme.descriptionPadding ??
-          EdgeInsets.symmetric(vertical: DynamicSize(context).height),
+          EdgeInsets.symmetric(
+              vertical: DynamicSize(context).height *
+                  (loginTheme.isLandscape ? 3 : 2)),
       child: NotFittedText(
         context.select<Auth, bool>((Auth auth) => auth.isReverse)
             ? loginTexts.welcomeBackDescription
@@ -109,9 +111,9 @@ class _ChangeActionTitle extends StatelessWidget {
     final LoginTheme loginTheme = context.watch<LoginTheme>();
     return Padding(
       padding: loginTheme.changeActionPadding ??
-          EdgeInsets.symmetric(
-              vertical: DynamicSize(context).height *
-                  (loginTheme.isLandscape ? 1 : 0)),
+          (loginTheme.isLandscape
+              ? EdgeInsets.symmetric(vertical: DynamicSize(context).height * 2)
+              : EdgeInsets.only(top: DynamicSize(context).height * 2)),
       child: showButtonText
           ? Row(
               mainAxisAlignment: MainAxisAlignment.center,
