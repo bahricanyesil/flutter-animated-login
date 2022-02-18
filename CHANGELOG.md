@@ -1,5 +1,9 @@
 # Versions
 
+## [1.5.1] - 18.02.2022
+
+* Fixed wrong ss gif.
+
 ## [1.5.0] - 18.02.2022
 
 * Fixed small bugs
