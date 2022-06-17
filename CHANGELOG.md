@@ -1,6 +1,10 @@
 # Versions
 
-## [1.5.2] - 18.02.2022
+## [1.5.3] - 17.06.2022
+
+* Exported AnimationType enum for full customization.
+
+## [1.5.2] - 17.06.2022
 
 * Upgraded the Flutter version to 3.0.2.
 * Upgraded all dependent packages.

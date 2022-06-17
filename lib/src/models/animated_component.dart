@@ -1,5 +1,4 @@
 import '../../animated_login.dart';
-import '../constants/enums/animation_type.dart';
 
 /// [AnimatedComponent] represents a component with its animation type.
 class AnimatedComponent {
