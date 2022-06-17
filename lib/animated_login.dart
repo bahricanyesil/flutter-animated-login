@@ -251,6 +251,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
           languageOptions: widget.languageOptions,
           changeLanguageCallback: widget.changeLanguageCallback,
           changeLangDefaultOnPressed: widget.changeLangDefaultOnPressed,
+          changeLangOnPressed: widget.changeLangOnPressed,
         ),
       );
 }
@@ -261,8 +262,6 @@ class _View extends StatefulWidget {
   /// and [_ChangeActionButton].
   const _View({
     required this.formKey,
-    this.showForgotPassword = true,
-    this.showChangeActionTitle = true,
     this.backgroundImage,
     this.logo,
     this.languageOptions = const <LanguageOption>[],
@@ -273,8 +272,6 @@ class _View extends StatefulWidget {
   }) : super(key: key);
 
   final GlobalKey<FormState> formKey;
-  final bool showForgotPassword;
-  final bool showChangeActionTitle;
   final String? backgroundImage;
   final Widget? logo;
   final List<LanguageOption> languageOptions;
@@ -351,7 +348,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         children: <Widget>[
           Container(color: loginTheme.backgroundColor),
           _animatedWebWelcome,
-          _formPart,
+          _WebForm(animationController: animationController),
           if (widget.changeLanguageCallback != null &&
               loginTexts.language != null &&
               widget.languageOptions.isNotEmpty)
@@ -407,9 +404,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   Widget _rightAnimation(Widget child) => AnimatedBuilder(
         animation: transitionAnimation,
         child: child,
-        builder: (BuildContext context, Widget? _child) => Transform.translate(
+        builder: (BuildContext context, Widget? innerChild) =>
+            Transform.translate(
           offset: Offset(dynamicSize.width * transitionAnimation.value, 0),
-          child: _child,
+          child: innerChild,
         ),
       );
 
@@ -504,8 +502,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       case LoginComponents.form:
         return _mobileWrapper(component.animationType, const _Form());
       case LoginComponents.forgotPassword:
-        return context.select<Auth, bool>((Auth auth) => auth.isReverse) &&
-                widget.showForgotPassword
+        return context.select<Auth, bool>((Auth auth) => auth.isReverse)
             ? _mobileWrapper(component.animationType, const _ForgotPassword())
             : Container();
       case LoginComponents.actionButton:
@@ -528,10 +525,6 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
           defaultOnPressed: widget.changeLangDefaultOnPressed,
         ),
       );
-
-  Widget get _formPart => _WebForm(
-      animationController: animationController,
-      showForgotPassword: widget.showForgotPassword);
 
   void _animate(BuildContext context) {
     if (!context.read<LoginTheme>().isLandscape) {

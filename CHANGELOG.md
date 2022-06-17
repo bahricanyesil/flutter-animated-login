@@ -1,5 +1,11 @@
 # Versions
 
+## [1.5.2] - 18.02.2022
+
+* Upgraded the Flutter version to 3.0.2.
+* Upgraded all dependent packages.
+* Fixed problems to pass the static analysis.
+
 ## [1.5.1] - 18.02.2022
 
 * Fixed wrong ss gif.
