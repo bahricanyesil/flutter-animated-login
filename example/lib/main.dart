@@ -149,22 +149,25 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.blue, // const Color(0xFF6666FF),
         formFieldBackgroundColor: Colors.white,
         formWidthRatio: 60,
-        // actionButtonStyle: ButtonStyle(
-        //   foregroundColor: MaterialStateProperty.all(Colors.blue),
-        // ),
-        // animatedComponentOrder: const <AnimatedComponent>[
-        //   AnimatedComponent(component: LoginComponents.logo),
-        //   AnimatedComponent(component: LoginComponents.title),
-        //   AnimatedComponent(component: LoginComponents.description),
-        //   AnimatedComponent(component: LoginComponents.formTitle),
-        //   AnimatedComponent(component: LoginComponents.socialLogins),
-        //   AnimatedComponent(component: LoginComponents.useEmail),
-        //   AnimatedComponent(component: LoginComponents.form),
-        //   AnimatedComponent(component: LoginComponents.notHaveAnAccount),
-        //   AnimatedComponent(component: LoginComponents.forgotPassword),
-        //   AnimatedComponent(component: LoginComponents.changeActionButton),
-        //   AnimatedComponent(component: LoginComponents.actionButton),
-        // ],
+        actionButtonStyle: ButtonStyle(
+          foregroundColor: MaterialStateProperty.all(Colors.blue),
+        ),
+        animatedComponentOrder: const <AnimatedComponent>[
+          AnimatedComponent(
+            component: LoginComponents.logo,
+            animationType: AnimationType.right,
+          ),
+          AnimatedComponent(component: LoginComponents.title),
+          AnimatedComponent(component: LoginComponents.description),
+          AnimatedComponent(component: LoginComponents.formTitle),
+          AnimatedComponent(component: LoginComponents.socialLogins),
+          AnimatedComponent(component: LoginComponents.useEmail),
+          AnimatedComponent(component: LoginComponents.form),
+          AnimatedComponent(component: LoginComponents.notHaveAnAccount),
+          AnimatedComponent(component: LoginComponents.forgotPassword),
+          AnimatedComponent(component: LoginComponents.changeActionButton),
+          AnimatedComponent(component: LoginComponents.actionButton),
+        ],
       );
 
   LoginTexts get _loginTexts => LoginTexts(
