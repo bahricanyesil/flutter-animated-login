@@ -149,3 +149,6 @@ Temporary Items
 .atom/
 .buildlog/
 .svn/
+
+pubspec.lock
+example/pubspec.lock
