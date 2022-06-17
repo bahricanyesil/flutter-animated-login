@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'src/constants/enums/animation_type.dart';
 import 'src/src_shelf.dart';
 
 export 'src/constants/enums/enums_shelf.dart';

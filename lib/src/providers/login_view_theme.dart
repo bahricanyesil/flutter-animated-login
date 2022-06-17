@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../animated_login.dart';
-import '../constants/enums/animation_type.dart';
 
 /// [LoginViewTheme] is the provider for all design/theme related data.
 class LoginViewTheme {
