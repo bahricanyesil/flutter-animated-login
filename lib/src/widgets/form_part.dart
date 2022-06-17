@@ -2,17 +2,11 @@ part of '../../animated_login.dart';
 
 class _WebForm extends StatefulWidget {
   /// Form part of the login screen.
-  const _WebForm({
-    required this.animationController,
-    required this.showForgotPassword,
-    Key? key,
-  }) : super(key: key);
+  const _WebForm({required this.animationController, Key? key})
+      : super(key: key);
 
   /// Main animation controller for the transition animation.
   final AnimationController animationController;
-
-  /// Indicates whether the forgot password option will be enabled.
-  final bool showForgotPassword;
 
   @override
   __WebFormState createState() => __WebFormState();
@@ -128,9 +122,7 @@ class __WebFormState extends State<_WebForm> {
       case LoginComponents.form:
         return <Widget>[const _Form()];
       case LoginComponents.forgotPassword:
-        return <Widget>[
-          if (_isReverse && widget.showForgotPassword) const _ForgotPassword()
-        ];
+        return <Widget>[if (_isReverse) const _ForgotPassword()];
       case LoginComponents.actionButton:
         return <Widget>[const _ActionButton()];
       default:
