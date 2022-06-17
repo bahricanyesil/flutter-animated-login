@@ -11,7 +11,7 @@ import 'text_form_field_wrapper.dart';
 class ObscuredTextFormField extends StatefulWidget {
   /// It is specialized for obscured text form fields.
   /// Implements login decoration as default, can be customized with params.
-  /// Used for implementation of passwrod and confirm password text form fields.
+  /// Used for implementation of password and confirm password text form fields.
   const ObscuredTextFormField({
     required this.controller,
     required this.onChanged,
@@ -61,10 +61,11 @@ class ObscuredTextFormField extends StatefulWidget {
   final FocusNode? focusNode;
 
   @override
-  _ObscuredTextFormFieldState createState() => _ObscuredTextFormFieldState();
+  ObscuredTextFormFieldState createState() => ObscuredTextFormFieldState();
 }
 
-class _ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
+/// State of the obscured text form field widget.
+class ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
   bool _isVisible = false;
 
   @override

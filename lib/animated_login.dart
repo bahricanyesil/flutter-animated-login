@@ -407,9 +407,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   Widget _rightAnimation(Widget child) => AnimatedBuilder(
         animation: transitionAnimation,
         child: child,
-        builder: (BuildContext context, Widget? _child) => Transform.translate(
+        builder: (BuildContext context, Widget? innerChild) =>
+            Transform.translate(
           offset: Offset(dynamicSize.width * transitionAnimation.value, 0),
-          child: _child,
+          child: innerChild,
         ),
       );
 

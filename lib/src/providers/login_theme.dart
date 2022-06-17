@@ -30,7 +30,7 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
     final LoginViewTheme? newTheme = isLandscape ? _desktopTheme : _mobileTheme;
     if (newTheme != null && _currentTheme != newTheme) {
       _currentTheme = newTheme;
-      WidgetsBinding.instance!.addPostFrameCallback((_) => notifyListeners());
+      WidgetsBinding.instance.addPostFrameCallback((_) => notifyListeners());
     }
   }
 
@@ -47,8 +47,8 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
   Color? get backgroundColor => currentTheme.backgroundColor;
 
   @override
-  set backgroundColor(Color? _backgroundColor) =>
-      currentTheme.backgroundColor = _backgroundColor;
+  set backgroundColor(Color? paramBgColor) =>
+      currentTheme.backgroundColor = paramBgColor;
 
   @override
   ButtonStyle? get actionButtonStyle => currentTheme.actionButtonStyle;
