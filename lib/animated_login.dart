@@ -501,7 +501,7 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       case LoginComponents.form:
         return _mobileWrapper(component.animationType, const _Form());
       case LoginComponents.forgotPassword:
-        return context.select<Auth, bool>((Auth auth) => auth.isReverse)
+        return context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
             ? _mobileWrapper(component.animationType, const _ForgotPassword())
             : Container();
       case LoginComponents.actionButton:

@@ -12,7 +12,7 @@ class _Title extends StatelessWidget {
       padding: loginTheme.titlePadding ??
           EdgeInsets.symmetric(vertical: DynamicSize(context).height * .8),
       child: BaseText(
-        context.select<Auth, bool>((Auth auth) => auth.isReverse)
+        context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
             ? loginTexts.welcomeBack
             : loginTexts.welcome,
         style: TextStyles(context)
@@ -36,7 +36,7 @@ class _Description extends StatelessWidget {
               vertical: DynamicSize(context).height *
                   (loginTheme.isLandscape ? 3 : 2)),
       child: NotFittedText(
-        context.select<Auth, bool>((Auth auth) => auth.isReverse)
+        context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
             ? loginTexts.welcomeBackDescription
             : loginTexts.welcomeDescription,
         style: TextStyles(context)
@@ -82,9 +82,10 @@ class _ChangeActionButton extends StatelessWidget {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     final LoginTheme loginTheme = context.read<LoginTheme>();
     return RoundedButton(
-      buttonText: context.select<Auth, bool>((Auth auth) => auth.isReverse)
-          ? loginTexts.signUp
-          : loginTexts.login,
+      buttonText:
+          context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
+              ? loginTexts.signUp
+              : loginTexts.login,
       onPressed: animate,
       borderColor: Colors.white,
       backgroundColor: Theme.of(context).primaryColor.withOpacity(.8),
@@ -128,7 +129,7 @@ class _ChangeActionTitle extends StatelessWidget {
 
   Widget _changeActionTitle(BuildContext context, LoginTexts loginTexts) =>
       BaseText(
-        context.select<Auth, bool>((Auth auth) => auth.isReverse)
+        context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
             ? loginTexts.notHaveAnAccount
             : loginTexts.alreadyHaveAnAccount,
         style: TextStyles(context)
@@ -148,7 +149,7 @@ class _ChangeActionTitle extends StatelessWidget {
   Widget _changeActionText(BuildContext context) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return BaseText(
-      context.select<Auth, bool>((Auth auth) => auth.isReverse)
+      context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
           ? loginTexts.signUp
           : loginTexts.login,
       style: TextStyles(context)

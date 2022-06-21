@@ -59,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Example selected language, default is English.
   LanguageOption language = _languageOptions[1];
 
-  /// Current auth mode, default is [AuthMode.login].
-  AuthMode currentMode = AuthMode.login;
+  /// Current auth mode, default is [AuthMode.signup].
+  AuthMode currentMode = AuthMode.signup;
 
   CancelableOperation? _operation;
 

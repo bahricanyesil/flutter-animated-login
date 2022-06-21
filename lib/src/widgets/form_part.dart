@@ -35,7 +35,7 @@ class __WebFormState extends State<_WebForm> {
   late final Animation<double> offsetAnimation;
 
   late bool _isLandscape;
-  late bool _isReverse;
+  late bool _isAnimatedLogin;
 
   @override
   void initState() {
@@ -65,7 +65,8 @@ class __WebFormState extends State<_WebForm> {
     dynamicSize = DynamicSize(context);
     loginTheme = context.watch<LoginTheme>();
     _isLandscape = loginTheme.isLandscape;
-    _isReverse = context.select<Auth, bool>((Auth auth) => auth.isReverse);
+    _isAnimatedLogin =
+        context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin);
     loginTexts = context.read<LoginTexts>();
     theme = Theme.of(context);
     auth = context.read<Auth>();
@@ -122,7 +123,7 @@ class __WebFormState extends State<_WebForm> {
       case LoginComponents.form:
         return <Widget>[const _Form()];
       case LoginComponents.forgotPassword:
-        return <Widget>[if (_isReverse) const _ForgotPassword()];
+        return <Widget>[if (_isAnimatedLogin) const _ForgotPassword()];
       case LoginComponents.actionButton:
         return <Widget>[const _ActionButton()];
       default:
@@ -154,15 +155,14 @@ class _ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final LoginTheme loginTheme = context.watch<LoginTheme>();
     final LoginTexts loginTexts = context.read<LoginTexts>();
-    final bool isReverse =
-        context.select<Auth, bool>((Auth auth) => auth.isReverse);
+    final bool isAnimatedLogin =
+        context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin);
     final bool isLandscape = loginTheme.isLandscape;
     return Padding(
       padding: loginTheme.actionButtonPadding ??
-          EdgeInsets.symmetric(
-              vertical: _customSpace(context, isReverse, isLandscape)),
+          EdgeInsets.symmetric(vertical: _customSpace(context, isLandscape)),
       child: RoundedButton(
-        buttonText: isReverse ? loginTexts.login : loginTexts.signUp,
+        buttonText: isAnimatedLogin ? loginTexts.login : loginTexts.signUp,
         onPressed: context.read<Auth>().action,
         backgroundColor: isLandscape
             ? Theme.of(context).primaryColor.withOpacity(.8)
@@ -172,7 +172,7 @@ class _ActionButton extends StatelessWidget {
     );
   }
 
-  double _customSpace(BuildContext context, bool isReverse, bool isLandscape) {
+  double _customSpace(BuildContext context, bool isLandscape) {
     double factor = 2;
     if (isLandscape) {
       factor = 3;
@@ -191,7 +191,7 @@ class _FormTitle extends StatelessWidget {
     return Padding(
       padding: loginTheme.formTitlePadding ?? EdgeInsets.zero,
       child: BaseText(
-        context.select<Auth, bool>((Auth auth) => auth.isReverse)
+        context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
             ? loginTexts.loginFormTitle
             : loginTexts.signUpFormTitle,
         style: TextStyles(context)
@@ -252,7 +252,7 @@ class _UseEmailText extends StatelessWidget {
   Widget _useEmailText(BuildContext context, LoginTheme loginTheme) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return BaseText(
-      context.select<Auth, bool>((Auth auth) => auth.isReverse)
+      context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
           ? loginTexts.loginUseEmail
           : loginTexts.signUpUseEmail,
       style: TextStyles(context)
@@ -305,10 +305,10 @@ class _FormState extends State<_Form> {
 
   List<Widget> _formElements(Auth auth, LoginTheme loginTheme) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
-    final bool isReverse =
-        context.select<Auth, bool>((Auth auth) => auth.isReverse);
+    final bool isAnimatedLogin =
+        context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin);
     return <Widget>[
-      if (!isReverse && auth.signUpMode != SignUpModes.confirmPassword)
+      if (!isAnimatedLogin && auth.signUpMode != SignUpModes.confirmPassword)
         CustomTextFormField(
           controller: auth.nameController,
           hintText: loginTexts.nameHint,
@@ -348,7 +348,7 @@ class _FormState extends State<_Form> {
         onChanged: auth.setPassword,
         validator: auth.passwordValidator,
       ),
-      if (!isReverse && auth.signUpMode != SignUpModes.name)
+      if (!isAnimatedLogin && auth.signUpMode != SignUpModes.name)
         ObscuredTextFormField(
           controller: auth.confirmPasswordController,
           hintText: loginTexts.confirmPasswordHint,
