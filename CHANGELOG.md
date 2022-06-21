@@ -1,5 +1,9 @@
 # Versions
 
+## [1.5.4] - 21.06.2022
+
+* Fixed inoperative initial mode parameter.
+
 ## [1.5.3] - 17.06.2022
 
 * Exported AnimationType enum for full customization.

@@ -48,6 +48,7 @@ class Auth extends ChangeNotifier {
     _onSignup = onSignup ?? _defaultSignupFunc;
     _onForgotPassword = onForgotPassword ?? _defaultForgotPassFunc;
     _mode = initialMode ?? AuthMode.login;
+    _initialMode = initialMode ?? AuthMode.login;
   }
 
   /// Default login, signup and forgot password functions to be
@@ -78,6 +79,7 @@ class Auth extends ChangeNotifier {
   final List<SocialLogin>? socialLogins;
 
   late AuthMode _mode;
+  late AuthMode _initialMode;
 
   /// Current authentication mode of the screen.
   AuthMode get mode => _mode;
@@ -98,17 +100,18 @@ class Auth extends ChangeNotifier {
 
   /// Switches the authentication mode and notify the listeners.
   AuthMode switchAuth() {
-    if (mode == AuthMode.login) {
-      notifySetMode(AuthMode.signup);
-    } else if (mode == AuthMode.signup) {
-      notifySetMode(AuthMode.login);
-    }
+    notifySetMode(isLogin ? AuthMode.signup : AuthMode.login);
     if (onAuthModeChange != null) onAuthModeChange!(mode);
     return mode;
   }
 
+  bool _isReverse = true;
+
   /// Indicates whether the screen animation is reverse mode.
-  bool isReverse = true;
+  bool get isReverse => _isReverse;
+
+  /// Combination of isReverse and initial mode values.
+  bool get isAnimatedLogin => !_isReverse ^ (_initialMode == AuthMode.login);
 
   /// Username in the text controller.
   String? username;
@@ -137,8 +140,8 @@ class Auth extends ChangeNotifier {
 
   /// Sets the confirm password.
   void setIsReverse(bool newValue) {
-    if (newValue != isReverse) {
-      isReverse = newValue;
+    if (newValue != _isReverse) {
+      _isReverse = newValue;
       notifyListeners();
     }
   }
