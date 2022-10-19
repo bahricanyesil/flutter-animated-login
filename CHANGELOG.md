@@ -1,5 +1,9 @@
 # Versions
 
+## [1.5.5] - 18.10.2022
+
+* Implemented custom validator callback for customized error messages by utilizing the validator logic.
+
 ## [1.5.4] - 21.06.2022
 
 * Fixed inoperative initial mode parameter.
