@@ -30,9 +30,7 @@ class Validators {
     final bool isValid = RegExp(_emailRegex).hasMatch(email!);
     if (!isValid) {
       const String defaultMessage = 'Please enter a valid email';
-      return validator?.validatorCallback != null
-          ? validator?.validatorCallback!(email)
-          : defaultMessage;
+      return validator?.validatorCallback?.call(email) ?? defaultMessage;
     }
     return null;
   }
@@ -55,9 +53,7 @@ class Validators {
       final bool isValid = RegExp(_nameRegex).hasMatch(name!);
       if (!isValid) {
         const String defaultMessage = 'Please enter a valid name';
-        return validator?.validatorCallback != null
-            ? validator?.validatorCallback!(name)
-            : defaultMessage;
+        return validator?.validatorCallback?.call(name) ?? defaultMessage;
       }
     }
     return errorMessage;
@@ -84,9 +80,7 @@ class Validators {
     final String lengthError =
         'Must be longer than or equal to $length characters';
     if (text == null || text.length < length) {
-      return validator?.validatorCallback != null
-          ? validator?.validatorCallback!(text)
-          : lengthError;
+      return validator?.validatorCallback?.call(text) ?? lengthError;
     }
     return null;
   }
@@ -97,9 +91,7 @@ class Validators {
         RegExp(r'^(?=.*?[A-Z]).{1,}$').hasMatch(text);
     if (!containsUpperCase) {
       const String defaultMessage = 'Must contain upper case character.';
-      return validator?.validatorCallback != null
-          ? validator?.validatorCallback!(text)
-          : defaultMessage;
+      return validator?.validatorCallback?.call(text) ?? defaultMessage;
     }
     return null;
   }
@@ -110,9 +102,7 @@ class Validators {
         RegExp(r'^(?=.*?[a-z]).{1,}$').hasMatch(text);
     if (!containsLowerCase) {
       const String defaultMessage = 'Must contain lower case character.';
-      return validator?.validatorCallback != null
-          ? validator?.validatorCallback!(text)
-          : defaultMessage;
+      return validator?.validatorCallback?.call(text) ?? defaultMessage;
     }
     return null;
   }
@@ -122,9 +112,7 @@ class Validators {
     final bool containsNumber = RegExp(r'^(?=.*?[0-9]).{1,}$').hasMatch(text);
     if (!containsNumber) {
       const String defaultMessage = 'Must contain at least one number.';
-      return validator?.validatorCallback != null
-          ? validator?.validatorCallback!(text)
-          : defaultMessage;
+      return validator?.validatorCallback?.call(text) ?? defaultMessage;
     }
     return null;
   }
@@ -134,9 +122,7 @@ class Validators {
     final bool containsSpace = RegExp(r"\s\b|\b\s").hasMatch(text);
     if (containsSpace) {
       const String defaultMessage = 'Must not contain any white space.';
-      return validator?.validatorCallback != null
-          ? validator?.validatorCallback!(text)
-          : defaultMessage;
+      return validator?.validatorCallback?.call(text) ?? defaultMessage;
     }
     return null;
   }
