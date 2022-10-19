@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/validators.dart';
+
 @immutable
 
 /// [ValidatorModel] is to determine options for validations.
@@ -13,6 +15,7 @@ class ValidatorModel {
     this.checkLowerCase = false,
     this.checkSpace = false,
     this.checkNumber = false,
+    this.validatorCallback,
   });
 
   /// Custom validator for the text field. If it is provided,
@@ -35,4 +38,7 @@ class ValidatorModel {
 
   /// Indicates whether the text should contain a number.
   final bool checkNumber;
+
+  /// Validator callback to customize the error message for email/password/name.
+  final ValidatorMessageCallback? validatorCallback;
 }

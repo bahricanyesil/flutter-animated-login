@@ -79,6 +79,8 @@ class _LoginScreenState extends State<LoginScreen> {
       loginDesktopTheme: _desktopTheme,
       loginMobileTheme: _mobileTheme,
       loginTexts: _loginTexts,
+      emailValidator: ValidatorModel(
+          validatorCallback: (String? email) => 'What an email! $email'),
       changeLanguageCallback: (LanguageOption? _language) {
         if (_language != null) {
           DialogBuilder(context).showResultDialog(

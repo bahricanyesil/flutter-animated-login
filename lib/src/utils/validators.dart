@@ -1,5 +1,8 @@
 import '../models/validator_model.dart';
 
+/// Should return the error message for the given value.
+typedef ValidatorMessageCallback = String Function(String? text);
+
 /// [Validators] gather all validation functions, regexes in one file.
 class Validators {
   /// Provides specific validations by also using common functions
@@ -22,9 +25,15 @@ class Validators {
     String? errorMessage = _lengthCheck(email, validator?.length ?? 3);
     if (errorMessage != null) return errorMessage;
     errorMessage = _runValidations(email);
+    // ignore: invariant_booleans
     if (errorMessage != null) return errorMessage;
     final bool isValid = RegExp(_emailRegex).hasMatch(email!);
-    if (!isValid) return 'Please enter a valid email';
+    if (!isValid) {
+      const String defaultMessage = 'Please enter a valid email';
+      return validator?.validatorCallback != null
+          ? validator?.validatorCallback!(email)
+          : defaultMessage;
+    }
     return null;
   }
 
@@ -41,9 +50,15 @@ class Validators {
     String? errorMessage = _lengthCheck(name, validator?.length ?? 2);
     if (errorMessage != null) return errorMessage;
     errorMessage = _runValidations(name);
+    // ignore: invariant_booleans
     if (errorMessage == null) {
       final bool isValid = RegExp(_nameRegex).hasMatch(name!);
-      if (!isValid) errorMessage = 'Please enter a valid name';
+      if (!isValid) {
+        const String defaultMessage = 'Please enter a valid name';
+        return validator?.validatorCallback != null
+            ? validator?.validatorCallback!(name)
+            : defaultMessage;
+      }
     }
     return errorMessage;
   }
@@ -54,7 +69,7 @@ class Validators {
       if (true == validator?.checkSpace) _spaceCheck,
       if (true == validator?.checkUpperCase) _upperCaseCheck,
       if (true == validator?.checkLowerCase) _lowerCaseCheck,
-      if (true == validator?.checkNumber) _numberCheck
+      if (true == validator?.checkNumber) _numberCheck,
     ];
     for (int i = 0; i < validations.length; i++) {
       if (validations[i](text!) != null) {
@@ -65,40 +80,64 @@ class Validators {
   }
 
   /// Checks whether the given [text] is longer than or equal to the [length].
-  static String? _lengthCheck(String? text, int length) {
+  String? _lengthCheck(String? text, int length) {
     final String lengthError =
         'Must be longer than or equal to $length characters';
-    if (text == null || text.length < length) return lengthError;
+    if (text == null || text.length < length) {
+      return validator?.validatorCallback != null
+          ? validator?.validatorCallback!(text)
+          : lengthError;
+    }
     return null;
   }
 
   /// Checks whether the given [text] contains at least one upper case char.
-  static String? _upperCaseCheck(String text) {
+  String? _upperCaseCheck(String text) {
     final bool containsUpperCase =
         RegExp(r'^(?=.*?[A-Z]).{1,}$').hasMatch(text);
-    if (!containsUpperCase) return 'Must contain upper case character.';
+    if (!containsUpperCase) {
+      const String defaultMessage = 'Must contain upper case character.';
+      return validator?.validatorCallback != null
+          ? validator?.validatorCallback!(text)
+          : defaultMessage;
+    }
     return null;
   }
 
   /// Checks whether the given [text] contains at least one lower case char.
-  static String? _lowerCaseCheck(String text) {
+  String? _lowerCaseCheck(String text) {
     final bool containsLowerCase =
         RegExp(r'^(?=.*?[a-z]).{1,}$').hasMatch(text);
-    if (!containsLowerCase) return 'Must contain lower case character.';
+    if (!containsLowerCase) {
+      const String defaultMessage = 'Must contain lower case character.';
+      return validator?.validatorCallback != null
+          ? validator?.validatorCallback!(text)
+          : defaultMessage;
+    }
     return null;
   }
 
   /// Checks whether the given [text] contains at least one number.
-  static String? _numberCheck(String text) {
+  String? _numberCheck(String text) {
     final bool containsNumber = RegExp(r'^(?=.*?[0-9]).{1,}$').hasMatch(text);
-    if (!containsNumber) return 'Must contain at least one number.';
+    if (!containsNumber) {
+      const String defaultMessage = 'Must contain at least one number.';
+      return validator?.validatorCallback != null
+          ? validator?.validatorCallback!(text)
+          : defaultMessage;
+    }
     return null;
   }
 
   /// Checks whether the given [text] contains any space.
-  static String? _spaceCheck(String text) {
+  String? _spaceCheck(String text) {
     final bool containsSpace = RegExp(r"\s\b|\b\s").hasMatch(text);
-    if (containsSpace) return 'Must not contain any white space.';
+    if (containsSpace) {
+      const String defaultMessage = 'Must not contain any white space.';
+      return validator?.validatorCallback != null
+          ? validator?.validatorCallback!(text)
+          : defaultMessage;
+    }
     return null;
   }
 }
