@@ -26,6 +26,12 @@ class LoginTexts extends ChangeNotifier {
     String? passwordMatchingError,
     String? dialogButtonText,
     String? chooseLanguageTitle,
+    String? agreementText,
+    String? privacyPolicyText,
+    String? termsConditionsText,
+    String? privacyPolicyLink,
+    String? termsConditionsLink,
+    String? checkboxError,
     LanguageOption? selectedLanguage,
   })  : _welcome = welcome,
         _welcomeDescription = welcomeDescription,
@@ -47,6 +53,12 @@ class LoginTexts extends ChangeNotifier {
         _passwordMatchingError = passwordMatchingError,
         _dialogButtonText = dialogButtonText,
         _chooseLanguageTitle = chooseLanguageTitle,
+        _agreementText = agreementText,
+        _privacyPolicyText = privacyPolicyText,
+        _termsConditionsText = termsConditionsText,
+        _privacyPolicyLink = privacyPolicyLink,
+        _termsConditionsLink = termsConditionsLink,
+        _checkboxError = checkboxError,
         language = selectedLanguage;
 
   /// Welcome title in signUp mode for the informing part.
@@ -155,6 +167,40 @@ class LoginTexts extends ChangeNotifier {
   String get chooseLanguageTitle =>
       _chooseLanguageTitle ?? _defaultChooseLanguageTitle;
 
+  /// The agreement text.
+  /// Default value is given in [_defaultAgreementText].
+  /// Custom value in the constructor is assigned to [_agreementText].
+  String get agreementText => _agreementText ?? _defaultAgreementText;
+
+  /// The privacy policy text.
+  /// Default value is given in [_defaultPrivacyPolicyText].
+  /// Custom value in the constructor is assigned to [_privacyPolicyText].
+  String get privacyPolicyText =>
+      _privacyPolicyText ?? _defaultPrivacyPolicyText;
+
+  /// The terms&conditions text.
+  /// Default value is given in [_defaultTermsConditionsText].
+  /// Custom value in the constructor is assigned to [_termsConditionsText].
+  String get termsConditionsText =>
+      _termsConditionsText ?? _defaultTermsConditionsText;
+
+  /// The link for the privacy policy website.
+  /// Default value is given in [_defaultPrivacyPolicyLink].
+  /// Custom value in the constructor is assigned to [_privacyPolicyLink].
+  String get privacyPolicyLink =>
+      _privacyPolicyLink ?? _defaultPrivacyPolicyLink;
+
+  /// The link for the terms&conditions website.
+  /// Default value is given in [_defaultTermsConditionsLink].
+  /// Custom value in the constructor is assigned to [_termsConditionsLink].
+  String get termsConditionsLink =>
+      _termsConditionsLink ?? _defaultTermsConditionsLink;
+
+  /// The error text displayed when the terms are not accepted.
+  /// Default value is given in [_defaultCheckboxError].
+  /// Custom value in the constructor is assigned to [_checkboxError].
+  String get checkboxError => _checkboxError ?? _defaultCheckboxError;
+
   static const String _defaultWelcome = 'Welcome!';
   static const String _defaultWelcomeDescription =
       'You are where you find the best you are looking for!';
@@ -181,6 +227,15 @@ class LoginTexts extends ChangeNotifier {
       'The passwords you entered do not match, check again.';
   static const String _defaultDialogButtonText = 'OK';
   static const String _defaultChooseLanguageTitle = 'Choose your language';
+  static const String _defaultAgreementText = 'I agree to the ';
+  static const String _defaultPrivacyPolicyText = 'Privacy Policy';
+  static const String _defaultTermsConditionsText = 'Terms & Conditions';
+  static const String _defaultPrivacyPolicyLink =
+      'https://github.com/bahricanyesil';
+  static const String _defaultTermsConditionsLink =
+      'https://github.com/bahricanyesil';
+  static const String _defaultCheckboxError =
+      '! Please agree to the Privacy Policy and Terms & Conditions !';
 
   final String? _welcome;
 
@@ -245,6 +300,23 @@ class LoginTexts extends ChangeNotifier {
 
   /// The title for choose language dialog.
   final String? _chooseLanguageTitle;
+
+  /// Text for the agreement text.
+  final String? _agreementText;
+
+  /// Text for the privacy policy checkbox.
+  final String? _privacyPolicyText;
+
+  /// Text for the terms and conditions checkbox.
+  final String? _termsConditionsText;
+
+  /// Link of the corresponding privacy policy.
+  final String? _privacyPolicyLink;
+
+  /// Link of the corresponding privacy policy.
+  final String? _termsConditionsLink;
+
+  final String? _checkboxError;
 
   /// Currently selected language.
   LanguageOption? language;

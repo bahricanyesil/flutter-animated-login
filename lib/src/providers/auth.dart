@@ -20,7 +20,10 @@ class Auth extends ChangeNotifier {
     this.validateName = true,
     this.validateEmail = true,
     this.validatePassword = true,
+    this.validateCheckbox = true,
     this.showPasswordVisibility = true,
+    this.checkboxCallback,
+    bool hasPrivacyPolicy = false,
     ValidatorModel? nameValidator,
     ValidatorModel? emailValidator,
     ValidatorModel? passwordValidator,
@@ -43,7 +46,8 @@ class Auth extends ChangeNotifier {
             confirmPasswordController ?? TextEditingController(text: ''),
         _nameValidator = nameValidator,
         _emailValidator = emailValidator,
-        _passwordValidator = passwordValidator {
+        _passwordValidator = passwordValidator,
+        _hasPrivacyPolicy = hasPrivacyPolicy {
     _onLogin = onLogin ?? _defaultLoginFunc;
     _onSignup = onSignup ?? _defaultSignupFunc;
     _onForgotPassword = onForgotPassword ?? _defaultForgotPassFunc;
@@ -56,6 +60,9 @@ class Auth extends ChangeNotifier {
   Future<String?> _defaultLoginFunc(LoginData a) async => null;
   Future<String?> _defaultSignupFunc(SignUpData a) async => null;
   Future<String?> _defaultForgotPassFunc(String e) async => null;
+
+  /// checkboxCallback
+  ValueChanged<bool?>? checkboxCallback;
 
   /// Callback to use auth mode changes.
   final AuthModeChangeCallback? onAuthModeChange;
@@ -77,6 +84,10 @@ class Auth extends ChangeNotifier {
 
   /// List of social login options.
   final List<SocialLogin>? socialLogins;
+
+  bool _checkedPrivacyBox = false;
+  bool _showCheckboxError = false;
+  final bool _hasPrivacyPolicy;
 
   late AuthMode _mode;
   late AuthMode _initialMode;
@@ -110,6 +121,12 @@ class Auth extends ChangeNotifier {
   /// Indicates whether the screen animation is reverse mode.
   bool get isReverse => _isReverse;
 
+  /// Indicates whether the box is checked.
+  bool get checkedPrivacyBox => _checkedPrivacyBox;
+
+  /// Indicates whether to show checkbox error.
+  bool get showCheckboxError => _showCheckboxError;
+
   /// Combination of isReverse and initial mode values.
   bool get isAnimatedLogin => !_isReverse ^ (_initialMode == AuthMode.login);
 
@@ -133,6 +150,21 @@ class Auth extends ChangeNotifier {
 
   /// Sets the password.
   void setPassword(String? newPassword) => password = newPassword;
+
+  /// Sets the checkbox.
+  void setCheckedPrivacyPolicy(bool? newValue) {
+    if (checkboxCallback != null) checkboxCallback!(newValue);
+    if (newValue == null || newValue == _checkedPrivacyBox) return;
+    _checkedPrivacyBox = newValue;
+    notifyListeners();
+  }
+
+  /// Sets whether to show checkbox error.
+  void setShowCheckboxError(bool? newValue) {
+    if (newValue == null || newValue == _showCheckboxError) return;
+    _showCheckboxError = newValue;
+    notifyListeners();
+  }
 
   /// Sets the confirm password.
   void setConfirmPassword(String? newConfirmPassword) =>
@@ -171,6 +203,9 @@ class Auth extends ChangeNotifier {
 
   /// Indicates whether the password fields should be validated.
   final bool validatePassword;
+
+  /// Indicates whether the checkbox should be validated.
+  final bool validateCheckbox;
 
   /// Indicates whether the user can show the password text without obscuring.
   final bool showPasswordVisibility;
@@ -247,6 +282,14 @@ class Auth extends ChangeNotifier {
       password: _passwordController.text,
       confirmPassword: _confirmPasswordController.text,
     );
+    if (validateCheckbox && _hasPrivacyPolicy) {
+      if (!_checkedPrivacyBox) {
+        setShowCheckboxError(true);
+        return 'Please agree to the Privacy Policy and Terms & Conditions';
+      } else {
+        setShowCheckboxError(false);
+      }
+    }
     return onSignup(signupData);
   }
 

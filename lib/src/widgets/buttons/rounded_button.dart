@@ -31,7 +31,7 @@ class RoundedButton extends StatefulWidget {
   final String buttonText;
 
   /// Callback to call on pressed.
-  final AsyncCallback onPressed;
+  final AsyncCallback? onPressed;
 
   /// Background color of the button.
   final Color? backgroundColor;
@@ -79,7 +79,7 @@ class _RoundedButtonState extends State<RoundedButton> {
             ? widget.buttonStyle!
                 .merge(_defaultButtonStyle(context, loginTheme.isLandscape))
             : _defaultButtonStyle(context, loginTheme.isLandscape),
-        onPressed: _onPressed,
+        onPressed: widget.onPressed == null ? null : _onPressed,
         child: _buttonChild,
       );
 
@@ -96,12 +96,12 @@ class _RoundedButtonState extends State<RoundedButton> {
       loginTheme.loadingButtonSize ?? DynamicSize(context).responsiveSize * 10;
 
   Future<void> _onPressed() async {
-    if (_loading) return;
+    if (_loading || widget.onPressed == null) return;
     setState(() => _loading = true);
     final Auth auth = context.read<Auth>();
     await auth.cancelableOperation?.cancel();
     auth.cancelableOperation = CancelableOperation<void>.fromFuture(
-      widget.onPressed(),
+      widget.onPressed!(),
       onCancel: _setLoading,
     );
     auth.cancelableOperation?.then((_) => _setLoading());

@@ -177,6 +177,12 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
       currentTheme.welcomeDescriptionStyle;
 
   @override
+  TextStyle? get privacyPolicyStyle => currentTheme.privacyPolicyStyle;
+
+  @override
+  TextStyle? get privacyPolicyLinkStyle => currentTheme.privacyPolicyLinkStyle;
+
+  @override
   EdgeInsets? get welcomePadding => currentTheme.welcomePadding;
 
   @override
@@ -227,6 +233,15 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
 
   @override
   Color? get loadingSocialButtonColor => currentTheme.loadingSocialButtonColor;
+
+  @override
+  Color? get checkColor => currentTheme.checkColor;
+
+  @override
+  Color? get borderColor => currentTheme.borderColor;
+
+  @override
+  Color? get fillColor => currentTheme.fillColor;
 
   @override
   EdgeInsets? get titlePadding => currentTheme.titlePadding;
