@@ -6,6 +6,7 @@
 * Implemented customizable error logic and text for the case checkbox is not checked before trying to signup.
 * Integrated URL launcher for privacy policy and terms & conditions website navigation.
 * Updated example app configurations and versions.
+* Implement separate email and password hint texts for signup and login.
 
 ## [1.5.5] - 18.10.2022
 

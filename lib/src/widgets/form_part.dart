@@ -433,7 +433,9 @@ class _FormState extends State<_Form> {
         ),
       CustomTextFormField(
         controller: auth.emailController,
-        hintText: loginTexts.emailHint,
+        hintText: auth.isSignup
+            ? loginTexts.signupEmailHint
+            : loginTexts.loginEmailHint,
         prefixIcon: Icons.email_outlined,
         prefixWidget: loginTheme.emailIcon,
         validator: auth.emailValidator,
@@ -444,7 +446,9 @@ class _FormState extends State<_Form> {
       ),
       ObscuredTextFormField(
         controller: auth.passwordController,
-        hintText: loginTexts.passwordHint,
+        hintText: auth.isSignup
+            ? loginTexts.signupPasswordHint
+            : loginTexts.loginPasswordHint,
         prefixIcon: Icons.password_outlined,
         showPasswordVisibility: auth.showPasswordVisibility,
         textInputAction:

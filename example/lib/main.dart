@@ -183,6 +183,10 @@ class _LoginScreenState extends State<LoginScreen> {
         nameHint: _username,
         login: _login,
         signUp: _signup,
+        // signupEmailHint: 'Signup Email',
+        // loginEmailHint: 'Login Email',
+        // signupPasswordHint: 'Signup Password',
+        // loginPasswordHint: 'Login Password',
       );
 
   /// You can adjust the texts in the screen according to the current language
