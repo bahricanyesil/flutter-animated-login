@@ -1,5 +1,12 @@
 # Versions
 
+## [1.6.0] - 23.01.2023
+
+* Implemented agreement checkbox for privacy policy and terms & conditions.
+* Implemented customizable error logic and text for the case checkbox is not checked before trying to signup.
+* Integrated URL launcher for privacy policy and terms & conditions website navigation.
+* Updated example app configurations and versions.
+
 ## [1.5.5] - 18.10.2022
 
 * Implemented custom validator callback for customized error messages by utilizing the validator logic.
