@@ -161,38 +161,40 @@ class _PolicyCheckboxRow extends StatelessWidget {
   const _PolicyCheckboxRow({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              _checkbox,
-              Flexible(child: _checkboxText(context)),
-            ],
-          ),
-          _errorText,
-        ],
-      );
+  Widget build(BuildContext context) {
+    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            _checkbox,
+            Flexible(child: _checkboxText(context, loginTheme)),
+          ],
+        ),
+        _errorText(loginTheme),
+      ],
+    );
+  }
 
-  Widget get _errorText => Selector<Auth, bool>(
+  Widget _errorText(LoginTheme loginTheme) => Selector<Auth, bool>(
         selector: (_, Auth authModel) => authModel.showCheckboxError,
         builder: (BuildContext context, bool showError, __) => Visibility(
           visible: showError,
           child: Padding(
             padding:
                 EdgeInsets.only(top: DynamicSize(context).responsiveSize * 2.5),
-            child: BaseText(
-              context.read<LoginTexts>().checkboxError,
-              style: TextStyles(context).errorTextStyle(),
-            ),
+            child: BaseText(context.read<LoginTexts>().checkboxError,
+                style: TextStyles(context)
+                    .errorTextStyle()
+                    .merge(loginTheme.errorTextStyle)),
           ),
         ),
       );
 
-  Widget _checkboxText(BuildContext context) {
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
+  Widget _checkboxText(BuildContext context, LoginTheme loginTheme) {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     return RichText(
       text: TextSpan(
