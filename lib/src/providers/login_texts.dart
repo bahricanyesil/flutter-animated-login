@@ -20,12 +20,20 @@ class LoginTexts extends ChangeNotifier {
     String? notHaveAnAccount,
     String? alreadyHaveAnAccount,
     String? nameHint,
-    String? emailHint,
-    String? passwordHint,
+    String? signupEmailHint,
+    String? signupPasswordHint,
+    String? loginEmailHint,
+    String? loginPasswordHint,
     String? confirmPasswordHint,
     String? passwordMatchingError,
     String? dialogButtonText,
     String? chooseLanguageTitle,
+    String? agreementText,
+    String? privacyPolicyText,
+    String? termsConditionsText,
+    String? privacyPolicyLink,
+    String? termsConditionsLink,
+    String? checkboxError,
     LanguageOption? selectedLanguage,
   })  : _welcome = welcome,
         _welcomeDescription = welcomeDescription,
@@ -41,12 +49,20 @@ class LoginTexts extends ChangeNotifier {
         _notHaveAnAccount = notHaveAnAccount,
         _alreadyHaveAnAccount = alreadyHaveAnAccount,
         _nameHint = nameHint,
-        _emailHint = emailHint,
-        _passwordHint = passwordHint,
+        _signupEmailHint = signupEmailHint,
+        _signupPasswordHint = signupPasswordHint,
+        _loginEmailHint = loginEmailHint,
+        _loginPasswordHint = loginPasswordHint,
         _confirmPasswordHint = confirmPasswordHint,
         _passwordMatchingError = passwordMatchingError,
         _dialogButtonText = dialogButtonText,
         _chooseLanguageTitle = chooseLanguageTitle,
+        _agreementText = agreementText,
+        _privacyPolicyText = privacyPolicyText,
+        _termsConditionsText = termsConditionsText,
+        _privacyPolicyLink = privacyPolicyLink,
+        _termsConditionsLink = termsConditionsLink,
+        _checkboxError = checkboxError,
         language = selectedLanguage;
 
   /// Welcome title in signUp mode for the informing part.
@@ -123,14 +139,26 @@ class LoginTexts extends ChangeNotifier {
   String get nameHint => _nameHint ?? _defaultNameHint;
 
   /// Hint text for email text form field.
-  /// Default value is given in [_defaultEmailHint].
-  /// Custom value in the constructor is assigned to [_emailHint].
-  String get emailHint => _emailHint ?? _defaultEmailHint;
+  /// Default value is given in [_defaultSignupEmailHint].
+  /// Custom value in the constructor is assigned to [_signupEmailHint].
+  String get signupEmailHint => _signupEmailHint ?? _defaultSignupEmailHint;
 
   /// Hint text for password text form field.
-  /// Default value is given in [_defaultPasswordHint].
-  /// Custom value in the constructor is assigned to [_passwordHint].
-  String get passwordHint => _passwordHint ?? _defaultPasswordHint;
+  /// Default value is given in [_defaultSignupPasswordHint].
+  /// Custom value in the constructor is assigned to [_signupPasswordHint].
+  String get signupPasswordHint =>
+      _signupPasswordHint ?? _defaultSignupPasswordHint;
+
+  /// Hint text for email text form field.
+  /// Default value is given in [_defaultLoginEmailHint].
+  /// Custom value in the constructor is assigned to [_loginEmailHint].
+  String get loginEmailHint => _loginEmailHint ?? _defaultLoginEmailHint;
+
+  /// Hint text for password text form field.
+  /// Default value is given in [_defaultLoginPasswordHint].
+  /// Custom value in the constructor is assigned to [_loginPasswordHint].
+  String get loginPasswordHint =>
+      _loginPasswordHint ?? _defaultLoginPasswordHint;
 
   /// Hint text for confirm password text form field.
   /// Default value is given in [_defaultConfirmPasswordHint].
@@ -155,6 +183,40 @@ class LoginTexts extends ChangeNotifier {
   String get chooseLanguageTitle =>
       _chooseLanguageTitle ?? _defaultChooseLanguageTitle;
 
+  /// The agreement text.
+  /// Default value is given in [_defaultAgreementText].
+  /// Custom value in the constructor is assigned to [_agreementText].
+  String get agreementText => _agreementText ?? _defaultAgreementText;
+
+  /// The privacy policy text.
+  /// Default value is given in [_defaultPrivacyPolicyText].
+  /// Custom value in the constructor is assigned to [_privacyPolicyText].
+  String get privacyPolicyText =>
+      _privacyPolicyText ?? _defaultPrivacyPolicyText;
+
+  /// The terms&conditions text.
+  /// Default value is given in [_defaultTermsConditionsText].
+  /// Custom value in the constructor is assigned to [_termsConditionsText].
+  String get termsConditionsText =>
+      _termsConditionsText ?? _defaultTermsConditionsText;
+
+  /// The link for the privacy policy website.
+  /// Default value is given in [_defaultPrivacyPolicyLink].
+  /// Custom value in the constructor is assigned to [_privacyPolicyLink].
+  String get privacyPolicyLink =>
+      _privacyPolicyLink ?? _defaultPrivacyPolicyLink;
+
+  /// The link for the terms&conditions website.
+  /// Default value is given in [_defaultTermsConditionsLink].
+  /// Custom value in the constructor is assigned to [_termsConditionsLink].
+  String get termsConditionsLink =>
+      _termsConditionsLink ?? _defaultTermsConditionsLink;
+
+  /// The error text displayed when the terms are not accepted.
+  /// Default value is given in [_defaultCheckboxError].
+  /// Custom value in the constructor is assigned to [_checkboxError].
+  String get checkboxError => _checkboxError ?? _defaultCheckboxError;
+
   static const String _defaultWelcome = 'Welcome!';
   static const String _defaultWelcomeDescription =
       'You are where you find the best you are looking for!';
@@ -173,14 +235,25 @@ class LoginTexts extends ChangeNotifier {
   static const String _defaultAlreadyHaveAnAccount = 'Already have an account?';
 
   static const String _defaultNameHint = 'Name';
-  static const String _defaultEmailHint = 'Email';
-  static const String _defaultPasswordHint = 'Password';
+  static const String _defaultSignupEmailHint = 'Email';
+  static const String _defaultSignupPasswordHint = 'Password';
+  static const String _defaultLoginEmailHint = 'Email';
+  static const String _defaultLoginPasswordHint = 'Password';
   static const String _defaultConfirmPasswordHint = 'Confirm Password';
 
   static const String _defaultPasswordMatchingError =
       'The passwords you entered do not match, check again.';
   static const String _defaultDialogButtonText = 'OK';
   static const String _defaultChooseLanguageTitle = 'Choose your language';
+  static const String _defaultAgreementText = 'I agree to the ';
+  static const String _defaultPrivacyPolicyText = 'Privacy Policy';
+  static const String _defaultTermsConditionsText = 'Terms & Conditions';
+  static const String _defaultPrivacyPolicyLink =
+      'https://github.com/bahricanyesil';
+  static const String _defaultTermsConditionsLink =
+      'https://github.com/bahricanyesil';
+  static const String _defaultCheckboxError =
+      '! Please agree to the Privacy Policy and Terms & Conditions !';
 
   final String? _welcome;
 
@@ -228,10 +301,16 @@ class LoginTexts extends ChangeNotifier {
   final String? _nameHint;
 
   /// The hint text for email text form field.
-  final String? _emailHint;
+  final String? _signupEmailHint;
 
   /// The hint text for password text form field.
-  final String? _passwordHint;
+  final String? _signupPasswordHint;
+
+  /// The hint text for email text form field.
+  final String? _loginEmailHint;
+
+  /// The hint text for password text form field.
+  final String? _loginPasswordHint;
 
   /// The hint text for confirm password text form field.
   final String? _confirmPasswordHint;
@@ -245,6 +324,23 @@ class LoginTexts extends ChangeNotifier {
 
   /// The title for choose language dialog.
   final String? _chooseLanguageTitle;
+
+  /// Text for the agreement text.
+  final String? _agreementText;
+
+  /// Text for the privacy policy checkbox.
+  final String? _privacyPolicyText;
+
+  /// Text for the terms and conditions checkbox.
+  final String? _termsConditionsText;
+
+  /// Link of the corresponding privacy policy.
+  final String? _privacyPolicyLink;
+
+  /// Link of the corresponding privacy policy.
+  final String? _termsConditionsLink;
+
+  final String? _checkboxError;
 
   /// Currently selected language.
   LanguageOption? language;

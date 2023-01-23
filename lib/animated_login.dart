@@ -3,8 +3,10 @@ library animated_login;
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'src/src_shelf.dart';
 
@@ -41,6 +43,7 @@ class AnimatedLogin extends StatefulWidget {
     this.validateName = true,
     this.validateEmail = true,
     this.validatePassword = true,
+    this.validateCheckbox = true,
     this.nameController,
     this.emailController,
     this.passwordController,
@@ -55,6 +58,8 @@ class AnimatedLogin extends StatefulWidget {
     this.initialMode,
     this.onAuthModeChange,
     this.changeLangDefaultOnPressed,
+    this.privacyPolicyChild,
+    this.checkboxCallback,
     Key? key,
   })  : assert(
             (changeLanguageCallback != null &&
@@ -126,6 +131,9 @@ class AnimatedLogin extends StatefulWidget {
   /// Indicates whether the password fields should be validated.
   final bool validatePassword;
 
+  /// Indicates whether the checkbox should be validated.
+  final bool validateCheckbox;
+
   /// Optional TextEditingController for name input field.
   final TextEditingController? nameController;
 
@@ -173,6 +181,12 @@ class AnimatedLogin extends StatefulWidget {
   /// It is called on auth mode changes, you can store the current mode.
   final AuthModeChangeCallback? onAuthModeChange;
 
+  /// Custom privacy policy child.
+  final Widget? privacyPolicyChild;
+
+  /// checkboxCallback is called when the checkbox is tapped.
+  final ValueChanged<bool?>? checkboxCallback;
+
   @override
   State<AnimatedLogin> createState() => _AnimatedLoginState();
 }
@@ -191,6 +205,10 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
     )..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
     final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
       ..language = widget.selectedLanguage;
+    final bool hasPrivacyPolicy = loginTheme.animatedComponentOrder.indexWhere(
+            (AnimatedComponent c) =>
+                c.component == LoginComponents.policyCheckbox) !=
+        -1;
     return MultiProvider(
       providers: <ChangeNotifierProvider<dynamic>>[
         ChangeNotifierProvider<LoginTexts>.value(value: loginTexts),
@@ -200,6 +218,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
             onForgotPassword: widget.onForgotPassword,
             onLogin: widget.onLogin,
             onSignup: widget.onSignup,
+            checkboxCallback: widget.checkboxCallback,
             socialLogins: widget.socialLogins,
             initialMode: widget.initialMode,
             onAuthModeChange: widget.onAuthModeChange,
@@ -216,6 +235,8 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
             validateName: widget.validateName,
             validateEmail: widget.validateEmail,
             validatePassword: widget.validatePassword,
+            validateCheckbox: widget.validateCheckbox,
+            hasPrivacyPolicy: hasPrivacyPolicy,
           ),
         ),
       ],
@@ -251,6 +272,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
           changeLanguageCallback: widget.changeLanguageCallback,
           changeLangDefaultOnPressed: widget.changeLangDefaultOnPressed,
           changeLangOnPressed: widget.changeLangOnPressed,
+          privacyPolicyChild: widget.privacyPolicyChild,
         ),
       );
 }
@@ -267,6 +289,7 @@ class _View extends StatefulWidget {
     this.changeLanguageCallback,
     this.changeLangOnPressed,
     this.changeLangDefaultOnPressed,
+    this.privacyPolicyChild,
     Key? key,
   }) : super(key: key);
 
@@ -277,6 +300,7 @@ class _View extends StatefulWidget {
   final ChangeLanguageCallback? changeLanguageCallback;
   final ChangeLangOnPressedCallback? changeLangOnPressed;
   final VoidCallback? changeLangDefaultOnPressed;
+  final Widget? privacyPolicyChild;
 
   @override
   __ViewState createState() => __ViewState();
@@ -347,7 +371,10 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         children: <Widget>[
           Container(color: loginTheme.backgroundColor),
           _animatedWebWelcome,
-          _WebForm(animationController: animationController),
+          _WebForm(
+            animationController: animationController,
+            privacyPolicyChild: widget.privacyPolicyChild,
+          ),
           if (widget.changeLanguageCallback != null &&
               loginTexts.language != null &&
               widget.languageOptions.isNotEmpty)
@@ -470,6 +497,13 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         return _isLandscape
             ? const _Description()
             : _mobileWrapper(component.animationType, const _Description());
+      case LoginComponents.policyCheckbox:
+        return context
+                    .select<Auth, bool>((Auth auth) => auth.isAnimatedLogin) ||
+                _isLandscape
+            ? null
+            : _mobileWrapper(
+                component.animationType, const _PolicyCheckboxRow());
       case LoginComponents.notHaveAnAccount:
         return _isLandscape
             ? _ChangeActionTitle()

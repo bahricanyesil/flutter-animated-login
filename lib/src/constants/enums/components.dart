@@ -33,4 +33,7 @@ enum LoginComponents {
 
   /// Use email text.
   useEmail,
+
+  /// Checkbox for privacy policy and terms&conditions.
+  policyCheckbox,
 }

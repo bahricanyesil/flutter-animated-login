@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bahrican.animated_login">
+  <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="animated_login"
         android:icon="@mipmap/ic_launcher">

@@ -74,6 +74,11 @@ class LoginViewTheme {
     this.socialLoginPadding,
     this.formTitlePadding,
     this.actionButtonPadding,
+    this.privacyPolicyStyle,
+    this.privacyPolicyLinkStyle,
+    this.checkColor,
+    this.borderColor,
+    this.fillColor,
     this.animatedComponentOrder = const <AnimatedComponent>[
       AnimatedComponent(
           component: LoginComponents.logo, animationType: AnimationType.left),
@@ -95,6 +100,7 @@ class LoginViewTheme {
       AnimatedComponent(
           component: LoginComponents.changeActionButton,
           animationType: AnimationType.left),
+      AnimatedComponent(component: LoginComponents.policyCheckbox),
       AnimatedComponent(
           component: LoginComponents.actionButton,
           animationType: AnimationType.left),
@@ -136,6 +142,12 @@ class LoginViewTheme {
   /// Text style for input texts in the text form fields.
   final TextStyle? textFormStyle;
 
+  /// Text style for privacy policy text.
+  final TextStyle? privacyPolicyStyle;
+
+  /// Text style for privacy policy link.
+  final TextStyle? privacyPolicyLinkStyle;
+
   /// Input decoration for the text form fields.
   final InputDecoration? textFormFieldDeco;
 
@@ -156,6 +168,15 @@ class LoginViewTheme {
 
   /// Shadow color for text form fields.
   final Color? formFieldShadowColor;
+
+  /// Check color for the checkbox
+  final Color? checkColor;
+
+  /// Border color for the checkbox
+  final Color? borderColor;
+
+  /// Fill color for the checkbox
+  final Color? fillColor;
 
   /// Border radius for text form fields.
   final BorderRadius? formFieldBorderRadius;
@@ -322,6 +343,8 @@ class LoginViewTheme {
     TextStyle? hintTextStyle,
     TextStyle? errorTextStyle,
     TextStyle? textFormStyle,
+    TextStyle? privacyPolicyStyle,
+    TextStyle? privacyPolicyLinkStyle,
     InputDecoration? textFormFieldDeco,
     Widget? nameIcon,
     Widget? emailIcon,
@@ -371,6 +394,9 @@ class LoginViewTheme {
     bool? showLoadingSocialButton,
     Color? loadingButtonColor,
     Color? loadingSocialButtonColor,
+    Color? checkColor,
+    Color? borderColor,
+    Color? fillColor,
     EdgeInsets? titlePadding,
     EdgeInsets? descriptionPadding,
     EdgeInsets? changeActionPadding,
@@ -466,5 +492,11 @@ class LoginViewTheme {
         actionButtonPadding: actionButtonPadding ?? this.actionButtonPadding,
         animatedComponentOrder:
             animatedComponentOrder ?? this.animatedComponentOrder,
+        privacyPolicyStyle: privacyPolicyStyle ?? this.privacyPolicyStyle,
+        privacyPolicyLinkStyle:
+            privacyPolicyLinkStyle ?? this.privacyPolicyLinkStyle,
+        checkColor: checkColor ?? this.checkColor,
+        borderColor: borderColor ?? this.borderColor,
+        fillColor: fillColor ?? this.fillColor,
       );
 }

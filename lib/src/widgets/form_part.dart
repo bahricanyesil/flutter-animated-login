@@ -2,11 +2,15 @@ part of '../../animated_login.dart';
 
 class _WebForm extends StatefulWidget {
   /// Form part of the login screen.
-  const _WebForm({required this.animationController, Key? key})
+  const _WebForm(
+      {required this.animationController, this.privacyPolicyChild, Key? key})
       : super(key: key);
 
   /// Main animation controller for the transition animation.
   final AnimationController animationController;
+
+  /// Privacy policy child widget
+  final Widget? privacyPolicyChild;
 
   @override
   __WebFormState createState() => __WebFormState();
@@ -122,6 +126,11 @@ class __WebFormState extends State<_WebForm> {
         return <Widget>[];
       case LoginComponents.form:
         return <Widget>[const _Form()];
+      case LoginComponents.policyCheckbox:
+        return <Widget>[
+          if (!_isAnimatedLogin)
+            widget.privacyPolicyChild ?? const _PolicyCheckboxRow()
+        ];
       case LoginComponents.forgotPassword:
         return <Widget>[if (_isAnimatedLogin) const _ForgotPassword()];
       case LoginComponents.actionButton:
@@ -148,6 +157,102 @@ class __WebFormState extends State<_WebForm> {
   }
 }
 
+class _PolicyCheckboxRow extends StatelessWidget {
+  const _PolicyCheckboxRow({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _checkbox,
+              Flexible(child: _checkboxText(context)),
+            ],
+          ),
+          _errorText,
+        ],
+      );
+
+  Widget get _errorText => Selector<Auth, bool>(
+        selector: (_, Auth authModel) => authModel.showCheckboxError,
+        builder: (BuildContext context, bool showError, __) => Visibility(
+          visible: showError,
+          child: Padding(
+            padding:
+                EdgeInsets.only(top: DynamicSize(context).responsiveSize * 2.5),
+            child: BaseText(
+              context.read<LoginTexts>().checkboxError,
+              style: TextStyles(context).errorTextStyle(),
+            ),
+          ),
+        ),
+      );
+
+  Widget _checkboxText(BuildContext context) {
+    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    final LoginTexts loginTexts = context.read<LoginTexts>();
+    return RichText(
+      text: TextSpan(
+        style:
+            loginTheme.privacyPolicyStyle ?? DefaultTextStyle.of(context).style,
+        children: <InlineSpan>[
+          TextSpan(text: loginTexts.agreementText),
+          TextSpan(
+            text: loginTexts.privacyPolicyText,
+            style: loginTheme.privacyPolicyLinkStyle ??
+                const TextStyle(
+                    color: Colors.blue, decoration: TextDecoration.underline),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => _launchUrl(loginTexts.privacyPolicyLink),
+          ),
+          const TextSpan(text: ' and '),
+          TextSpan(
+            text: loginTexts.termsConditionsText,
+            style: loginTheme.privacyPolicyLinkStyle ??
+                const TextStyle(
+                    color: Colors.blue, decoration: TextDecoration.underline),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => _launchUrl(loginTexts.termsConditionsLink),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget get _checkbox => Selector<Auth, bool>(
+        selector: (_, Auth authModel) => authModel.checkedPrivacyBox,
+        builder: (BuildContext context, bool checked, __) {
+          final LoginTheme loginTheme = context.watch<LoginTheme>();
+          final Auth authModel = context.read<Auth>();
+          final Color activeColor =
+              loginTheme.privacyPolicyLinkStyle?.color ?? Colors.white;
+          final bool isLandscape = loginTheme.isLandscape;
+          return Checkbox(
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            value: checked,
+            onChanged: authModel.setCheckedPrivacyPolicy,
+            checkColor: loginTheme.checkColor ??
+                (checked
+                    ? (isLandscape ? Colors.white : loginTheme.backgroundColor)
+                    : activeColor),
+            side: BorderSide(
+                color: loginTheme.borderColor ?? activeColor, width: 1.5),
+            fillColor: MaterialStateProperty.all<Color>(
+                loginTheme.fillColor ?? activeColor),
+          );
+        },
+      );
+
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
+  }
+}
+
 class _ActionButton extends StatelessWidget {
   const _ActionButton({Key? key}) : super(key: key);
 
@@ -157,6 +262,8 @@ class _ActionButton extends StatelessWidget {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     final bool isAnimatedLogin =
         context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin);
+    final bool checkedBox =
+        context.select<Auth, bool>((Auth auth) => auth.checkedPrivacyBox);
     final bool isLandscape = loginTheme.isLandscape;
     return Padding(
       padding: loginTheme.actionButtonPadding ??
@@ -326,7 +433,9 @@ class _FormState extends State<_Form> {
         ),
       CustomTextFormField(
         controller: auth.emailController,
-        hintText: loginTexts.emailHint,
+        hintText: auth.isSignup
+            ? loginTexts.signupEmailHint
+            : loginTexts.loginEmailHint,
         prefixIcon: Icons.email_outlined,
         prefixWidget: loginTheme.emailIcon,
         validator: auth.emailValidator,
@@ -337,7 +446,9 @@ class _FormState extends State<_Form> {
       ),
       ObscuredTextFormField(
         controller: auth.passwordController,
-        hintText: loginTexts.passwordHint,
+        hintText: auth.isSignup
+            ? loginTexts.signupPasswordHint
+            : loginTexts.loginPasswordHint,
         prefixIcon: Icons.password_outlined,
         showPasswordVisibility: auth.showPasswordVisibility,
         textInputAction:

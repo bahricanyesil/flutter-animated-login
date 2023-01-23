@@ -141,6 +141,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         loadingSocialButtonColor: Colors.blue,
         loadingButtonColor: Colors.white,
+        privacyPolicyStyle: const TextStyle(color: Colors.black87),
+        privacyPolicyLinkStyle: const TextStyle(
+            color: Colors.blue, decoration: TextDecoration.underline),
       );
 
   /// You can adjust the colors, text styles, button styles, borders
@@ -167,15 +170,23 @@ class _LoginScreenState extends State<LoginScreen> {
           AnimatedComponent(component: LoginComponents.form),
           AnimatedComponent(component: LoginComponents.notHaveAnAccount),
           AnimatedComponent(component: LoginComponents.forgotPassword),
+          AnimatedComponent(component: LoginComponents.policyCheckbox),
           AnimatedComponent(component: LoginComponents.changeActionButton),
           AnimatedComponent(component: LoginComponents.actionButton),
         ],
+        privacyPolicyStyle: const TextStyle(color: Colors.white70),
+        privacyPolicyLinkStyle: const TextStyle(
+            color: Colors.white, decoration: TextDecoration.underline),
       );
 
   LoginTexts get _loginTexts => LoginTexts(
         nameHint: _username,
         login: _login,
         signUp: _signup,
+        // signupEmailHint: 'Signup Email',
+        // loginEmailHint: 'Login Email',
+        // signupPasswordHint: 'Signup Password',
+        // loginPasswordHint: 'Login Password',
       );
 
   /// You can adjust the texts in the screen according to the current language

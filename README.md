@@ -24,25 +24,77 @@ It is fully responsive to be able to use on both web and mobile apps. You can we
 
 You can follow the instructions for installation [here](https://pub.dev/packages/animated_login/install)
 
+## Configuration Notes for Privacy Policy Links - URL launcher
+
+### Configuration
+
+#### iOS
+
+Add any URL schemes passed to `canLaunchUrl` as `LSApplicationQueriesSchemes`
+entries in your Info.plist file, otherwise it will return false.
+
+Example:
+
+```xml
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>sms</string>
+  <string>tel</string>
+</array>
+```
+
+See [`-[UIApplication canOpenURL:]`](https://developer.apple.com/documentation/uikit/uiapplication/1622952-canopenurl) for more details.
+
+#### Android
+
+Add any URL schemes passed to `canLaunchUrl` as `<queries>` entries in your
+`AndroidManifest.xml`, otherwise it will return false in most cases starting
+on Android 11 (API 30) or higher. A `<queries>`
+element must be added to your manifest as a child of the root element.
+
+Example:
+
+<?code-excerpt "../../android/app/src/main/AndroidManifest.xml (android-queries)" plaster="none"?>
+
+``` xml
+<!-- Provide required visibility configuration for API level 30 and above -->
+<queries>
+  <!-- If your app checks for SMS support -->
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="sms" />
+  </intent>
+  <!-- If your app checks for call support -->
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="tel" />
+  </intent>
+</queries>
+```
+
+See
+[the Android documentation](https://developer.android.com/training/package-visibility/use-cases)
+for examples of other queries.
+
 ## Reference
 
 | Property                  | Type                                      | Description                                                                                                                                                 |
 | ------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | onSignup                  | `SignupCallback`                          | Signup callback that will be called after signup button pressed.                                                                                            |
 | onLogin                   | `LoginCallback`                           | Login callback that will be called after login button pressed.                                                                                              |
-| socialLogins              | [`List<SocialLogin>`](#SocialLogin)       | List of social login options that will be provided.                                                                                                         |
-| loginTexts                | [`LoginTexts`](#LoginTexts)               | Determines all of the texts on the screen.                                                                                                                  |
-| loginDesktopTheme         | [`LoginViewTheme`](#LoginViewTheme)       | Determines all of the theme related things for desktop view.                                                                                                |
-| loginMobileTheme          | [`LoginViewTheme`](#LoginViewTheme)       | Determines all of the theme related things for mobile view.                                                                                                 |
+| socialLogins              | [`List<SocialLogin>`](#sociallogin)       | List of social login options that will be provided.                                                                                                         |
+| loginTexts                | [`LoginTexts`](#logintexts)               | Determines all of the texts on the screen.                                                                                                                  |
+| loginDesktopTheme         | [`LoginViewTheme`](#loginviewtheme)       | Determines all of the theme related things for desktop view.                                                                                                |
+| loginMobileTheme          | [`LoginViewTheme`](#loginviewtheme)       | Determines all of the theme related things for mobile view.                                                                                                 |
 | onForgotPassword          | `ForgotPasswordCallback`                  | Callback that will be called after on tap of forgot password text. Commonly it navigates user to a screen to reset the password.                            |
 | formKey                   | `GlobalKey<FormState>`                    | The optional custom form key, if not provided will be created locally.                                                                                      |
 | checkError                | `bool`                                    | Indicates whether the login screen should handle errors, show the error messages returned from the callbacks in a dialog.                                   |
 | showForgotPassword        | `bool`                                    | Indicates whether the forgot password option will be enabled.                                                                                               |
 | showChangeActionTitle     | `bool`                                    | Indicates whether the change action title should be displayed.                                                                                              |
 | showPasswordVisibility    | `bool`                                    | Indicates whether the user can show the password text without obscuring.                                                                                    |
-| nameValidator             | [`ValidatorModel`](#ValidatorModel)       | Custom input validator for name field.                                                                                                                      |
-| emailValidator            | [`ValidatorModel`](#ValidatorModel)       | Custom input validator for email field.                                                                                                                     |
-| passwordValidator         | [`ValidatorModel`](#ValidatorModel)       | Custom input validator for password field.                                                                                                                  |
+| nameValidator             | [`ValidatorModel`](#validatormodel)       | Custom input validator for name field.                                                                                                                      |
+| emailValidator            | [`ValidatorModel`](#validatormodel)       | Custom input validator for email field.                                                                                                                     |
+| passwordValidator         | [`ValidatorModel`](#validatormodel)       | Custom input validator for password field.                                                                                                                  |
 | validateName              | `bool`                                    | Indicates whether the name field should be validated.                                                                                                       |
 | validateEmail             | `bool`                                    | Indicates whether the email field should be validated.                                                                                                      |
 | validatePassword          | `bool`                                    | Indicates whether the password fields should be validated.                                                                                                  |
@@ -52,10 +104,10 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | confirmPasswordController | `TextEditingController`                   | Optional TextEditingController for confirm password input field.                                                                                            |
 | backgroundImage           | `String`                                  | Full asset image path for background of the welcome part.                                                                                                   |
 | logo                      | `Widget`                                  | Custom widget to display a logo. Its size is constrained.                                                                                                   |
-| signUpMode                | [`SignUpModes`](#SignUpModes)             | Enum to determine which text form fields should be displayed in addition to the email and password fields: Name / Confirm Password / Both.                  |
-| languageOptions           | [`List<LanguageOption>`](#LanguageOption) | List of languages that user can select.                                                                                                                     |
+| signUpMode                | [`SignUpModes`](#signupmodes)             | Enum to determine which text form fields should be displayed in addition to the email and password fields: Name / Confirm Password / Both.                  |
+| languageOptions           | [`List<LanguageOption>`](#languageoption) | List of languages that user can select.                                                                                                                     |
 | changeLanguageCallback    | `ChangeLanguageCallback`                  | Callback that will be called when a language is selected.                                                                                                   |
-| selectedLanguage          | [`LanguageOption`](#LanguageOption)       | Selected language that is stored in your side.                                                                                                              |
+| selectedLanguage          | [`LanguageOption`](#languageoption)       | Selected language that is stored in your side.                                                                                                              |
 | changeLangOnPressed       | `ChangeLangOnPressedCallback`             | Optional function will be called on pressed to the change language button. It should prompt a dialog to select a language and return the selected language. |
 
 ### LoginTexts
@@ -132,7 +184,7 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | welcomePadding            | `EdgeInsets`                                  | Padding of the welcome part widget.                                                  |
 | formPadding               | `EdgeInsets`                                  | Padding of the form part widget.                                                     |
 | logoSize                  | `Size`                                        | Size of the logo in the welcome part.                                                |
-| dialogTheme               | [`AnimatedDialogTheme`](#AnimatedDialogTheme) | Theme preferences for dialogs.                                                       |
+| dialogTheme               | [`AnimatedDialogTheme`](#animateddialogtheme) | Theme preferences for dialogs.                                                       |
 
 ### AnimatedDialogTheme
 
@@ -150,7 +202,7 @@ You can follow the instructions for installation [here](https://pub.dev/packages
 | elevation             | `double`                                      | Elevation of the dialog.                                          |
 | backgroundColor       | `Color`                                       | Background color of the dialog.                                   |
 | animationDuration     | `Duration`                                    | Duration of display animation of the dialog.                      |
-| languageDialogTheme   | [`LanguageDialogTheme`](#LanguageDialogTheme) | Theme of the language dialog, determines its style.               |
+| languageDialogTheme   | [`LanguageDialogTheme`](#languagedialogtheme) | Theme of the language dialog, determines its style.               |
 
 ### LanguageDialogTheme
 
