@@ -1,5 +1,9 @@
 # Versions
 
+## [1.6.1] - 23.01.2023
+
+* Quick fix as removing unused variable to pass static analysis completely.
+
 ## [1.6.0] - 23.01.2023
 
 * Implemented agreement checkbox for privacy policy and terms & conditions.

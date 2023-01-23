@@ -264,8 +264,6 @@ class _ActionButton extends StatelessWidget {
     final LoginTexts loginTexts = context.read<LoginTexts>();
     final bool isAnimatedLogin =
         context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin);
-    final bool checkedBox =
-        context.select<Auth, bool>((Auth auth) => auth.checkedPrivacyBox);
     final bool isLandscape = loginTheme.isLandscape;
     return Padding(
       padding: loginTheme.actionButtonPadding ??
