@@ -1,4 +1,4 @@
-import '../../animated_login.dart';
+import 'package:animated_login/animated_login.dart';
 
 /// [AnimatedComponent] represents a component with its animation type.
 class AnimatedComponent {

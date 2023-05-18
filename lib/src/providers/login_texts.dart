@@ -1,6 +1,5 @@
+import 'package:animated_login/src/models/language_option.dart';
 import 'package:flutter/material.dart';
-
-import '../models/language_option.dart';
 
 /// [LoginTexts] is the provider for all texts in the login screen.
 class LoginTexts extends ChangeNotifier {
@@ -123,9 +122,9 @@ class LoginTexts extends ChangeNotifier {
   String get forgotPassword => _forgotPassword ?? _defaultForgotPassword;
 
   /// Text above the sign up button to direct users who don't have an account.
-  /// Default value is given in [_defaultnotHaveAnAccount].
+  /// Default value is given in [_defaultNotHaveAnAccount].
   /// Custom value in the constructor is assigned to [_notHaveAnAccount].
-  String get notHaveAnAccount => _notHaveAnAccount ?? _defaultnotHaveAnAccount;
+  String get notHaveAnAccount => _notHaveAnAccount ?? _defaultNotHaveAnAccount;
 
   /// Text above the login button to direct users who already have an account.
   /// Default value is given in [_defaultAlreadyHaveAnAccount].
@@ -224,7 +223,7 @@ class LoginTexts extends ChangeNotifier {
   static const String _defaultSignUpFormTitle = 'Create an Account';
   static const String _defaultSignUpUseEmail =
       'or use your email for registration:';
-  static const String _defaultnotHaveAnAccount = "Not have an account?";
+  static const String _defaultNotHaveAnAccount = 'Not have an account?';
   static const String _defaultWelcomeBack = 'Welcome Back!';
   static const String _defaultWelcomeBackDescription =
       "Welcome back to the best. We're always here, waiting for you!";

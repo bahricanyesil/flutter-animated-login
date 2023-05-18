@@ -1,9 +1,8 @@
+import 'package:animated_login/src/models/animated_dialog_theme.dart';
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
+import 'package:animated_login/src/widgets/dialogs/dialogs/base_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../../../models/animated_dialog_theme.dart';
-import '../../../responsiveness/dynamic_size.dart';
-import 'base_dialog.dart';
 
 /// Web specific alert dialog.
 class PlatformDialog with BaseDialog {
@@ -54,8 +53,10 @@ class PlatformDialog with BaseDialog {
         title: title,
         content: Padding(
           padding: dialogTheme.contentPadding ??
-              EdgeInsets.all(DynamicSize(context).responsiveSize *
-                  (contentPaddingFactor ?? 3)),
+              EdgeInsets.all(
+                DynamicSize(context).responsiveSize *
+                    (contentPaddingFactor ?? 3),
+              ),
           child: getContent(
             context,
             contentText: contentText,

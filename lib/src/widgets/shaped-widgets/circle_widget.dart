@@ -1,11 +1,10 @@
+import 'package:animated_login/src/providers/auth.dart';
+import 'package:animated_login/src/providers/login_theme.dart';
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../providers/auth.dart';
-import '../../providers/login_theme.dart';
-import '../../responsiveness/dynamic_size.dart';
 
 /// Provides a circle button with custom stylings.
 class CircleWidget extends StatefulWidget {
@@ -39,7 +38,7 @@ class CircleWidget extends StatefulWidget {
   /// Hover color.
   final Color? hoverColor;
 
-  /// Cutom border style.
+  /// Custom border style.
   final BorderSide? border;
 
   @override
@@ -85,7 +84,7 @@ class _CircleWidgetState extends State<CircleWidget> {
   Future<void> _onPressed() async {
     if (_loading || widget.onTap == null) return;
     setState(() => _loading = true);
-    final Auth auth = context.read<Auth>();
+    final auth = context.read<Auth>();
     await auth.cancelableOperation?.cancel();
     auth.cancelableOperation = CancelableOperation<void>.fromFuture(
       widget.onTap!(),

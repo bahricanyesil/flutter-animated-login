@@ -1,6 +1,5 @@
+import 'package:animated_login/src/utils/hasher.dart';
 import 'package:flutter/foundation.dart';
-
-import '../utils/hasher.dart';
 
 /// When user select a language, returns the corresponding language option.
 typedef ChangeLanguageCallback = void Function(LanguageOption? language);
@@ -8,6 +7,9 @@ typedef ChangeLanguageCallback = void Function(LanguageOption? language);
 /// Will be called wen user taps to change language button.
 /// Should return [LanguageOption] that user is selected.
 typedef ChangeLangOnPressedCallback = Future<LanguageOption?> Function();
+
+/// Will be called when user taps to choose language button.
+typedef ChooseLangCallback = void Function(LanguageOption? language);
 
 @immutable
 
@@ -23,7 +25,7 @@ class LanguageOption {
   /// The complete name of the language option.
   final String value;
 
-  /// The code/abbrevation of the language option.
+  /// The code/abbreviation of the language option.
   final String code;
 
   /// Full asset path of the language option.

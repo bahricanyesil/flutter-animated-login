@@ -2,13 +2,12 @@ library animated_login;
 
 import 'dart:async';
 
+import 'package:animated_login/src/src_shelf.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'src/src_shelf.dart';
 
 export 'src/constants/enums/enums_shelf.dart';
 export 'src/models/models_shelf.dart';
@@ -62,13 +61,14 @@ class AnimatedLogin extends StatefulWidget {
     this.checkboxCallback,
     Key? key,
   })  : assert(
-            (changeLanguageCallback != null &&
-                    languageOptions.length != 0 &&
-                    selectedLanguage != null) ||
-                (changeLanguageCallback == null &&
-                    languageOptions.length == 0 &&
-                    selectedLanguage == null),
-            """To use change language button, you should provide both callback and language options."""),
+          (changeLanguageCallback != null &&
+                  languageOptions.length != 0 &&
+                  selectedLanguage != null) ||
+              (changeLanguageCallback == null &&
+                  languageOptions.length == 0 &&
+                  selectedLanguage == null),
+          '''To use change language button, you should provide both callback and language options.''',
+        ),
         super(key: key);
 
   /// Determines all of the theme related variables for *DESKTOP* view.
@@ -199,15 +199,16 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
   Widget build(BuildContext context) {
     /// Background color of whole screen for mobile view,
     /// of welcome part for web view.
-    final LoginTheme loginTheme = LoginTheme(
+    final loginTheme = LoginTheme(
       desktopTheme: widget.loginDesktopTheme,
       mobileTheme: widget.loginMobileTheme,
     )..backgroundColor ??= Theme.of(context).primaryColor.withOpacity(.8);
-    final LoginTexts loginTexts = widget.loginTexts ?? LoginTexts()
+    final loginTexts = widget.loginTexts ?? LoginTexts()
       ..language = widget.selectedLanguage;
-    final bool hasPrivacyPolicy = loginTheme.animatedComponentOrder.indexWhere(
-            (AnimatedComponent c) =>
-                c.component == LoginComponents.policyCheckbox) !=
+    final hasPrivacyPolicy = loginTheme.animatedComponentOrder.indexWhere(
+          (AnimatedComponent c) =>
+              c.component == LoginComponents.policyCheckbox,
+        ) !=
         -1;
     return MultiProvider(
       providers: <ChangeNotifierProvider<dynamic>>[
@@ -245,8 +246,7 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
           : GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-              child: Scaffold(
-                  backgroundColor: loginTheme.backgroundColor, body: _safeArea),
+              child: _webScaffold(loginTheme.backgroundColor),
             ),
     );
   }
@@ -255,9 +255,9 @@ class _AnimatedLoginState extends State<AnimatedLogin> {
         backgroundColor: backgroundColor,
         body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            final bool isLandscape =
+            final isLandscape =
                 constraints.maxHeight / constraints.maxWidth < 1.05;
-            context.read<LoginTheme>().setIsLandscape(isLandscape);
+            context.read<LoginTheme>().setIsLandscape(newValue: isLandscape);
             return _safeArea;
           },
         ),
@@ -410,7 +410,9 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
   Widget get _changeAction => _isLandscape
       ? _ChangeActionButton(animate: () async => _animate(context))
       : _ChangeActionTitle(
-          showButtonText: true, animate: () => _animate(context));
+          showButtonText: true,
+          animate: () => _animate(context),
+        );
 
   Widget _mobileWrapper(AnimationType animationType, Widget child) =>
       animationType == AnimationType.left
@@ -467,16 +469,17 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         padding: context.read<LoginTheme>().welcomePadding ??
             DynamicSize(context).medHighHorizontalPadding,
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: _children(_orderedWelcomeComponents)),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: _children(_orderedWelcomeComponents),
+        ),
       );
 
   List<Widget> _children(
-      Widget? Function(AnimatedComponent component) callback) {
-    final List<Widget> items = <Widget>[];
-    for (final AnimatedComponent component
-        in loginTheme.animatedComponentOrder) {
-      final Widget? foundComponent = callback(component);
+    Widget? Function(AnimatedComponent component) callback,
+  ) {
+    final items = <Widget>[];
+    for (final component in loginTheme.animatedComponentOrder) {
+      final foundComponent = callback(component);
       if (foundComponent == null) continue;
       items.add(foundComponent);
     }
@@ -503,7 +506,9 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
                 _isLandscape
             ? null
             : _mobileWrapper(
-                component.animationType, const _PolicyCheckboxRow());
+                component.animationType,
+                const _PolicyCheckboxRow(),
+              );
       case LoginComponents.notHaveAnAccount:
         return _isLandscape
             ? _ChangeActionTitle()
@@ -512,9 +517,14 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
         return _isLandscape
             ? _changeAction
             : _mobileWrapper(component.animationType, _changeAction);
-      default:
-        return null;
+      case LoginComponents.formTitle:
+      case LoginComponents.socialLogins:
+      case LoginComponents.form:
+      case LoginComponents.actionButton:
+      case LoginComponents.forgotPassword:
+      case LoginComponents.useEmail:
     }
+    return null;
   }
 
   Widget? _orderedMobileComponents(AnimatedComponent component) {
@@ -524,7 +534,9 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
       case LoginComponents.socialLogins:
         if (auth.socialLogins != null && auth.socialLogins!.isNotEmpty) {
           return _mobileWrapper(
-              component.animationType, const _SocialLoginOptions());
+            component.animationType,
+            const _SocialLoginOptions(),
+          );
         }
         return null;
       case LoginComponents.useEmail:
@@ -540,8 +552,13 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
             : Container();
       case LoginComponents.actionButton:
         return _mobileWrapper(component.animationType, const _ActionButton());
-      default:
-        final Widget? foundInWelcome = _orderedWelcomeComponents(component);
+      case LoginComponents.formTitle:
+      case LoginComponents.logo:
+      case LoginComponents.title:
+      case LoginComponents.description:
+      case LoginComponents.policyCheckbox:
+      case LoginComponents.changeActionButton:
+        final foundInWelcome = _orderedWelcomeComponents(component);
         if (foundInWelcome != null) return foundInWelcome;
     }
     return null;
@@ -594,12 +611,14 @@ class __ViewState extends State<_View> with SingleTickerProviderStateMixin {
     welcomeTransitionAnimation.addListener(() {
       if (mounted) {
         if (_isLandscape) {
-          auth.setIsReverse(welcomeTransitionAnimation.value <=
-              context.read<LoginTheme>().formWidthRatio / 2);
+          auth.setIsReverse(
+            newValue: welcomeTransitionAnimation.value <=
+                context.read<LoginTheme>().formWidthRatio / 2,
+          );
         } else if (_forwardCheck) {
-          auth.setIsReverse(false);
+          auth.setIsReverse(newValue: false);
         } else if (_reverseCheck) {
-          auth.setIsReverse(true);
+          auth.setIsReverse(newValue: true);
         }
       }
     });

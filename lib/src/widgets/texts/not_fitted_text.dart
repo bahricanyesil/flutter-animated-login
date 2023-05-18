@@ -1,10 +1,9 @@
+import 'package:animated_login/src/decorations/text_styles.dart';
 import 'package:flutter/material.dart';
-
-import '../../decorations/text_styles.dart';
 
 /// Base text with custom parameters but not wrapped with [FittedBox].
 class NotFittedText extends StatelessWidget {
-  /// This is the difference from the "BaseText", it also allows multline texts.
+  /// This is the difference from the "BaseText", it also allows multiline texts
   /// Implements some further customizations.
   const NotFittedText(
     this.text, {

@@ -2,9 +2,11 @@ part of '../../animated_login.dart';
 
 class _WebForm extends StatefulWidget {
   /// Form part of the login screen.
-  const _WebForm(
-      {required this.animationController, this.privacyPolicyChild, Key? key})
-      : super(key: key);
+  const _WebForm({
+    required this.animationController,
+    this.privacyPolicyChild,
+    Key? key,
+  }) : super(key: key);
 
   /// Main animation controller for the transition animation.
   final AnimationController animationController;
@@ -56,7 +58,7 @@ class __WebFormState extends State<_WebForm> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final Auth auth = context.read<Auth>();
+    final auth = context.read<Auth>();
     auth
       ..setEmailValue(auth.email)
       ..setPasswordValue(auth.password)
@@ -102,9 +104,8 @@ class __WebFormState extends State<_WebForm> {
       );
 
   Widget get _formColumn {
-    final List<Widget> items = <Widget>[];
-    for (final AnimatedComponent component
-        in loginTheme.animatedComponentOrder) {
+    final items = <Widget>[];
+    for (final component in loginTheme.animatedComponentOrder) {
       items.addAll(_orderedComponent(component.component));
     }
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: items);
@@ -135,7 +136,11 @@ class __WebFormState extends State<_WebForm> {
         return <Widget>[if (_isAnimatedLogin) const _ForgotPassword()];
       case LoginComponents.actionButton:
         return <Widget>[const _ActionButton()];
-      default:
+      case LoginComponents.title:
+      case LoginComponents.description:
+      case LoginComponents.logo:
+      case LoginComponents.notHaveAnAccount:
+      case LoginComponents.changeActionButton:
         return <Widget>[Container()];
     }
   }
@@ -162,7 +167,7 @@ class _PolicyCheckboxRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    final loginTheme = context.watch<LoginTheme>();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -186,16 +191,18 @@ class _PolicyCheckboxRow extends StatelessWidget {
           child: Padding(
             padding:
                 EdgeInsets.only(top: DynamicSize(context).responsiveSize * 2.5),
-            child: BaseText(context.read<LoginTexts>().checkboxError,
-                style: TextStyles(context)
-                    .errorTextStyle()
-                    .merge(loginTheme.errorTextStyle)),
+            child: BaseText(
+              context.read<LoginTexts>().checkboxError,
+              style: TextStyles(context)
+                  .errorTextStyle()
+                  .merge(loginTheme.errorTextStyle),
+            ),
           ),
         ),
       );
 
   Widget _checkboxText(BuildContext context, LoginTheme loginTheme) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
+    final loginTexts = context.read<LoginTexts>();
     return RichText(
       text: TextSpan(
         style:
@@ -206,7 +213,9 @@ class _PolicyCheckboxRow extends StatelessWidget {
             text: loginTexts.privacyPolicyText,
             style: loginTheme.privacyPolicyLinkStyle ??
                 const TextStyle(
-                    color: Colors.blue, decoration: TextDecoration.underline),
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
             recognizer: TapGestureRecognizer()
               ..onTap = () => _launchUrl(loginTexts.privacyPolicyLink),
           ),
@@ -215,7 +224,9 @@ class _PolicyCheckboxRow extends StatelessWidget {
             text: loginTexts.termsConditionsText,
             style: loginTheme.privacyPolicyLinkStyle ??
                 const TextStyle(
-                    color: Colors.blue, decoration: TextDecoration.underline),
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
             recognizer: TapGestureRecognizer()
               ..onTap = () => _launchUrl(loginTexts.termsConditionsLink),
           ),
@@ -227,23 +238,27 @@ class _PolicyCheckboxRow extends StatelessWidget {
   Widget get _checkbox => Selector<Auth, bool>(
         selector: (_, Auth authModel) => authModel.checkedPrivacyBox,
         builder: (BuildContext context, bool checked, __) {
-          final LoginTheme loginTheme = context.watch<LoginTheme>();
-          final Auth authModel = context.read<Auth>();
-          final Color activeColor =
+          final loginTheme = context.watch<LoginTheme>();
+          final authModel = context.read<Auth>();
+          final activeColor =
               loginTheme.privacyPolicyLinkStyle?.color ?? Colors.white;
-          final bool isLandscape = loginTheme.isLandscape;
+          final isLandscape = loginTheme.isLandscape;
           return Checkbox(
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             value: checked,
-            onChanged: authModel.setCheckedPrivacyPolicy,
+            onChanged: (bool? newVal) =>
+                authModel.setCheckedPrivacyPolicy(newValue: newVal),
             checkColor: loginTheme.checkColor ??
                 (checked
                     ? (isLandscape ? Colors.white : loginTheme.backgroundColor)
                     : activeColor),
             side: BorderSide(
-                color: loginTheme.borderColor ?? activeColor, width: 1.5),
+              color: loginTheme.borderColor ?? activeColor,
+              width: 1.5,
+            ),
             fillColor: MaterialStateProperty.all<Color>(
-                loginTheme.fillColor ?? activeColor),
+              loginTheme.fillColor ?? activeColor,
+            ),
           );
         },
       );
@@ -260,11 +275,11 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
-    final LoginTexts loginTexts = context.read<LoginTexts>();
-    final bool isAnimatedLogin =
+    final loginTheme = context.watch<LoginTheme>();
+    final loginTexts = context.read<LoginTexts>();
+    final isAnimatedLogin =
         context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin);
-    final bool isLandscape = loginTheme.isLandscape;
+    final isLandscape = loginTheme.isLandscape;
     return Padding(
       padding: loginTheme.actionButtonPadding ??
           EdgeInsets.symmetric(vertical: _customSpace(context, isLandscape)),
@@ -280,7 +295,7 @@ class _ActionButton extends StatelessWidget {
   }
 
   double _customSpace(BuildContext context, bool isLandscape) {
-    double factor = 2;
+    var factor = 2;
     if (isLandscape) {
       factor = 3;
     }
@@ -293,8 +308,8 @@ class _FormTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    final loginTexts = context.read<LoginTexts>();
+    final loginTheme = context.watch<LoginTheme>();
     return Padding(
       padding: loginTheme.formTitlePadding ?? EdgeInsets.zero,
       child: BaseText(
@@ -314,8 +329,8 @@ class _SocialLoginOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
-    final DynamicSize dynamicSize = DynamicSize(context);
+    final loginTheme = context.watch<LoginTheme>();
+    final dynamicSize = DynamicSize(context);
     return Padding(
       padding: loginTheme.socialLoginPadding ??
           EdgeInsets.symmetric(vertical: dynamicSize.height * 1.4),
@@ -329,7 +344,7 @@ class _SocialLoginOptions extends StatelessWidget {
   }
 
   List<Widget> _socialLoginButtons(BuildContext context, bool isLandscape) {
-    final Auth auth = context.read<Auth>();
+    final auth = context.read<Auth>();
     return List<Widget>.generate(
       auth.socialLogins!.length,
       (int index) => CircleWidget(
@@ -347,8 +362,8 @@ class _UseEmailText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
-    final DynamicSize dynamicSize = DynamicSize(context);
+    final loginTheme = context.watch<LoginTheme>();
+    final dynamicSize = DynamicSize(context);
     return Padding(
       padding: loginTheme.useEmailPadding ??
           EdgeInsets.only(top: dynamicSize.height),
@@ -357,14 +372,15 @@ class _UseEmailText extends StatelessWidget {
   }
 
   Widget _useEmailText(BuildContext context, LoginTheme loginTheme) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
+    final loginTexts = context.read<LoginTexts>();
     return BaseText(
       context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
           ? loginTexts.loginUseEmail
           : loginTexts.signUpUseEmail,
       style: TextStyles(context)
           .subtitleTextStyle(
-              color: loginTheme.isLandscape ? Colors.black87 : Colors.white)
+            color: loginTheme.isLandscape ? Colors.black87 : Colors.white,
+          )
           .merge(loginTheme.useEmailStyle),
     );
   }
@@ -391,8 +407,8 @@ class _FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     auth = context.read<Auth>();
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
-    final DynamicSize dynamicSize = DynamicSize(context);
+    final loginTheme = context.watch<LoginTheme>();
+    final dynamicSize = DynamicSize(context);
     return Padding(
       padding: loginTheme.formPadding ??
           EdgeInsets.symmetric(vertical: dynamicSize.height * 2),
@@ -411,8 +427,8 @@ class _FormState extends State<_Form> {
   }
 
   List<Widget> _formElements(Auth auth, LoginTheme loginTheme) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
-    final bool isAnimatedLogin =
+    final loginTexts = context.read<LoginTexts>();
+    final isAnimatedLogin =
         context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin);
     return <Widget>[
       if (!isAnimatedLogin && auth.signUpMode != SignUpModes.confirmPassword)
@@ -479,10 +495,10 @@ class _ForgotPassword extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
-    final Auth auth = context.read<Auth>();
-    final DynamicSize dynamicSize = DynamicSize(context);
-    final bool isLandscape = loginTheme.isLandscape;
+    final loginTheme = context.watch<LoginTheme>();
+    final auth = context.read<Auth>();
+    final dynamicSize = DynamicSize(context);
+    final isLandscape = loginTheme.isLandscape;
     return Container(
       alignment: isLandscape ? Alignment.center : Alignment.topCenter,
       padding: loginTheme.forgotPasswordPadding ??
@@ -501,5 +517,6 @@ class _ForgotPassword extends StatelessWidget {
 
   TextStyle _defaultStyle(BuildContext context, bool isLandscape) =>
       TextStyles(context).subBodyStyle(
-          color: isLandscape ? Theme.of(context).primaryColor : Colors.white);
+        color: isLandscape ? Theme.of(context).primaryColor : Colors.white,
+      );
 }

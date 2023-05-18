@@ -1,6 +1,5 @@
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
 import 'package:flutter/material.dart';
-
-import '../responsiveness/dynamic_size.dart';
 
 /// [TextStyles] class collects all customized [TextStyle] in one file.
 class TextStyles {
@@ -33,7 +32,7 @@ class TextStyles {
         letterSpacing: 1.2,
       );
 
-  /// Custom text style for subbody texts in the login screen.
+  /// Custom text style for subBody texts in the login screen.
   /// Such as: "forgotPassword" text.
   TextStyle subBodyStyle({Color? color, TextDecoration? decoration}) =>
       TextStyle(
@@ -86,8 +85,11 @@ class TextStyles {
 
   /// Custom text style for subtitle/comparably smaller texts.
   /// Such as: "useEmailText"/"notHaveAnAccount" texts.
-  TextStyle subtitleTextStyle(
-          {Color? color, FontWeight? fontWeight, TextDecoration? decoration}) =>
+  TextStyle subtitleTextStyle({
+    Color? color,
+    FontWeight? fontWeight,
+    TextDecoration? decoration,
+  }) =>
       TextStyle(
         fontSize: _dynamicSize.responsiveSize * 4.8,
         color: color ?? Colors.white.withOpacity(.8),
@@ -96,8 +98,11 @@ class TextStyles {
       );
 
   /// Custom text style for dialog content.
-  TextStyle dialogTextStyle(
-          {Color? color, FontWeight? fontWeight, TextDecoration? decoration}) =>
+  TextStyle dialogTextStyle({
+    Color? color,
+    FontWeight? fontWeight,
+    TextDecoration? decoration,
+  }) =>
       TextStyle(
         fontSize: _dynamicSize.responsiveSize * 5.2,
         color: color ?? Colors.black.withOpacity(.8),

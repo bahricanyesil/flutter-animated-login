@@ -1,12 +1,11 @@
+import 'package:animated_login/animated_login.dart';
+import 'package:animated_login/src/decorations/text_styles.dart';
+import 'package:animated_login/src/providers/login_theme.dart';
+import 'package:animated_login/src/widgets/dialogs/animated_dialog.dart';
+import 'package:animated_login/src/widgets/dialogs/single_choose_dialog.dart';
+import 'package:animated_login/src/widgets/texts/base_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../animated_login.dart';
-import '../../decorations/text_styles.dart';
-import '../../providers/login_theme.dart';
-import '../texts/base_text.dart';
-import 'animated_dialog.dart';
-import 'single_choose_dialog.dart';
 
 /// Dialog builder for displaying dialogs.
 class DialogBuilder {
@@ -18,11 +17,14 @@ class DialogBuilder {
 
   /// Shows error dialog.
   void showErrorDialog(String text) =>
-      AnimatedDialog(contentText: text).show(context);
+      AnimatedDialog(contentText: text).show<void>(context);
 
   /// Shows multiple selection dialog.
-  Future<int?> showSelectDialog(String titleText, List<LanguageOption> elements,
-          LanguageOption? initialValue) async =>
+  Future<int?> showSelectDialog(
+    String titleText,
+    List<LanguageOption> elements,
+    LanguageOption? initialValue,
+  ) async =>
       AnimatedDialog(
         content: SingleChooseDialog(
           elements: elements,
@@ -36,6 +38,7 @@ class DialogBuilder {
         titleText,
         style: context.read<LoginTheme>().dialogTheme?.titleStyle ??
             TextStyles(context).subBodyStyle(
-                color: Theme.of(context).primaryColor.withOpacity(.7)),
+              color: Theme.of(context).primaryColor.withOpacity(.7),
+            ),
       );
 }

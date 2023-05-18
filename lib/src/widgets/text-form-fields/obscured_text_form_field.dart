@@ -1,11 +1,10 @@
+import 'package:animated_login/src/decorations/input_decorations.dart';
+import 'package:animated_login/src/decorations/text_styles.dart';
+import 'package:animated_login/src/providers/login_theme.dart';
+import 'package:animated_login/src/widgets/buttons/base_icon_button.dart';
+import 'package:animated_login/src/widgets/text-form-fields/text_form_field_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../decorations/input_decorations.dart';
-import '../../decorations/text_styles.dart';
-import '../../providers/login_theme.dart';
-import '../buttons/base_icon_button.dart';
-import 'text_form_field_wrapper.dart';
 
 /// Base obscured [TextFormField] wrapped with [BaseTextFormFieldWrapper].
 class ObscuredTextFormField extends StatefulWidget {
@@ -55,7 +54,7 @@ class ObscuredTextFormField extends StatefulWidget {
   final bool showPasswordVisibility;
 
   /// Callback to call when the input is submitted.
-  final Function(String text)? onFieldSubmitted;
+  final void Function(String text)? onFieldSubmitted;
 
   /// Focus node to control the focus on the field.
   final FocusNode? focusNode;
@@ -70,7 +69,7 @@ class ObscuredTextFormFieldState extends State<ObscuredTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTheme theme = context.read<LoginTheme>();
+    final theme = context.read<LoginTheme>();
     return BaseTextFormFieldWrapper(
       formField: TextFormField(
         focusNode: widget.focusNode,

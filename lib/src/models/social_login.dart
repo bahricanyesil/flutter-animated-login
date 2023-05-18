@@ -1,22 +1,21 @@
+import 'package:animated_login/src/models/login_data.dart';
+import 'package:animated_login/src/models/signup_data.dart';
 import 'package:flutter/foundation.dart';
 
-import 'login_data.dart';
-import 'signup_data.dart';
-
 /// The result should be the error message.
-/// Returning null indicatest that the callback succeed.
+/// Returning null indicates that the callback succeed.
 typedef LoginCallback = Future<String?> Function(LoginData loginData);
 
 /// The result should be the error message.
-/// Returning null indicatest that the callback succeed.
+/// Returning null indicates that the callback succeed.
 typedef SignupCallback = Future<String?> Function(SignUpData signUpData);
 
 /// The result should be the error message.
-/// Returning null indicatest that the callback succeed.
+/// Returning null indicates that the callback succeed.
 typedef SocialLoginCallback = Future<String?> Function();
 
 /// The result should be the error message.
-/// Returning null indicatest that the callback succeed.
+/// Returning null indicates that the callback succeed.
 /// It takes [email] as a parameter to identify the user.
 typedef ForgotPasswordCallback = Future<String?> Function(String email);
 

@@ -15,7 +15,7 @@ class LanguageDialogTheme {
     this.dividerThemeData,
   });
 
-  /// Title of the choose langauge dialog.
+  /// Title of the choose language dialog.
   final Widget? title;
 
   /// Size of the dialog option.

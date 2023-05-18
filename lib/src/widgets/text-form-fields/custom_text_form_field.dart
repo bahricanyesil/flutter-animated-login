@@ -1,11 +1,10 @@
+import 'package:animated_login/src/decorations/input_decorations.dart';
+import 'package:animated_login/src/decorations/text_styles.dart';
+import 'package:animated_login/src/providers/login_theme.dart';
+import 'package:animated_login/src/providers/providers_shelf.dart';
+import 'package:animated_login/src/widgets/text-form-fields/text_form_field_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../decorations/input_decorations.dart';
-import '../../decorations/text_styles.dart';
-import '../../providers/login_theme.dart';
-import '../../providers/providers_shelf.dart';
-import 'text_form_field_wrapper.dart';
 
 /// Base [TextFormField] wrapped with [BaseTextFormFieldWrapper].
 class CustomTextFormField extends StatelessWidget {
@@ -61,7 +60,7 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTheme theme = context.read<LoginTheme>();
+    final theme = context.read<LoginTheme>();
     return BaseTextFormFieldWrapper(
       formField: TextFormField(
         controller: controller,

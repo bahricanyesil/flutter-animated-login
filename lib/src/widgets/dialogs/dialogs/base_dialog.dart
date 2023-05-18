@@ -1,13 +1,12 @@
+import 'package:animated_login/src/decorations/text_styles.dart';
+import 'package:animated_login/src/models/animated_dialog_theme.dart';
+import 'package:animated_login/src/providers/login_texts.dart';
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
+import 'package:animated_login/src/widgets/texts/base_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../decorations/text_styles.dart';
-import '../../../models/animated_dialog_theme.dart';
-import '../../../providers/login_texts.dart';
-import '../../../responsiveness/dynamic_size.dart';
-import '../../texts/base_text.dart';
 
 /// Base dialog widget for platform specific dialogs.
 mixin BaseDialog {
@@ -18,7 +17,7 @@ mixin BaseDialog {
     required String? contentText,
     required AnimatedDialogTheme dialogTheme,
   }) {
-    final DynamicSize dynamicSize = DynamicSize(context);
+    final dynamicSize = DynamicSize(context);
     return content ??
         ConstrainedBox(
           constraints: dialogTheme.contentBoxConstraints ??
@@ -53,29 +52,43 @@ mixin BaseDialog {
                     onPressed: () async =>
                         _rightButtonAction(context, willPop, action),
                     child: _buttonText(
-                        actionText, dialogTheme.actionTextStyle, context),
+                      actionText,
+                      dialogTheme.actionTextStyle,
+                      context,
+                    ),
                   )
                 : InkWell(
                     onTap: () async =>
                         _rightButtonAction(context, willPop, action),
                     child: _buttonText(
-                        actionText, dialogTheme.actionTextStyle, context),
+                      actionText,
+                      dialogTheme.actionTextStyle,
+                      context,
+                    ),
                   ),
           ),
       ];
 
   Future<void> _rightButtonAction(
-      BuildContext context, bool willPop, AsyncCallback? action) async {
+    BuildContext context,
+    bool willPop,
+    AsyncCallback? action,
+  ) async {
     if (willPop) Navigator.of(context).pop();
     if (action != null) await action();
   }
 
-  Widget _buttonText(String actionText, TextStyle? customTextStyle,
-          BuildContext context) =>
-      BaseText(actionText,
-          style: TextStyles(context)
-              .subtitleTextStyle(color: Theme.of(context).primaryColor)
-              .merge(customTextStyle));
+  Widget _buttonText(
+    String actionText,
+    TextStyle? customTextStyle,
+    BuildContext context,
+  ) =>
+      BaseText(
+        actionText,
+        style: TextStyles(context)
+            .subtitleTextStyle(color: Theme.of(context).primaryColor)
+            .merge(customTextStyle),
+      );
 
   EdgeInsets _getButtonPadding(BuildContext context) => EdgeInsets.only(
         right: DynamicSize(context).width * 1.2,

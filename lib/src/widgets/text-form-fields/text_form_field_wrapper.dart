@@ -1,8 +1,7 @@
+import 'package:animated_login/src/providers/login_theme.dart';
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../providers/login_theme.dart';
-import '../../responsiveness/dynamic_size.dart';
 
 /// Base [TextFormField] wrapper to manage the size values in one place.
 class BaseTextFormFieldWrapper extends StatelessWidget {
@@ -21,9 +20,9 @@ class BaseTextFormFieldWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTheme loginTheme = context.read<LoginTheme>();
-    final DynamicSize dynamicSize = DynamicSize(context);
-    final bool isLandscape = loginTheme.isLandscape;
+    final loginTheme = context.read<LoginTheme>();
+    final dynamicSize = DynamicSize(context);
+    final isLandscape = loginTheme.isLandscape;
     return ConstrainedBox(
       constraints: BoxConstraints.tightFor(
         width: loginTheme.formFieldSize?.width ??

@@ -1,9 +1,8 @@
+import 'package:animated_login/src/decorations/button_styles.dart';
+import 'package:animated_login/src/decorations/text_styles.dart';
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
+import 'package:animated_login/src/widgets/texts/base_text.dart';
 import 'package:flutter/material.dart';
-
-import '../../decorations/button_styles.dart';
-import '../../decorations/text_styles.dart';
-import '../../responsiveness/dynamic_size.dart';
-import '../texts/base_text.dart';
 
 /// Base text button with custom parameters
 class BaseTextButton extends StatelessWidget {
@@ -30,7 +29,7 @@ class BaseTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DynamicSize dynamicSize = DynamicSize(context);
+    final dynamicSize = DynamicSize(context);
     return FittedBox(
       child: TextButton(
         onPressed: onPressed,

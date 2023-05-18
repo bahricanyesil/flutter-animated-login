@@ -1,13 +1,12 @@
+import 'package:animated_login/src/models/animated_dialog_theme.dart';
+import 'package:animated_login/src/providers/login_theme.dart';
+import 'package:animated_login/src/widgets/dialogs/dialogs/mobile_dialog.dart'
+    if (dart.library.html) 'dialogs/web_dialog.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show AsyncCallback;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../models/animated_dialog_theme.dart';
-import '../../providers/login_theme.dart';
-import 'dialogs/mobile_dialog.dart'
-    if (dart.library.html) 'dialogs/web_dialog.dart';
 
 /// Creates custom animated dialog specific to each platform.
 class AnimatedDialog extends PlatformDialog {
@@ -34,7 +33,7 @@ class AnimatedDialog extends PlatformDialog {
 
   /// Displays the dialog on the screen.
   Future<T?> show<T>(BuildContext context) async {
-    final AnimatedDialogTheme dialogTheme =
+    final dialogTheme =
         context.read<LoginTheme>().dialogTheme ?? const AnimatedDialogTheme();
     return showModal<T>(
       configuration: FadeScaleTransitionConfiguration(

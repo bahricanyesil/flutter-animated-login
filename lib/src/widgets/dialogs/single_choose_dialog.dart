@@ -1,10 +1,9 @@
+import 'package:animated_login/src/decorations/text_styles.dart';
+import 'package:animated_login/src/models/language_dialog_theme.dart';
+import 'package:animated_login/src/models/language_option.dart';
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
+import 'package:animated_login/src/widgets/texts/base_text.dart';
 import 'package:flutter/material.dart';
-
-import '../../decorations/text_styles.dart';
-import '../../models/language_dialog_theme.dart';
-import '../../models/language_option.dart';
-import '../../responsiveness/dynamic_size.dart';
-import '../texts/base_text.dart';
 
 /// Choose dialog with multiple options but single selection.
 class SingleChooseDialog extends StatelessWidget {
@@ -46,10 +45,12 @@ class SingleChooseDialog extends StatelessWidget {
         width: theme?.dialogOptionSize?.width,
         margin: theme?.optionMargin ??
             EdgeInsets.symmetric(
-                horizontal: DynamicSize(context).responsiveSize * 2),
+              horizontal: DynamicSize(context).responsiveSize * 2,
+            ),
         padding: theme?.optionPadding ??
             EdgeInsets.symmetric(
-                vertical: DynamicSize(context).responsiveSize * .5),
+              vertical: DynamicSize(context).responsiveSize * .5,
+            ),
         child: Material(
           color: initialValue == elements[index]
               ? (theme?.selectedBackgroundColor ??
@@ -65,7 +66,7 @@ class SingleChooseDialog extends StatelessWidget {
       );
 
   Widget _buttonChild(BuildContext context, int index) {
-    final double responsiveSize = DynamicSize(context).responsiveSize;
+    final responsiveSize = DynamicSize(context).responsiveSize;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -83,7 +84,7 @@ class SingleChooseDialog extends StatelessWidget {
   }
 
   Widget _languageText(BuildContext context, int index) => BaseText(
-        elements[index].value.toString(),
+        elements[index].value,
         style: TextStyles(context)
             .subBodyStyle(
               color: initialValue == elements[index]

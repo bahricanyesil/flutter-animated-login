@@ -1,12 +1,11 @@
 import 'dart:io';
 
+import 'package:animated_login/src/models/animated_dialog_theme.dart';
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
+import 'package:animated_login/src/widgets/dialogs/dialogs/base_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../../../models/animated_dialog_theme.dart';
-import '../../../responsiveness/dynamic_size.dart';
-import 'base_dialog.dart';
 
 /// Mobile specific alert dialog.
 class PlatformDialog with BaseDialog {
@@ -60,7 +59,9 @@ class PlatformDialog with BaseDialog {
       );
 
   Widget _androidDialog(
-          BuildContext context, AnimatedDialogTheme dialogTheme) =>
+    BuildContext context,
+    AnimatedDialogTheme dialogTheme,
+  ) =>
       AlertDialog(
         shape: dialogTheme.shape ??
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -70,16 +71,22 @@ class PlatformDialog with BaseDialog {
         title: title,
         content: Padding(
           padding: dialogTheme.contentPadding ??
-              EdgeInsets.all(DynamicSize(context).responsiveSize *
-                  (contentPaddingFactor ?? 2)),
+              EdgeInsets.all(
+                DynamicSize(context).responsiveSize *
+                    (contentPaddingFactor ?? 2),
+              ),
           child: _getContent(context, dialogTheme),
         ),
         actions: _getButtons(context, dialogTheme),
       );
 
   Widget _getContent(BuildContext context, AnimatedDialogTheme dialogTheme) =>
-      getContent(context,
-          contentText: contentText, content: content, dialogTheme: dialogTheme);
+      getContent(
+        context,
+        contentText: contentText,
+        content: content,
+        dialogTheme: dialogTheme,
+      );
 
   List<Widget> _getButtons(
     BuildContext context,

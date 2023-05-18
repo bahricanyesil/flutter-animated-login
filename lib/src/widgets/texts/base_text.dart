@@ -1,6 +1,5 @@
+import 'package:animated_login/src/decorations/text_styles.dart';
 import 'package:flutter/material.dart';
-
-import '../../decorations/text_styles.dart';
 
 /// Base text with custom parameters
 class BaseText extends StatelessWidget {

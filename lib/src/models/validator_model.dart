@@ -1,6 +1,5 @@
+import 'package:animated_login/src/utils/validators.dart';
 import 'package:flutter/material.dart';
-
-import '../utils/validators.dart';
 
 @immutable
 
