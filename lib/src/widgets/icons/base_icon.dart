@@ -1,6 +1,5 @@
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
 import 'package:flutter/material.dart';
-
-import '../../responsiveness/dynamic_size.dart';
 
 /// Base icon with custom parameters
 class BaseIcon extends StatelessWidget {
@@ -27,7 +26,7 @@ class BaseIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DynamicSize dynamicSize = DynamicSize(context);
+    final dynamicSize = DynamicSize(context);
     return FittedBox(
       fit: BoxFit.scaleDown,
       child: Padding(

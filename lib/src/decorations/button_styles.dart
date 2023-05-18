@@ -25,8 +25,12 @@ class ButtonStyles {
       ButtonStyle(
         padding: _all<EdgeInsets?>(padding),
         backgroundColor: _all<Color>(backgroundColor ?? Colors.white),
-        fixedSize: _all<Size>(Size(
-            size?.width ?? double.maxFinite, size?.height ?? double.maxFinite)),
+        fixedSize: _all<Size>(
+          Size(
+            size?.width ?? double.maxFinite,
+            size?.height ?? double.maxFinite,
+          ),
+        ),
         minimumSize: _all<Size>(Size.zero),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         elevation: _all<double>(elevation),

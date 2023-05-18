@@ -1,6 +1,5 @@
+import 'package:animated_login/animated_login.dart';
 import 'package:flutter/material.dart';
-
-import '../../animated_login.dart';
 
 /// [LoginTheme] is the provider for all design/theme related data.
 // ignore: prefer_mixin
@@ -26,8 +25,8 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
   }
 
   /// Sets the current theme and notify.
-  void setThemeAndNotify(bool isLandscape) {
-    final LoginViewTheme? newTheme = isLandscape ? _desktopTheme : _mobileTheme;
+  void setThemeAndNotify({required bool isLandscape}) {
+    final newTheme = isLandscape ? _desktopTheme : _mobileTheme;
     if (newTheme != null && _currentTheme != newTheme) {
       _currentTheme = newTheme;
       WidgetsBinding.instance.addPostFrameCallback((_) => notifyListeners());
@@ -38,9 +37,9 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
   bool isLandscape = false;
 
   /// Sets the isLandscape variable.
-  void setIsLandscape(bool newValue) {
+  void setIsLandscape({required bool newValue}) {
     isLandscape = newValue;
-    setThemeAndNotify(isLandscape);
+    setThemeAndNotify(isLandscape: isLandscape);
   }
 
   @override
@@ -205,7 +204,8 @@ class LoginTheme extends LoginViewTheme with ChangeNotifier {
   EdgeInsets? get forgotPasswordPadding => currentTheme.forgotPasswordPadding;
 
   @Deprecated(
-      'Use "changeActionPadding" or "changeActionButtonPadding" instead')
+    'Use "changeActionPadding" or "changeActionButtonPadding" instead',
+  )
   @override
   double? get actionAndChangeActionSpacing =>
       currentTheme.actionAndChangeActionSpacing;

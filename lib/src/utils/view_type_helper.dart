@@ -1,6 +1,5 @@
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
 import 'package:flutter/material.dart';
-
-import '../responsiveness/dynamic_size.dart';
 
 /// View type helper to understand whether the screen is in landscape mode.
 /// * See [isLandscape]
@@ -13,7 +12,7 @@ class ViewTypeHelper {
 
   ///  Returns whether the screen is in landscape mode.
   bool get isLandscape {
-    final DynamicSize dynamicSize = DynamicSize(context);
+    final dynamicSize = DynamicSize(context);
     return dynamicSize.height / dynamicSize.width < 1.05;
   }
 }

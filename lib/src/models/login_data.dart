@@ -1,6 +1,5 @@
+import 'package:animated_login/src/utils/hasher.dart';
 import 'package:flutter/foundation.dart';
-
-import '../utils/hasher.dart';
 
 @immutable
 

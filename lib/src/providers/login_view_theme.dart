@@ -1,6 +1,5 @@
+import 'package:animated_login/animated_login.dart';
 import 'package:flutter/material.dart';
-
-import '../../animated_login.dart';
 
 /// [LoginViewTheme] is the provider for all design/theme related data.
 class LoginViewTheme {
@@ -81,39 +80,56 @@ class LoginViewTheme {
     this.fillColor,
     this.animatedComponentOrder = const <AnimatedComponent>[
       AnimatedComponent(
-          component: LoginComponents.logo, animationType: AnimationType.left),
+        component: LoginComponents.logo,
+        animationType: AnimationType.left,
+      ),
       AnimatedComponent(
-          component: LoginComponents.title, animationType: AnimationType.left),
+        component: LoginComponents.title,
+        animationType: AnimationType.left,
+      ),
       AnimatedComponent(
-          component: LoginComponents.description,
-          animationType: AnimationType.left),
+        component: LoginComponents.description,
+        animationType: AnimationType.left,
+      ),
       AnimatedComponent(
-          component: LoginComponents.formTitle,
-          animationType: AnimationType.left),
+        component: LoginComponents.formTitle,
+        animationType: AnimationType.left,
+      ),
       AnimatedComponent(component: LoginComponents.socialLogins),
       AnimatedComponent(component: LoginComponents.useEmail),
       AnimatedComponent(component: LoginComponents.form),
       AnimatedComponent(component: LoginComponents.notHaveAnAccount),
       AnimatedComponent(
-          component: LoginComponents.forgotPassword,
-          animationType: AnimationType.left),
+        component: LoginComponents.forgotPassword,
+        animationType: AnimationType.left,
+      ),
       AnimatedComponent(
-          component: LoginComponents.changeActionButton,
-          animationType: AnimationType.left),
+        component: LoginComponents.changeActionButton,
+        animationType: AnimationType.left,
+      ),
       AnimatedComponent(component: LoginComponents.policyCheckbox),
       AnimatedComponent(
-          component: LoginComponents.actionButton,
-          animationType: AnimationType.left),
+        component: LoginComponents.actionButton,
+        animationType: AnimationType.left,
+      ),
     ],
-  })  : assert(formWidthRatio >= 50, "Form width ratio should be at least 50."),
-        assert(formElementsSpacing == null || formElementsSpacing <= 70,
-            "Spacing between the form elements cannot be more than 70."),
-        assert(socialLoginsSpacing == null || socialLoginsSpacing <= 200,
-            "Social logins spacing cannot be more than 200."),
-        assert(socialLoginsSpacing == null || socialLoginsSpacing <= 200,
-            "Social logins spacing cannot be more than 200."),
-        assert(logoSize == null || logoSize <= const Size(500, 400),
-            "Logo size cannot be more than Size(500, 400).");
+  })  : assert(formWidthRatio >= 50, 'Form width ratio should be at least 50.'),
+        assert(
+          formElementsSpacing == null || formElementsSpacing <= 70,
+          'Spacing between the form elements cannot be more than 70.',
+        ),
+        assert(
+          socialLoginsSpacing == null || socialLoginsSpacing <= 200,
+          'Social logins spacing cannot be more than 200.',
+        ),
+        assert(
+          socialLoginsSpacing == null || socialLoginsSpacing <= 200,
+          'Social logins spacing cannot be more than 200.',
+        ),
+        assert(
+          logoSize == null || logoSize <= const Size(500, 400),
+          'Logo size cannot be more than Size(500, 400).',
+        );
 
   /// Text style for the title of form part.
   final TextStyle? formTitleStyle;

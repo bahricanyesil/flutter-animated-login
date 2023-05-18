@@ -1,10 +1,9 @@
+import 'package:animated_login/src/decorations/text_styles.dart';
+import 'package:animated_login/src/providers/login_theme.dart';
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
+import 'package:animated_login/src/widgets/icons/base_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../providers/login_theme.dart';
-import '../responsiveness/dynamic_size.dart';
-import '../widgets/icons/base_icon.dart';
-import 'text_styles.dart';
 
 /// [InputDeco] class collects all input decorations in one file.
 class InputDeco {
@@ -27,7 +26,7 @@ class InputDeco {
     IconData? prefixIcon,
     Widget? prefixWidget,
   }) {
-    final LoginTheme loginTheme = context.read<LoginTheme>();
+    final loginTheme = context.read<LoginTheme>();
     return InputDecoration(
       contentPadding: loginTheme.inputPadding ??
           EdgeInsets.symmetric(
@@ -58,27 +57,35 @@ class InputDeco {
           TextStyles(context).errorTextStyle().merge(loginTheme.errorTextStyle),
       enabledBorder: loginTheme.enabledBorder ??
           _getOutlineBorder(
-              loginTheme.enabledBorderColor, loginTheme.isLandscape,
-              widthFactor: .4),
+            loginTheme.enabledBorderColor,
+            loginTheme.isLandscape,
+            widthFactor: .4,
+          ),
       focusedBorder: loginTheme.focusedBorder ??
           _getOutlineBorder(
-              loginTheme.focusedBorderColor, loginTheme.isLandscape),
+            loginTheme.focusedBorderColor,
+            loginTheme.isLandscape,
+          ),
       focusedErrorBorder: loginTheme.focusedErrorBorder ??
           _getOutlineBorder(
-              loginTheme.focusedErrorBorderColor, loginTheme.isLandscape),
+            loginTheme.focusedErrorBorderColor,
+            loginTheme.isLandscape,
+          ),
       errorBorder: loginTheme.errorBorder ??
           _getOutlineBorder(
-              loginTheme.errorBorderColor ?? Colors.red, loginTheme.isLandscape,
-              widthFactor: .4),
-      prefixIcon:
-          prefixWidget ?? getPrefixIcon(prefixIcon, loginTheme.isLandscape),
+            loginTheme.errorBorderColor ?? Colors.red,
+            loginTheme.isLandscape,
+            widthFactor: .4,
+          ),
+      prefixIcon: prefixWidget ??
+          getPrefixIcon(prefixIcon, isLandscape: loginTheme.isLandscape),
       filled: true,
     );
   }
 
   /// Returns the prefix icon if there is any provided.
-  Widget? getPrefixIcon(IconData? prefixIcon, bool isLandscape) {
-    final bool isLandscape = context.read<LoginTheme>().isLandscape;
+  Widget? getPrefixIcon(IconData? prefixIcon, {required bool isLandscape}) {
+    final isLandscape = context.read<LoginTheme>().isLandscape;
     return prefixIcon == null
         ? null
         : Padding(
@@ -92,8 +99,11 @@ class InputDeco {
 
   /// Default function returns [OutlineInputBorder] with some common values.
   /// Takes [color] and [widthFactor] as parameters to specialize each border.
-  OutlineInputBorder _getOutlineBorder(Color? color, bool isLandscape,
-          {double widthFactor = .62}) =>
+  OutlineInputBorder _getOutlineBorder(
+    Color? color,
+    bool isLandscape, {
+    double widthFactor = .62,
+  }) =>
       OutlineInputBorder(
         borderRadius: context.read<LoginTheme>().formFieldBorderRadius ??
             const BorderRadius.all(Radius.circular(30)),

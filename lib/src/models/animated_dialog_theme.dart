@@ -1,6 +1,5 @@
+import 'package:animated_login/src/models/language_dialog_theme.dart';
 import 'package:flutter/material.dart';
-
-import 'language_dialog_theme.dart';
 
 /// Style related settings for "CustomDialog",
 /// that will be used on dialog displays.

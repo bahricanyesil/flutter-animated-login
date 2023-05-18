@@ -1,14 +1,13 @@
+import 'package:animated_login/src/decorations/button_styles.dart';
+import 'package:animated_login/src/decorations/text_styles.dart';
+import 'package:animated_login/src/providers/auth.dart';
+import 'package:animated_login/src/providers/login_theme.dart';
+import 'package:animated_login/src/responsiveness/dynamic_size.dart';
+import 'package:animated_login/src/widgets/texts/base_text.dart';
 import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../decorations/button_styles.dart';
-import '../../decorations/text_styles.dart';
-import '../../providers/auth.dart';
-import '../../providers/login_theme.dart';
-import '../../responsiveness/dynamic_size.dart';
-import '../texts/base_text.dart';
 
 /// An [ElevatedButton] with rounded corners.
 class RoundedButton extends StatefulWidget {
@@ -70,7 +69,8 @@ class _RoundedButtonState extends State<RoundedButton> {
             width: _buttonWidth,
             height: _buttonHeight,
             duration: const Duration(milliseconds: 300),
-            child: _button)
+            child: _button,
+          )
         : _button;
   }
 
@@ -98,7 +98,7 @@ class _RoundedButtonState extends State<RoundedButton> {
   Future<void> _onPressed() async {
     if (_loading || widget.onPressed == null) return;
     setState(() => _loading = true);
-    final Auth auth = context.read<Auth>();
+    final auth = context.read<Auth>();
     await auth.cancelableOperation?.cancel();
     auth.cancelableOperation = CancelableOperation<void>.fromFuture(
       widget.onPressed!(),

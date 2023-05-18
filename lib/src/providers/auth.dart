@@ -1,10 +1,9 @@
+import 'package:animated_login/src/constants/enums/auth_mode.dart';
+import 'package:animated_login/src/constants/enums/sign_up_modes.dart';
+import 'package:animated_login/src/models/models_shelf.dart';
+import 'package:animated_login/src/utils/validators.dart';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
-
-import '../constants/enums/auth_mode.dart';
-import '../constants/enums/sign_up_modes.dart';
-import '../models/models_shelf.dart';
-import '../utils/validators.dart';
 
 /// It is called on auth mode changes,
 /// triggered by [Auth.switchAuth] method.
@@ -112,7 +111,7 @@ class Auth extends ChangeNotifier {
   /// Switches the authentication mode and notify the listeners.
   AuthMode switchAuth() {
     notifySetMode(isLogin ? AuthMode.signup : AuthMode.login);
-    if (onAuthModeChange != null) onAuthModeChange!(mode);
+    onAuthModeChange?.call(mode);
     return mode;
   }
 
@@ -143,35 +142,39 @@ class Auth extends ChangeNotifier {
   String? confirmPassword;
 
   /// Sets the username.
+  // ignore: use_setters_to_change_properties
   void setUsername(String? newUsername) => username = newUsername;
 
   /// Sets the email.
+  // ignore: use_setters_to_change_properties
   void setEmail(String? newEmail) => email = newEmail;
 
   /// Sets the password.
+  // ignore: use_setters_to_change_properties
   void setPassword(String? newPassword) => password = newPassword;
 
   /// Sets the checkbox.
-  void setCheckedPrivacyPolicy(bool? newValue) {
-    if (checkboxCallback != null) checkboxCallback!(newValue);
+  void setCheckedPrivacyPolicy({bool? newValue}) {
+    checkboxCallback?.call(newValue);
     if (newValue == null || newValue == _checkedPrivacyBox) return;
     _checkedPrivacyBox = newValue;
     notifyListeners();
   }
 
   /// Sets whether to show checkbox error.
-  void setShowCheckboxError(bool? newValue) {
+  void setShowCheckboxError({bool? newValue}) {
     if (newValue == null || newValue == _showCheckboxError) return;
     _showCheckboxError = newValue;
     notifyListeners();
   }
 
   /// Sets the confirm password.
+  // ignore: use_setters_to_change_properties
   void setConfirmPassword(String? newConfirmPassword) =>
       confirmPassword = newConfirmPassword;
 
   /// Sets the confirm password.
-  void setIsReverse(bool newValue) {
+  void setIsReverse({required bool newValue}) {
     if (newValue != _isReverse) {
       _isReverse = newValue;
       notifyListeners();
@@ -268,7 +271,7 @@ class Auth extends ChangeNotifier {
   }
 
   Future<String?> _loginResult() async {
-    final LoginData loginData = LoginData(
+    final loginData = LoginData(
       email: _emailController.text,
       password: _passwordController.text,
     );
@@ -276,7 +279,7 @@ class Auth extends ChangeNotifier {
   }
 
   Future<String?> _signupResult() async {
-    final SignUpData signupData = SignUpData(
+    final signupData = SignUpData(
       name: _nameController.text,
       email: _emailController.text,
       password: _passwordController.text,
@@ -284,10 +287,10 @@ class Auth extends ChangeNotifier {
     );
     if (validateCheckbox && _hasPrivacyPolicy) {
       if (!_checkedPrivacyBox) {
-        setShowCheckboxError(true);
+        setShowCheckboxError(newValue: true);
         return 'Please agree to the Privacy Policy and Terms & Conditions';
       } else {
-        setShowCheckboxError(false);
+        setShowCheckboxError(newValue: false);
       }
     }
     return onSignup(signupData);

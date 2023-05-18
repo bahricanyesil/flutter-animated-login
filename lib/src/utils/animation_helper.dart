@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 /// Helper class for animations.
 class AnimationHelper {
-  /// * Cretes tween sequence animation, [tweenSequenceAnimation].
-  const AnimationHelper(
-      {required this.animationController, required this.animationCurve});
+  /// * Creates tween sequence animation, [tweenSequenceAnimation].
+  const AnimationHelper({
+    required this.animationController,
+    required this.animationCurve,
+  });
 
   /// Animation controller.
   final AnimationController animationController;
@@ -33,5 +35,7 @@ class AnimationHelper {
     double weight = 30,
   }) =>
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: begin, end: end), weight: weight);
+        tween: Tween<double>(begin: begin, end: end),
+        weight: weight,
+      );
 }

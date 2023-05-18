@@ -6,8 +6,8 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    final loginTexts = context.read<LoginTexts>();
+    final loginTheme = context.watch<LoginTheme>();
     return Padding(
       padding: loginTheme.titlePadding ??
           EdgeInsets.symmetric(vertical: DynamicSize(context).height * .8),
@@ -28,13 +28,14 @@ class _Description extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    final loginTexts = context.read<LoginTexts>();
+    final loginTheme = context.watch<LoginTheme>();
     return Padding(
       padding: loginTheme.descriptionPadding ??
           EdgeInsets.symmetric(
-              vertical: DynamicSize(context).height *
-                  (loginTheme.isLandscape ? 3 : 2)),
+            vertical:
+                DynamicSize(context).height * (loginTheme.isLandscape ? 3 : 2),
+          ),
       child: NotFittedText(
         context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
             ? loginTexts.welcomeBackDescription
@@ -53,16 +54,19 @@ class _Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DynamicSize dynamicSize = DynamicSize(context);
-    final LoginTheme loginTheme = context.read<LoginTheme>();
+    final dynamicSize = DynamicSize(context);
+    final loginTheme = context.read<LoginTheme>();
     return Container(
-      constraints: BoxConstraints.tight(loginTheme.logoSize ??
-          Size.fromHeight(
-              dynamicSize.responsiveSize * (loginTheme.isLandscape ? 30 : 25))),
+      constraints: BoxConstraints.tight(
+        loginTheme.logoSize ??
+            Size.fromHeight(
+              dynamicSize.responsiveSize * (loginTheme.isLandscape ? 30 : 25),
+            ),
+      ),
       padding: loginTheme.logoPadding ??
           EdgeInsets.symmetric(
-              vertical:
-                  dynamicSize.height * (loginTheme.isLandscape ? 2.8 : .8)),
+            vertical: dynamicSize.height * (loginTheme.isLandscape ? 2.8 : .8),
+          ),
       child: logo,
     );
   }
@@ -79,8 +83,8 @@ class _ChangeActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
-    final LoginTheme loginTheme = context.read<LoginTheme>();
+    final loginTexts = context.read<LoginTexts>();
+    final loginTheme = context.read<LoginTheme>();
     return RoundedButton(
       buttonText:
           context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
@@ -108,8 +112,8 @@ class _ChangeActionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
-    final LoginTheme loginTheme = context.watch<LoginTheme>();
+    final loginTexts = context.read<LoginTexts>();
+    final loginTheme = context.watch<LoginTheme>();
     return Padding(
       padding: loginTheme.changeActionPadding ??
           (loginTheme.isLandscape
@@ -147,7 +151,7 @@ class _ChangeActionTitle extends StatelessWidget {
       );
 
   Widget _changeActionText(BuildContext context) {
-    final LoginTexts loginTexts = context.read<LoginTexts>();
+    final loginTexts = context.read<LoginTexts>();
     return BaseText(
       context.select<Auth, bool>((Auth auth) => auth.isAnimatedLogin)
           ? loginTexts.signUp
@@ -178,7 +182,7 @@ class _ChangeLanguage extends StatefulWidget {
   final List<LanguageOption> languageOptions;
 
   /// Callback will be called after a language is chosen.
-  final Function(LanguageOption? language) chooseLanguageCallback;
+  final ChooseLangCallback chooseLanguageCallback;
 
   /// Animation for color change.
   final Animation<double> colorTween;
@@ -196,10 +200,8 @@ class _ChangeLanguage extends StatefulWidget {
 class _ChangeLanguageState extends State<_ChangeLanguage> {
   @override
   Widget build(BuildContext context) {
-    final ButtonStyle? buttonStyle =
-        context.read<LoginTheme>().changeLangButtonStyle;
-    final LanguageOption selectedLanguage =
-        context.watch<LoginTexts>().language!;
+    final buttonStyle = context.read<LoginTheme>().changeLangButtonStyle;
+    final selectedLanguage = context.watch<LoginTexts>().language!;
     return AnimatedBuilder(
       animation: widget.colorTween,
       builder: (BuildContext context, _) => ElevatedButton(
@@ -213,11 +215,13 @@ class _ChangeLanguageState extends State<_ChangeLanguage> {
   }
 
   Future<void> _onPressed(
-      BuildContext context, LanguageOption selectedLanguage) async {
-    if (widget.defaultOnPressed != null) widget.defaultOnPressed!();
+    BuildContext context,
+    LanguageOption selectedLanguage,
+  ) async {
+    widget.defaultOnPressed?.call();
     await context.read<Auth>().cancelableOperation?.cancel();
     if (widget.onPressed != null) {
-      final LanguageOption? newLanguage = await widget.onPressed!();
+      final newLanguage = await widget.onPressed!();
       if (newLanguage != null) {
         if (!mounted) return;
         context.read<LoginTexts>().setLanguage(newLanguage);
@@ -229,8 +233,8 @@ class _ChangeLanguageState extends State<_ChangeLanguage> {
   }
 
   Widget _buttonChild(BuildContext context, LanguageOption selectedLanguage) {
-    final double responsiveSize = DynamicSize(context).responsiveSize;
-    final LoginTheme loginTheme = context.read<LoginTheme>();
+    final responsiveSize = DynamicSize(context).responsiveSize;
+    final loginTheme = context.read<LoginTheme>();
     return Row(
       children: <Widget>[
         SizedBox(width: responsiveSize * 1),
@@ -263,10 +267,15 @@ class _ChangeLanguageState extends State<_ChangeLanguage> {
       );
 
   Future<void> _openChooseDialog(
-          BuildContext context, LanguageOption selectedLanguage) async =>
+    BuildContext context,
+    LanguageOption selectedLanguage,
+  ) async =>
       DialogBuilder(context)
-          .showSelectDialog(context.read<LoginTexts>().chooseLanguageTitle,
-              widget.languageOptions, selectedLanguage)
+          .showSelectDialog(
+        context.read<LoginTexts>().chooseLanguageTitle,
+        widget.languageOptions,
+        selectedLanguage,
+      )
           .then((int? index) {
         LanguageOption? selectedLang;
         if (index != null) selectedLang = widget.languageOptions[index];
@@ -277,7 +286,7 @@ class _ChangeLanguageState extends State<_ChangeLanguage> {
       });
 
   ButtonStyle _defaultButtonStyle(BuildContext context) {
-    final double responsiveSize = DynamicSize(context).responsiveSize;
+    final responsiveSize = DynamicSize(context).responsiveSize;
     return ButtonStyles(context).roundedStyle(
       borderWidth: 1.4,
       backgroundColor: _buttonBgColor(context),
@@ -290,9 +299,15 @@ class _ChangeLanguageState extends State<_ChangeLanguage> {
 
   Color? _contentColor(BuildContext context) =>
       context.read<LoginTheme>().changeLangContentColor ??
-      Color.lerp(Colors.white, Theme.of(context).primaryColor,
-          widget.colorTween.value);
+      Color.lerp(
+        Colors.white,
+        Theme.of(context).primaryColor,
+        widget.colorTween.value,
+      );
 
   Color? _buttonBgColor(BuildContext context) => Color.lerp(
-      Theme.of(context).primaryColor, Colors.white, widget.colorTween.value);
+        Theme.of(context).primaryColor,
+        Colors.white,
+        widget.colorTween.value,
+      );
 }

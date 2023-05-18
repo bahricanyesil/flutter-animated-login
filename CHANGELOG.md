@@ -1,5 +1,13 @@
 # Versions
 
+## [1.7.0] - 18.05.2023
+
+* Update on SDK range
+* Updated all dependency versions
+* Integrated very_good_analysis package
+* Formatted the code and fixed all problems with the update of Dart 3.0.0
+* Fixed desktop app landscape view problem
+
 ## [1.6.1] - 23.01.2023
 
 * Quick fix as removing unused variable to pass static analysis completely.
