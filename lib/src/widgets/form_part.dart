@@ -505,13 +505,22 @@ class _ForgotPassword extends StatelessWidget {
           (isLandscape
               ? dynamicSize.lowTopPadding
               : dynamicSize.lowBottomPadding),
-      child: BaseTextButton(
-        text: context.read<LoginTexts>().forgotPassword,
-        style: _defaultStyle(context, isLandscape)
-            .copyWith(decoration: TextDecoration.underline)
-            .merge(loginTheme.forgotPasswordStyle),
-        onPressed: () async => auth.onForgotPassword(auth.emailController.text),
-      ),
+      child: _textButton(context, isLandscape, loginTheme, auth),
+    );
+  }
+
+  BaseTextButton _textButton(
+    BuildContext context,
+    bool isLandscape,
+    LoginTheme loginTheme,
+    Auth auth,
+  ) {
+    return BaseTextButton(
+      text: context.read<LoginTexts>().forgotPassword,
+      style: _defaultStyle(context, isLandscape)
+          .copyWith(decoration: TextDecoration.underline)
+          .merge(loginTheme.forgotPasswordStyle),
+      onPressed: () async => auth.onForgotPassword(auth.emailController.text),
     );
   }
 

@@ -1,8 +1,6 @@
-import 'package:animated_login/src/providers/login_theme.dart';
 import 'package:animated_login/src/responsiveness/dynamic_size.dart';
 import 'package:animated_login/src/widgets/icons/base_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 /// Base icon button with custom parameters
 class BaseIconButton extends StatelessWidget {
@@ -35,16 +33,11 @@ class BaseIconButton extends StatelessWidget {
   }
 
   Widget _iconButton(DynamicSize dynamicSize, BuildContext context) {
-    final sizeFactor = context.read<LoginTheme>().isLandscape ? 6.5 : 3.2;
+    final sizeFactor = size == null ? 6.5 : size! / dynamicSize.responsiveSize;
     return IconButton(
       splashRadius: 20,
-      iconSize: size ?? (dynamicSize.responsiveSize * sizeFactor),
-      icon: BaseIcon(
-        icon,
-        sizeFactor:
-            size != null ? (size! / dynamicSize.responsiveSize) : sizeFactor,
-        padding: EdgeInsets.zero,
-      ),
+      iconSize: dynamicSize.responsiveSize * sizeFactor,
+      icon: BaseIcon(icon, sizeFactor: sizeFactor, padding: EdgeInsets.zero),
       onPressed: onPressed,
     );
   }

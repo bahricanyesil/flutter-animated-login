@@ -20,9 +20,21 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Animated Login',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        colorScheme: const ColorScheme.light(primary: Colors.blue),
         // useMaterial3: true,
-      ), //const MaterialColor(0xFF6666FF, color)
+        textTheme: Theme.of(context).textTheme.apply(
+            // Note: The below line is required due to a current bug in Flutter:
+            // https://github.com/flutter/flutter/issues/129553
+            decorationColor: Colors.blue),
+        inputDecorationTheme: const InputDecorationTheme(
+          prefixIconColor: Colors.black54,
+          suffixIconColor: Colors.black54,
+          iconColor: Colors.black54,
+          labelStyle: TextStyle(color: Colors.black54),
+          hintStyle: TextStyle(color: Colors.black54),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {

@@ -1,5 +1,9 @@
 # Versions
 
+## [1.7.2] - 18.08.2023
+
+* Changes for material 3
+
 ## [1.7.1] - 18.08.2023
 
 * Fix wrong size factor parameter passing for base icon
