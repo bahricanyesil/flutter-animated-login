@@ -68,7 +68,7 @@ class TextStyles {
   /// Such as: "CustomTextFormField"/"ObscuredTextFormFields" hint texts.
   TextStyle hintTextStyle({Color? color}) => TextStyle(
         fontSize: _dynamicSize.responsiveSize * 5.2,
-        color: color,
+        color: color ?? Colors.black54,
         fontWeight: FontWeight.w400,
         wordSpacing: 1.1,
         letterSpacing: .7,
