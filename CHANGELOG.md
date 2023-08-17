@@ -1,5 +1,10 @@
 # Versions
 
+## [1.7.1] - 18.08.2023
+
+* Fix wrong size factor parameter passing for base icon
+* Update URL launcher package
+
 ## [1.7.0] - 18.05.2023
 
 * Update on SDK range
