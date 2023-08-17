@@ -41,7 +41,8 @@ class BaseIconButton extends StatelessWidget {
       iconSize: size ?? (dynamicSize.responsiveSize * sizeFactor),
       icon: BaseIcon(
         icon,
-        sizeFactor: size ?? (dynamicSize.responsiveSize * sizeFactor),
+        sizeFactor:
+            size != null ? (size! / dynamicSize.responsiveSize) : sizeFactor,
         padding: EdgeInsets.zero,
       ),
       onPressed: onPressed,

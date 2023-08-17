@@ -20,7 +20,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Animated Login',
       theme: ThemeData(
-          primarySwatch: Colors.blue), //const MaterialColor(0xFF6666FF, color)
+        primarySwatch: Colors.blue,
+        // useMaterial3: true,
+      ), //const MaterialColor(0xFF6666FF, color)
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
